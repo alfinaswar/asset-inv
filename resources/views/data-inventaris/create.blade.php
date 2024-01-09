@@ -6,16 +6,32 @@ Asset Inventaris
 Tambah Asset Inventaris
 @endpush
 @section('content')
-<div class="kt-portlet">
-    <div class="kt-portlet__head">
-        <div class="kt-portlet__head-label">
+		<div class="kt-portlet kt-portlet--tabs">
+            <div class="kt-portlet__head">
+                <div class="kt-portlet__head-label">
             <h3 class="kt-portlet__head-title">
                 Tambah Asset Inventaris
             </h3>
         </div>
-    </div>
-    <!--begin::Form-->
-    <form class="kt-form kt-form--label-right" id="simpanFrom" action="{{ route('inventaris.store') }}" method="POST"
+                <div class="kt-portlet__head-toolbar">
+                    <ul class="nav nav-tabs nav-tabs-line nav-tabs-line-brand nav-tabs-line-2x nav-tabs-line-right nav-tabs-bold" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#kt_portlet_base_demo_3_3_tab_content" role="tab">
+                                <i class="flaticon2-heart-rate-monitor" aria-hidden="true"></i>Data Alat
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#kt_portlet_base_demo_3_2_tab_content" role="tab">
+                                <i class="flaticon2-pie-chart-2" aria-hidden="true"></i>Kalibrasi
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="kt-portlet__body">                   
+                <div class="tab-content">
+                    <div class="tab-pane active" id="kt_portlet_base_demo_3_3_tab_content" role="tabpanel">
+    <form class="kt-form kt-form--label-right" id="simpanForm" action="{{ route('inventaris.store') }}" method="POST"
         accept-charset="utf-8" enctype="multipart/form-data">
         @csrf
         <div class="kt-portlet__body">
@@ -58,18 +74,25 @@ Tambah Asset Inventaris
                             
                         </div>
                     </div>
+                     <div class="form-group row">
+                        <label for="real_name" class="col-3 col-form-label">* Nama Barcode</label>
+                        <div class="col-9">
+                            <input class="form-control" name="real_name" value="{{ old('real_name') }}"
+                                placeholder="Nama di barcode" type="text" id="real_name">
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <label for="no_inventaris" class="col-3 col-form-label">* Nomor Inventaris</label>
                         <div class="col-9">
                             <input class="form-control" name="no_inventaris" value="{{ old('no_inventaris') }}"
-                                placeholder="Nomor Inventaris Medis" type="text" value="" id="no_inventaris">
+                                placeholder="Nomor Inventaris Medis" type="text" id="no_inventaris">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="departemen" class="col-3 col-form-label">* Nomor SN</label>
                         <div class=" col-lg-9">
                             <input class="form-control" name="no_sn" value="{{ old('no_sn') }}" placeholder="Nomor SN"
-                                type="text" value="" id="no_sn">
+                                type="text" id="no_sn">
                         </div>
                     </div>
                       <div class="form-group row">
@@ -96,7 +119,7 @@ Tambah Asset Inventaris
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-form-label col-lg-3 col-sm-12">* Pengguna</label>
+                        <label class="col-form-label col-lg-3 col-sm-12">* Jenis / Pengguna</label>
                         <div class="col-lg-9 col-md-9 col-sm-12">
                             <select class="form-control kt-select2" id="userPengguna" name="userPengguna">
                                 <option value=" " selected>--Select Jenis--</option>
@@ -122,7 +145,36 @@ Tambah Asset Inventaris
                 </div>
             </div>
         </div>
-        <div class="kt-portlet__foot">
+       
+                    </div>
+                    <div class="tab-pane" id="kt_portlet_base_demo_3_2_tab_content" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">Tanggal Kalibrasi</label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+                                <input type="date" class="form-control" name="tgl_kalibrasi" id="tgl_kalibrasi"
+                                    value="{{ old('tgl_kalibrasi') }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">Expire Date</label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+                                <input type="date" class="form-control" name="tgl_expire" id="tgl_expire"
+                                    value="{{ old('tgl_expire') }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="nama_perangkat" class="col-form-label col-lg-3 col-sm-12">* Uplpad Dokumen</label>
+                            <div class=" col-lg-9 col-md-9 col-sm-12">
+                                <input type="file" name="dokumen" id="upload-btn">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                   
+                <div class="kt-portlet__foot">
             <div class="kt-form__actions">
                 <button type="button" onclick="simpan(event,this)" class="btn btn-info">Submit</button>
                 <a href="{{ route('inventaris.index') }}">
@@ -130,9 +182,16 @@ Tambah Asset Inventaris
                 </a>
             </div>
         </div>
-        
     </form>
-</div>
+                    </div>
+                </div>
+            
+                    </div>
+                   
+                </div>      
+            </div>
+        </div>
+
 @endsection
 @push('js')
 <script>
@@ -191,7 +250,7 @@ Tambah Asset Inventaris
             });
             $('.progress').show()
             $(id).addClass('kt-spinner kt-spinner--md kt-spinner--danger disabled');
-            $("#simpanFrom").submit();
+            $("#simpanForm").submit();
         }
         var select_departemen = function() {
             $('#departemen').select2({

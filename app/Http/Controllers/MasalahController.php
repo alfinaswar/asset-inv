@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MasalahRequest;
-use App\Models\AssetManagemenModel;
+use App\Models\Maintanance;
 use App\Models\DataInventaris;
 use App\Models\MasalahModel;
 use App\Models\KalibrasiModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Exports\MasalahExport;
-use Illuminate\Support\Facades\Input;
 use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\Concerns\FromView;
-use Illuminate\Support\Facades\View;
+
 use DB;
 
 class MasalahController extends Controller
@@ -37,7 +35,11 @@ class MasalahController extends Controller
                     $print = '<a href="' . route('masalah.history', $row->kode_item) . '" target="_blank"><button type="button" data-skin="brand" data-toggle="kt-tooltip" data-placement="top" title="Brand skin" class="btn btn-outline-primary btn-icon" ><i class="fa fa-print"></i></button></a>';                    $btn = $show;
                     return $btn = $print;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('tanggal', function ($row) {
+                    $show = $row->created_at;
+                    return $show;
+                })
+                ->rawColumns(['action','tanggal'])
                 ->make(true);
         }
         return view('masalah.index');
@@ -61,6 +63,7 @@ class MasalahController extends Controller
      */
     public function store(MasalahRequest $request)
     {
+        // dd($request->prioritas);
         $datanama = $request->nama_perangkat;
         $result = explode(",", $datanama);
         $kode_item = $result[0];
@@ -74,7 +77,7 @@ class MasalahController extends Controller
             'jumlah_masalah' => $request->jumlah_masalah,
             'jenis' => $request->jenis,
             'tindakan' => $request->tindakan,
-            'waktu_pengerjaan' => $request->waktu_pengerjaan,
+            // 'waktu_pengerjaan' => $request->waktu_pengerjaan,
             'keterangan' => $request->keterangan,
             'prioritas' => $request->prioritas,
             'nama_rs' => auth()->user()->kodeRS,
@@ -208,10 +211,14 @@ class MasalahController extends Controller
     public function history($kode_item)
     {
         // dd($kode_item);
-        $data_alat = DataInventaris::where('kode_item',$kode_item)->where('nama_rs',auth()->user()->kodeRS)->first();
-        $detail_masalah = MasalahModel::where('kode_item', $kode_item)->where('nama_rs', auth()->user()->kodeRS)->orderby('created_at', 'desc')->get();
-        $data_kalibrasi = KalibrasiModel::where('assetID', $kode_item)->where('kodeRS', auth()->user()->kodeRS)->orderby('created_at', 'desc')->first();
-        return view('masalah.history', compact('data_alat','detail_masalah','data_kalibrasi'));
+        $data_alat = DataInventaris::join('master_rs', 'data_inventaris.nama_rs', '=','master_rs.kodeRS')
+        ->where('kode_item',$kode_item)
+        ->select('data_inventaris.*', 'master_rs.nama as rumahsakit')->first();
+        $detail_masalah = MasalahModel::where('kode_item', $kode_item)->orderby('created_at', 'desc')->get();
+        $data_kalibrasi = KalibrasiModel::where('assetID', $kode_item)->orderby('created_at', 'desc')->first();
+        $data_mtnc = Maintanance::where('assetID', $kode_item)->orderby('created_at', 'desc')->get();
+        $bulanakhir = Maintanance::where('assetID', $kode_item)->orderby('created_at', 'desc')->latest();
+        return view('masalah.history', compact('data_alat','detail_masalah','data_kalibrasi','data_mtnc','bulanakhir'));
   
     }
 

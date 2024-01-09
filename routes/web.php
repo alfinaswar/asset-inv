@@ -1,13 +1,15 @@
 <?php
 
 use App\Http\Controllers\AssetManagemenController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataInventarisController;
 use App\Http\Controllers\FileTemplateController;
+use App\Http\Controllers\MaintananceController;
 use App\Http\Controllers\MasalahController;
 use App\Http\Controllers\MasterDepartemenController;
 use App\Http\Controllers\MasterIPController;
 use App\Http\Controllers\MasterPenggunaController;
+use App\Http\Controllers\MutasiController;
+use App\Http\Controllers\PemakaianController;
 use App\Http\Controllers\PerbaikanController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -16,8 +18,6 @@ use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\KalibrasiController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\MasterRsController;
-use App\Models\MasalahModel;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -102,16 +102,14 @@ Route::prefix('inventaris')->group(function () {
     Route::get('getkategori', [DataInventarisController::class, 'getkategori'])->name('inventaris.getkategori');
     
 });
-Route::prefix('pembelian')->group(function () {
-    Route::get('/', [PembelianController::class, 'index'])->name('pembelian.index');
-    Route::get('/file-import',[PembelianController::class,'importView'])->name('pembelian.import-view');
-    Route::get('/export',[PembelianController::class,'export'])->name('pembelian.export');
-    Route::get('/export-users',[PembelianController::class,'exportUsers'])->name('pembelian.export-users');
-    // Route::get('student_export',[StudentController::class, 'get_student_data'])->name('student.export');
-    Route::get('/get-item', [PembelianController::class, 'getItem'])->name('pembelian.get-item');
-    Route::get('/excel_pembelian/', [PembelianController::class, 'excel_pembelian'])->name('pembelian.excel_pembelian');
-   
+Route::prefix('maintanance')->group(function () {
+    Route::get('/', [MaintananceController::class, 'index'])->name('maintanance.index');
+    Route::post('/store', [MaintananceController::class, 'store'])->name('maintanance.store');
+    Route::get('/get-item', [MaintananceController::class, 'getItem'])->name('maintanance.get-item');
+    Route::get('/destroy', [MaintananceController::class, 'destroy'])->name('maintanance.destroy');
 });
+
+
 Route::prefix('gudang')->group(function () {
     Route::get('/', [GudangController::class, 'index'])->name('gudang.index');
    
@@ -126,5 +124,39 @@ Route::prefix('kalibrasi')->group(function () {
 
 });
 
+Route::group(['prefix' => 'laporan'], function () {
+
+    Route::prefix('pembelian')->group(function () {
+        Route::get('/', [PembelianController::class, 'index'])->name('pembelian.index');
+        Route::get('/file-import', [PembelianController::class, 'importView'])->name('pembelian.import-view');
+        Route::get('/export', [PembelianController::class, 'export'])->name('pembelian.export');
+        Route::get('/export-users', [PembelianController::class, 'exportUsers'])->name('pembelian.export-users');
+        // Route::get('student_export',[StudentController::class, 'get_student_data'])->name('student.export');
+        Route::get('/get-item', [PembelianController::class, 'getItem'])->name('pembelian.get-item');
+        Route::get('/excel_pembelian/', [PembelianController::class, 'excel_pembelian'])->name('pembelian.excel_pembelian');
+
+    });
+
+    Route::prefix('mutasi')->group(function () {
+        Route::get('/', [MutasiController::class, 'index'])->name('mutasi.index');
+        Route::get('/file-import', [MutasiController::class, 'importView'])->name('mutasi.import-view');
+        Route::get('/export', [MutasiController::class, 'export'])->name('mutasi.export');
+        Route::get('/export-users', [MutasiController::class, 'exportUsers'])->name('mutasi.export-users');
+        // Route::get('student_export',[StudentController::class, 'get_student_data'])->name('student.export');
+        Route::get('/get-item', [MutasiController::class, 'getItem'])->name('mutasi.get-item');
+        Route::get('/excel_mutasi/', [MutasiController::class, 'excel_mutasi'])->name('mutasi.excel_mutasi');
+
+    });
+    Route::prefix('pemakaian')->group(function () {
+        Route::get('/', [PemakaianController::class, 'index'])->name('pemakaian.index');
+        Route::get('/file-import', [PemakaianController::class, 'importView'])->name('pemakaian.import-view');
+        Route::get('/export', [PemakaianController::class, 'export'])->name('pemakaian.export');
+        Route::get('/export-users', [PemakaianController::class, 'exportUsers'])->name('pemakaian.export-users');
+        // Route::get('student_export',[StudentController::class, 'get_student_data'])->name('student.export');
+        Route::get('/excel_mutasi/', [PemakaianController::class, 'excel_mutasi'])->name('pemakaian.excel_pemakaian');
+
+    });
+
+});
 Route::get('/history/{kode_item}', [MasalahController::class, 'history'])->name('masalah.history');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

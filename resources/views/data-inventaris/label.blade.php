@@ -43,13 +43,13 @@
                 </tr> --}}
                 <tr>
             
-                    <td colspan="2" style="font-size: 13px;" height="15px"><img src="{{ asset('') }}assets/img/logo-label.png" height="14px" width="auto"> </td></td>
+                    <td colspan="2" style="font-size: 13px;" height="15px" width="10px"></td>&nbsp;&nbsp;&nbsp;</td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="font-size: 9px;">{{ $query->nama }}</td>
+                    <td colspan="2" style="font-size: 9px;">{!! Str::limit($query->nama, 25,) !!}</td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="font-size: 9px">{{ $query->no_sn }}</td>
+                    <td colspan="2" style="font-size: 9px">&nbsp;{{ $query->no_sn }}</td>
                 </tr>
                 
             </tbody>

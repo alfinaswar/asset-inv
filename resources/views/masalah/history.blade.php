@@ -1,5 +1,4 @@
 @extends('layouts.header')
-
 <body
     class="kt-app__aside--left kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
@@ -46,7 +45,11 @@
                                 </span>
                                 <div class="kt-widget__label">
                                    
-                                    <span class="btn btn-label-brand btn-sm btn-bold btn-upper"><?= date('d/m/Y', strtotime($data_kalibrasi->tgl_kalibrasi)); ?></span>
+                                    <span class="btn btn-label-brand btn-sm btn-bold btn-upper"><?php if (isset($data_alat->tgl_kalibrasi)) {
+    echo date('d/m/Y', strtotime($data_alat->tgl_kalibrasi));
+} else {
+    echo 'Belum Dikalibrasi';
+} ?></span>
                                 </div>
                             </div>
 
@@ -55,7 +58,11 @@
                                     Expire
                                 </span>
                                 <div class="kt-widget__label">
-                                    <span class="btn btn-label-danger btn-sm btn-bold btn-upper"><?= date('d/m/Y', strtotime($data_kalibrasi->exp_date)); ?></span>
+                                    <span class="btn btn-label-danger btn-sm btn-bold btn-upper">@if (isset($data_alat->tgl_expire))
+                                    {{date('d/m/Y', strtotime($data_alat->tgl_expire))}}
+                                    @else
+                                        Belum Dikalibrasi
+                                    @endif</span>
                                 </div>
                             </div>
 
@@ -70,14 +77,13 @@
                     </div>
                     <div class="kt-widget__details">
                         <span class="kt-widget__title">Awalbros</span>
-                        <span class="kt-widget__title">{{$data_alat->nama_rs}}</span>
+                        <span class="kt-widget__title">{{$data_alat->rumahsakit}}</span>
                     </div>
                 </div>
 
                 <div class="kt-widget__item">
                     <div class="kt-widget__icon">
-                        <i class="
-flaticon-app"></i>
+                        <i class="fa flaticon-app"></i>
                     </div>
                     <div class="kt-widget__details">
                         <span class="kt-widget__title">Departemen</span>
@@ -94,40 +100,40 @@ flaticon-app"></i>
                         <span class="kt-widget__value"><?= date('d/m/Y', strtotime($data_alat->tanggal_beli)); ?></span>
                     </div>
                 </div>
-                 <?php if ($data_kalibrasi->tgl_kalibrasi == null) {
-                                $stat = 'Belum Dikalibrasi';
-                            } else {
-                                $stat = $data_kalibrasi->dokumen;
-                            }
-                            ?>
+
                 <div class="kt-widget__item">
                     <div class="kt-widget__icon">
                         <i class="flaticon-file-2"></i>
                     </div>
                     <div class="kt-widget__details">
-                        <span class="kt-widget__title">Status</span>
-                        <span class="kt-widget__value">{{$stat}}</span>
+                        <span class="kt-widget__title">@if (isset($data_alat->tgl_kalibrasi))
+                                    {!!'<a href="' . Storage::url('public/dokumen/') . $data_alat->dokumen . '" target="_blank">Lihat Dokumen</a>'!!}
+                                    @else
+                                        Belum Dikalibrasi
+                                    @endif</span>
+                        {{-- <span class="kt-widget__value">{!!$file!!}</span> --}}
                     </div>
                 </div>
 
-                <div class="kt-widget__item">
+                {{-- <div class="kt-widget__item">
                     <div class="kt-widget__icon">
                         <i class="flaticon-chat-1"></i>
                     </div>
                     <div class="kt-widget__details">
-                        <span class="kt-widget__title">Preventif</span>
-                        <a href="#" class="kt-widget__value kt-font-brand">View</a>
+                        <span class="kt-widget__title">Maintenance</span>
+                        <a class="kt-widget__value kt-font-brand"></a>
                     </div>
-                </div>
+                </div> --}}
 
                 
             </div>
                 </div>
         <!--end:: Portlet-->
-
+            </div>
+        </div>
         <div class="row">
 
-            <div class="col-xl-12">
+            <div class="col-xl-6">
                 <!--begin:: Widgets/Tasks -->
                 <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
                     <div class="kt-portlet__head">
@@ -163,6 +169,71 @@ flaticon-app"></i>
                                                 </span>
                                                 <span class="kt-widget2__username">
                                                     {{ $masalah_detail->tindakan }}
+                                                </span>
+                                            </div>
+                                            <div class="kt-widget2__actions">
+                                                <span class="btn btn-clean btn-sm btn-icon btn-icon-md"
+                                                    data-toggle="dropdown">
+                                                    <i class="flaticon-more-1"></i>
+                                                </span>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                @endforeach
+                               @else
+    <div class="alert alert-warning" role="alert">
+                            <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                            <div class="alert-text"><strong>Whoops!, Tidak ada data yang ditemukan</strong></div>
+                        </div>
+@endif
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <!--begin:: Widgets/Tasks -->
+                <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Preventif Maintenance
+                            </h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="kt_widget2_tab1_content">
+                                @if (count($data_mtnc) > 0)
+    @foreach ($data_mtnc as $data)
+                                    <div class="kt-widget2">
+
+                                        <div class="kt-widget__label">
+                                            <span class="btn btn-label-brand btn-sm btn-bold btn-upper"
+                                                style="font-size: 12px;">{{ date("F", mktime(0, 0, 0, $data->bulan, 10)) }}</span>
+                                        </div>
+                                        <div class="kt-widget2__item kt-widget2__item--primary">
+                                            <div class="kt-widget2__checkbox">
+<label class="kt-checkbox kt-checkbox--solid kt-checkbox--single">
+							<input type="checkbox" checked readonly>
+							<span></span>
+							</label>
+                                            </div>
+                                            <div class="kt-widget2__info">
+                                                <span class="kt-widget2__title" style="font-size: 12px;">
+                                                    
+                                                </span>
+            
+                                                <span class="kt-widget2__username">
+                                                    {{ $data->keterangan }}
                                                 </span>
                                             </div>
                                             <div class="kt-widget2__actions">

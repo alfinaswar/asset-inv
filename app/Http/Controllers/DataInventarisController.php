@@ -183,8 +183,11 @@ class DataInventarisController extends Controller
 
         $gambar = $request->file('gambar');
         $gambar->storeAs('public/gambar', $gambar->hashName());
+        $dokumen = $request->file('dokumen');
+        $dokumen->storeAs('public/dokumen', $dokumen->hashName());
         DataInventaris::create([
             'nama' => $nama,
+            'real_name' => $request->real_name,
             'kode_item' => $kode_item,
             'assetID' => $assetid,
             'no_inventaris' => $request->no_inventaris,
@@ -194,6 +197,9 @@ class DataInventarisController extends Controller
             'departemen' => $request->departemen,
             'pengguna' => $request->userPengguna,
             'gambar' => $gambar->hashName(),
+            'tgl_kalibrasi' => $request->tgl_kalibrasi,
+            'tgl_expire' => $request->tgl_expire,
+            'dokumen' => $dokumen,
             'nama_rs' => auth()->user()->kodeRS,
         ]);
 
@@ -202,7 +208,8 @@ class DataInventarisController extends Controller
     public function edit($id)
     {
         $datainv = DataInventaris::find($id);
-        return view('data-inventaris.edit', compact('datainv'));
+        $dept = MasterDepartemenModel::all();
+        return view('data-inventaris.edit', compact('datainv','dept'));
     }
     public function update(Request $request, $id)
     {

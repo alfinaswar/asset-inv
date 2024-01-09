@@ -64,7 +64,7 @@ Update User
                       <div class="form-group row">
                         <label for="tanggal_beli" class="col-3 col-form-label">* Tanggal Beli</label>
                         <div class=" col-lg-9">
-                            <input class="form-control" name="tanggal_beli" value="{{ old('tanggal_beli') }}" placeholder="Tanggal beli"
+                            <input class="form-control" name="tanggal_beli" value="{{date('Y-m-d',strtotime($datainv->tanggal_beli))}}" placeholder="Tanggal beli"
                                 type="date" id="tanggal_beli">
                         </div>
                     </div>
@@ -72,20 +72,26 @@ Update User
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <label class="col-form-label col-lg-3 col-sm-12">* Unit</label>
-                        <div class=" col-lg-9 col-md-9 col-sm-12">
-                            <select class="form-control kt-select2" id="departemen" name="departemen">
-                               
+                        <label for="departemen" class="col-3 col-form-label">Departemen</label>
+                        <div class="col-9">
+                            
+                            <select name="departemen" class="custom-select form-control" id="departemen">
+                                 <option selected value="">--Pilih Departemen--</option>
+                                @foreach ($dept as$item )
+                                <option value="{{ $item->nama }}" {{ $datainv->departemen == $item->nama ? "selected" :""}}>
+                                    {{ $item->nama }}</option>
+                                @endforeach
                             </select>
+                        
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-form-label col-lg-3 col-sm-12">* Pengguna</label>
+                        <label class="col-form-label col-lg-3 col-sm-12">* Jenis / Pengguna</label>
                         <div class="col-lg-9 col-md-9 col-sm-12">
                             <select class="form-control kt-select2" id="userPengguna" name="userPengguna">
                                 <option value=" " selected>--Select Jenis--</option>
                                 <option value="Medis" <?php echo $datainv->pengguna == 'Medis' ? 'selected' : ''; ?>>Medis</option>
-                                <option value="Non Medis" <?php echo $datainv->pengguna == 'Non Medis' ? 'selected' : ''; ?>>Non Medis</option>
+                                <option value="umum" <?php echo $datainv->pengguna == 'umum' ? 'selected' : ''; ?>>umum</option>
                             </select>
                         </div>
                     </div>
@@ -94,7 +100,7 @@ Update User
         <div class="kt-portlet__foot">
             <div class="kt-form__actions">
                 <button type="submit" class="btn btn-info">Submit</button>
-                <a href="{{ route('User.index') }}">
+                <a href="{{ route('inventaris.index') }}">
                     <button type="button" class="btn btn-danger">Cancel</button>
                 </a>
             </div>
@@ -104,33 +110,12 @@ Update User
 @endsection
 @push('js')
 <script>
-     var select_departemen = function() {
-            $('#departemen').select2({
-                placeholder: "Select departemen",
-                minimumInputLength: 1,
-                ajax: {
-                    url: '{{ route("master.get-departemen") }}',
-                    dataType: 'json',
-                    delay: 250,
-                    processResults: function(data) {
-                        return {
-                            results: $.map(data, function(item) {
-                                return {
-                                    text: item.nama,
-                                    id: item.nama
-                                }
-                            })
-                        };
-                    },
-                    cache: true
-                }
-            });
-        }
+    
 
 
         jQuery(document).ready(function() {
             
-            select_departemen();
+           
             // select_item();
             $('.progress').hide()
         });

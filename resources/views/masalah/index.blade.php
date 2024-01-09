@@ -92,20 +92,7 @@ Masalah
                 </div>
                 <div class="col-md-6">
                     
-                    <div class="form-group row">
-                        <label class="col-form-label col-lg-3 col-sm-12">Lama Pengerjaan</label>
-                        <div class="col-lg-9 col-md-9 col-sm-12">
-                            <div class="input-group timepicker">
-                                <input class="form-control" id="kt_timepicker_2" name="waktu_pengerjaan" readonly=""
-                                    placeholder="Select time" type="text">
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        <i class="la la-clock-o"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="form-group row">
                         <label class="col-form-label col-lg-3 col-sm-12">Jumlah Kerusakan</label>
                         <div class="col-lg-9 col-md-9 col-sm-12">
@@ -284,8 +271,8 @@ Masalah
                         name: 'DT_RowIndex'
                     },
                     {
-                        data: 'created_at',
-                        name: 'created_at'
+                        data: 'tanggal',
+                        name: 'tanggal'
                     },
                     {
                         data: 'nama_perangkat',
@@ -432,7 +419,7 @@ Masalah
                         return {
                             results: $.map(data, function(item,key) {
                             return {
-                                    text:item,
+                                    text:key + ' ' + item,
                                     id:key + ',' + item
                                 }
                             })

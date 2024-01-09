@@ -116,7 +116,7 @@
 					            Seluruh Inventaris
 					        </h4>
 					        <span class="kt-widget24__desc">
-					            Joined New User
+					            Semua Inventaris
 					        </span>
 						</div>
 
@@ -147,6 +147,6 @@
 @endsection
 <script>
      jQuery(document).ready(function() {
-        $('.progress').hide();
+        $('.progress').hide()
         });
 </script>

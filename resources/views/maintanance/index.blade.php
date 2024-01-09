@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @push('title')
-    Kalibrasi
+    Maintanance
 @endpush
 @section('content')
     <div class="kt-portlet kt-portlet--mobile">
@@ -10,7 +10,7 @@
                     <i class="kt-font-brand flaticon2-line-chart"></i>
                 </span>
                 <h3 class="kt-portlet__head-title">
-                    Data Kalibrasi Alat
+                   Data Maintanance Alat
                 </h3>
             </div>
             <div class="kt-portlet__head-toolbar">
@@ -21,7 +21,7 @@
         </div>
 
         <div class="kt-portlet__body">
-            <form id="form-kalibrasi" action="{{ route('kalibrasi.store') }}" method="POST" accept-charset="utf-8"
+            <form id="form-maintanance" action="{{ route('maintanance.store') }}" method="POST" accept-charset="utf-8"
                 enctype="multipart/form-data">
                 @csrf
                 <div class="row">
@@ -34,36 +34,35 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-form-label col-lg-3 col-sm-12">* Kepemilikan</label>
+                            <label class="col-3 col-form-label">* Bulan</label>
                             <div class=" col-lg-9 col-md-9 col-sm-12">
-                                <select class="form-control kt-select2" id="kepemilikan" name="kepemilikan">
-                                    <option value=" " selected>--Select Kepemilikan--</option>
-                                    <option value="Rumah Sakit">Rumah Sakit</option>
-                                    <option value="Dokter">Dokter</option>
-                                    <option value="Vendor">Vendor</option>
+                                <select class="form-control kt-select2" id="bulan" name="bulan">
+                                    <option value=" " selected>--Select Bulan--</option>
+                                    <option value="1">Januari</option>
+                                    <option value="2">Februari</option>
+                                    <option value="3">Maret</option>
+                                    <option value="4">April</option>
+                                    <option value="5">Mei</option>
+                                    <option value="6">Juni</option>
+                                    <option value="7">Juli</option>
+                                    <option value="8">Agustus</option>
+                                    <option value="9">September</option>
+                                    <option value="10">Oktober</option>
+                                    <option value="11">November</option>
+                                    <option value="12">Desember</option>
                                 </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-form-label col-lg-3 col-sm-12">Tanggal Kalibrasi</label>
-                            <div class="col-lg-9 col-md-9 col-sm-12">
-                                <input type="date" class="form-control" name="tgl_kalibrasi" id="tgl_kalibrasi"
-                                    value="{{ old('tgl_kalibrasi') }}">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-form-label col-lg-3 col-sm-12">Expire Date</label>
-                            <div class="col-lg-9 col-md-9 col-sm-12">
-                                <input type="date" class="form-control" name="exp_date" id="exp_date"
-                                    value="{{ old('exp_date') }}">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group row">
-                            <label for="nama_perangkat" class="col-form-label col-lg-3 col-sm-12">* Uplpad Dokumen</label>
-                            <div class=" col-lg-9 col-md-9 col-sm-12">
-                                <input type="file" name="dokumen" id="upload-btn">
+                            <label class="col-form-label col-lg-3 col-sm-12">Status</label>
+                           <div class=" col-lg-9 col-md-9 col-sm-12">
+                                <select class="form-control kt-select2" id="status" name="status">
+                                    <option value=" " selected>--Select Status--</option>
+                                    <option value="1">Sudah Maintanance</option>
+                                    <option value="2">Belum Maintanance</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -81,64 +80,16 @@
                 </div>
             </form>
             <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
-            <div class="row">
-                <div class="col-md-3">
-                    <small>Filter By Rumah Sakit:</small>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text"><i
-                                        class="fa fa-hospital-alt"></i></span></div>
-                            <select name="filter_rs" class="custom-select form-control" id="filter_rs">
-                                <option value="" selected>--Semua RS--</option>
-                                @foreach ($rs as $item)
-                                    <option value="{{ $item->kodeRS }}" {{ old('nama') == $item->kodeRS ? 'selected' : '' }}>
-                                        {{ $item->nama }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <small>Filter By Kepemilikan:</small>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text"><i
-                                        class="fa fa-user"></i></span></div>
-                            <select class="form-control " name="filter_pemilik" id="filter_pemilik">
-                                <option value="">--Semua Kepemilikan--</option>
-                                <option value="Dokter">Dokter</option>
-                                <option value="Rumah Sakit">Rumah Sakit</option>
-                                <option value="Vendor">Vendor</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <small>Filter By Tanggal Kalibrasi:</small>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text"><i
-                                        class="fa fa-calendar-alt"></i></span></div>
-                            <input type="date" name="filter_tanggal" id="filter_tanggal" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                     <small>&nbsp;</small>
-                    
-                </div>
-            </div>
             <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
                 <thead class="table-primary">
                     <tr>
                         <th>No</th>
                         <th>Nama Alat</th>
-                        <th>Kapemilikan</th>
-                        <th>Tgl Kalibrasi</th>
-                        <th>Exp Date</th>
+                        <th>Bulan</th>
+                        <th>Status`</th>
+                        <th>Nama RS</th>
                         <th>Keterangan</th>
-                        <th>Dokumen</th>
-                        <th>Actions</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -176,11 +127,11 @@
                     processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
                 },
                 ajax: {
-                    url: "{{ route('kalibrasi.index') }}",
+                    url: "{{ route('maintanance.index') }}",
                     data: function(d) {
                         d.filter_tanggal = $('#filter_tanggal').val(),
+                        d.filter_status = $('#filter_status').val(),
                             d.filter_rs = $('#filter_rs').val(),
-                            d.filter_pemilik = $('#filter_pemilik').val(),
                             d.search = $('input[type="search"]').val()
                     }
                 },
@@ -192,27 +143,23 @@
                     },
                     {
                         data: 'nama',
-                        name: 'nama'
+                        name: 'nama    '
                     },
                     {
-                        data: 'kepemilikan',
-                        name: 'kepemilikan'
+                        data: 'bulan',
+                        name: 'bulan'
                     },
                     {
-                        data: 'tgl_kalibrasi',
-                        name: 'tgl_kalibrasi'
+                        data: 'status',
+                        name: 'status'
                     },
                     {
-                        data: 'exp_date',
-                        name: 'exp_date'
+                        data: 'namars',
+                        name: 'namars'
                     },
                     {
                         data: 'keterangan',
                         name: 'keterangan'
-                    },
-                    {
-                        data: 'dokumen',
-                        name: 'dokumen'
                     },
                     {
                         data: 'action',
@@ -246,8 +193,8 @@
                         return {
                             results: $.map(data, function(item, key) {
                                 return {
-                                    text: item,
-                                    id: key
+                                    text: key + ' - ' + item,
+                                    id: key + ',' + item
                                 }
                             })
                         };
@@ -266,7 +213,7 @@
             });
             $('.progress').show()
             $(id).addClass('kt-spinner kt-spinner--md kt-spinner--danger disabled');
-            $("#form-kalibrasi").submit();
+            $("#form-maintanance").submit();
         }
         //tes tes tes
 
@@ -278,7 +225,7 @@
             select_item()
             $('.progress').hide()
         });
-        $('#filter_tanggal,#filter_rs,#filter_pemilik').change(function() {
+        $('#filter_tanggal,#filter_rs,#filter_status').change(function() {
             var table = $('#kt_table_1').DataTable();
             table.draw();
         });
