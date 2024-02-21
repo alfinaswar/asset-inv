@@ -31,21 +31,19 @@ class PembelianExport implements FromView, WithEvents, WithStyles
         // ]);
         return view('excel.excel_pembelian', [
         'pembelian' => DB::connection("mysql2")
-                ->table('ro2')
-                ->where('ro2.GudangID', 'GUD-ALATMEDIS')
-                ->where('ro2.TanggalBuat', '>=', $this->tgl_mulai)
-                ->where('ro2.TanggalBuat', '<=', $this->tgl_akhir)
-                ->join('masteritem', 'masteritem.ItemID', '=', 'ro2.ItemID')
+                ->table('po')
+                ->where('po.DepartemenID', 'INV-MEDIS')
+                ->where('po.TanggalBuat', '>=', $this->tgl_mulai)
+                ->where('po.TanggalBuat', '<=', $this->tgl_akhir)
+                ->join('po2', 'po2.POID', '=', 'po.POID')
+                ->join('masteritem', 'masteritem.ItemID', '=', 'po2.ItemID')
 
-                // ->limit(100)
                 ->get()
         ]);
-        //dd($masalah);
-        // var_dump($masalah);
+
     }
     public function registerEvents(): array
     {
-
         return [
 
             AfterSheet::class => function (AfterSheet $event) {

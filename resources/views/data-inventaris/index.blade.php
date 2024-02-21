@@ -59,10 +59,10 @@
                 </div>
                 </div>
 @else
-    
+
 @endif
                 <div class="col-md-3">
-                    <small>Filter By Departemen:</small>
+                    <small>Filter By Unit:</small>
                     <div class="form-group">
                     <div class="input-group">
                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-users"></i></span></div>
@@ -84,6 +84,7 @@
                 <thead class="table-primary">
                     <tr>
                         <th>No</th>
+                        <th>Kode</th>
                         <th>Nama Alat</th>
                         <th>Nomor Inventaris</th>
                         <th>Nomor SN</th>
@@ -118,7 +119,7 @@
         @endif
     </script>
     <script>
-        
+
         var dataTable = function() {
             var table = $('#kt_table_1');
             table.DataTable({
@@ -139,11 +140,15 @@
                     }
                 },
                 columns: [{
-                    data: 'DT_RowIndex', 
+                    data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     orderable: false,
                     searchable: false
-                   
+
+                    },
+                    {
+                        data: 'kode_item',
+                        name: 'kode_item'
                     },
                     {
                         data: 'nama',

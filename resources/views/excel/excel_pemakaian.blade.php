@@ -20,7 +20,7 @@
         <th style="text-align: center; font-style:bold;">Qty</th>
          <th style="text-align: center; font-style:bold;">Saldo</th>
     </tr>
-    @foreach ($pembelian as $key => $item)
+    @foreach ($pemakaian as $key => $item)
         <tr>
             <td width="35px" style="font-family: 'Times New Roman', Times, serif; text-align:center;">{{ $key + 1 }}</td>
             <td width="175px" style="font-family: 'Times New Roman', Times, serif;">{{ $item->TanggalBuat }}</td>
@@ -35,5 +35,5 @@
     @endforeach
 </table>
 <style>
-  
+
 </style>

@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         if ($request->ajax()) {
             $data = User::orderBy('id', 'desc')->get();
             return DataTables::of($data)
@@ -48,7 +48,7 @@ class UserController extends Controller
     {
         $role = Role::all();
         $rs = MasterRs::all();
-       
+
         return view('User.create', compact('role','rs'));
     }
 
@@ -135,6 +135,7 @@ class UserController extends Controller
         $data['username'] = $request->username;
         $data['name'] = $request->name;
         $data['rs'] = $request->rs;
+        $data['role'] = $request->role;
 
         $query = User::find($id);
         $query->update($data);

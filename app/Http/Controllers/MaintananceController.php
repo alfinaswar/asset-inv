@@ -55,7 +55,7 @@ class MaintananceController extends Controller
     $status = "Sudah Maintenance";
 } else {
                         $status = "Belum Maintenance";
-}      
+}
               return $status;
                 })
                 ->rawColumns(['action', 'bulan','status'])
@@ -84,7 +84,7 @@ class MaintananceController extends Controller
     public function store(Request $request)
     {
         //pisahkan koma
-        $latest = Maintanance::latest()->first()->id + 1;
+        $latest = Maintanance::latest()->first()->id ?? 0 + 1;
         $kd_mtnc = 'MTNC' . $latest . '';
         $datanama = $request->nama;
         $kodeRS = auth()->user()->kodeRS;
@@ -148,6 +148,6 @@ class MaintananceController extends Controller
      */
     public function destroy($id)
     {
-        
+
     }
 }

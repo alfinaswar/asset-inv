@@ -47,13 +47,13 @@ Update User
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="prioritas" class="col-2 col-form-label">Bagian</label>
+                        <label for="prioritas" class="col-2 col-form-label">Role</label>
                         <div class="col-10">
-                            <select name="bagian" class="custom-select form-control" id="prioritas">
+                            <select name="role" class="custom-select form-control" id="prioritas">
                                 <option value="{{ $user->getRoleNames()->first() }}" selected>
                                     {{ $user->getRoleNames()->first() }}</option>
                                 @foreach ($role as$roles )
-                                <option value="{{ $roles->name }}" {{ old('bagian') == $roles->name ? "selected" :""}}>
+                                <option value="{{ $roles->name }}" {{ old('Role') == $roles->name ? "selected" :""}}>
                                     {{ $roles->name }}</option>
                                 @endforeach
                             </select>

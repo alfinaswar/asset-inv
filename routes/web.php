@@ -11,6 +11,7 @@ use App\Http\Controllers\MasterPenggunaController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\PemakaianController;
 use App\Http\Controllers\PerbaikanController;
+use App\Http\Controllers\ReportMaintenanceController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -46,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('masalah/get-asset', [MasalahController::class, 'getAsset'])->name('get-asset');
     Route::get('masalah/get-alat', [MasalahController::class, 'getAlat'])->name('get-alat');
     Route::get('/get-item', [MasalahController::class, 'getItem'])->name('masalah.get-item');
-    
+
     Route::get('masalah/edit', [MasalahController::class, 'edit'])->name('Masalah.edit');
     Route::get('/export',[MasalahController::class,'export'])->name('masalah.export');
     Route::get('/excel_masalah/',[MasalahController::class,'excel_masalah'])->name('masalah.excel_masalah');
@@ -75,7 +76,7 @@ Route::group(['prefix' => 'master'], function () {
     Route::resource('master-ip', MasterIPController::class);
     Route::get('master-departemen/get-departemen', [AssetManagemenController::class, 'getDepartemen'])->name('master.get-departemen');
     Route::resource('master-departemen', MasterDepartemenController::class);
- 
+
 
     Route::prefix('master-pengguna')->group(function () {
     Route::get('/', [MasterPenggunaController::class, 'index'])->name('master.master-pengguna.index');
@@ -100,7 +101,7 @@ Route::prefix('inventaris')->group(function () {
     Route::get('/masteritem', [DataInventarisController::class, 'masteritem'])->name('inventaris.masteritem');
     Route::resource('inventaris', DataInventarisController::class);
     Route::get('getkategori', [DataInventarisController::class, 'getkategori'])->name('inventaris.getkategori');
-    
+
 });
 Route::prefix('maintanance')->group(function () {
     Route::get('/', [MaintananceController::class, 'index'])->name('maintanance.index');
@@ -112,7 +113,7 @@ Route::prefix('maintanance')->group(function () {
 
 Route::prefix('gudang')->group(function () {
     Route::get('/', [GudangController::class, 'index'])->name('gudang.index');
-   
+
 
 });
 Route::prefix('kalibrasi')->group(function () {
@@ -153,10 +154,18 @@ Route::group(['prefix' => 'laporan'], function () {
         Route::get('/export', [PemakaianController::class, 'export'])->name('pemakaian.export');
         Route::get('/export-users', [PemakaianController::class, 'exportUsers'])->name('pemakaian.export-users');
         // Route::get('student_export',[StudentController::class, 'get_student_data'])->name('student.export');
-        Route::get('/excel_mutasi/', [PemakaianController::class, 'excel_mutasi'])->name('pemakaian.excel_pemakaian');
+        Route::get('/excel_pemakaian/', [PemakaianController::class, 'excel_pemakaian'])->name('pemakaian.excel_pemakaian');
 
     });
 
+    Route::prefix('maintenance')->group(function () {
+        Route::get('/', [ReportMaintenanceController::class, 'index'])->name('laporan.maintenance.index');
+        Route::get('/file-import', [ReportMaintenanceController::class, 'importView'])->name('laporan.maintenance.import-view');
+        Route::get('/export', [ReportMaintenanceController::class, 'export'])->name('laporan.maintenance.export');
+        // Route::get('student_export',[StudentController::class, 'get_student_data'])->name('student.export');
+        Route::get('/excel_maintenance/', [ReportMaintenanceController::class, 'excel_maintenance'])->name('laporan.maintenance.excel_maintenance');
+
+    });
 });
 Route::get('/history/{kode_item}', [MasalahController::class, 'history'])->name('masalah.history');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

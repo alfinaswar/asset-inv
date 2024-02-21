@@ -14,7 +14,7 @@
                                 $gambar = $data_alat->gambar;
                             }
                             ?>
-                            <img src="{{ Storage::url('public/gambar/') . $gambar }}" alt="image">
+                            <img src="{{ asset('public/storage/gambar/'.$gambar) }}" />
                         </div>
                 <div class="kt-widget__pic kt-widget__pic--danger kt-font-danger kt-font-boldest kt-font-light kt-hidden">
                     JM
@@ -22,19 +22,19 @@
                 <div class="kt-widget__content">
                     <div class="kt-widget__head">
                         <a href="#" class="kt-widget__username kt-hidden">
-                            Jason Muller    
-                            <i class="flaticon2-correct"></i>                       
+                            Jason Muller
+                            <i class="flaticon2-correct"></i>
                         </a>
 
                         <a href="#" class="kt-widget__title">{{$data_alat->nama}}</a>
                     </div>
                     <div class="kt-widget__info">
                         <div class="kt-widget__desc">
-                         
+
                                     {{ $data_alat->no_inventaris }}
                                     <br>{{ $data_alat->no_sn }}
                                     <br> {{ $data_alat->pengguna }}
-                               
+
                         </div>
 
 
@@ -44,11 +44,11 @@
                                    Tanggal Kalibrasi
                                 </span>
                                 <div class="kt-widget__label">
-                                   
+
                                     <span class="btn btn-label-brand btn-sm btn-bold btn-upper"><?php if (isset($data_alat->tgl_kalibrasi)) {
     echo date('d/m/Y', strtotime($data_alat->tgl_kalibrasi));
 } else {
-    echo 'Belum Dikalibrasi';
+    echo 'Tidak Dikalibrasi';
 } ?></span>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                     <span class="btn btn-label-danger btn-sm btn-bold btn-upper">@if (isset($data_alat->tgl_expire))
                                     {{date('d/m/Y', strtotime($data_alat->tgl_expire))}}
                                     @else
-                                        Belum Dikalibrasi
+                                        Tidak Dikalibrasi
                                     @endif</span>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                         </div>
                     </div>
                 </div>
-            </div>      
+            </div>
          <div class="kt-widget__bottom">
                 <div class="kt-widget__item">
                     <div class="kt-widget__icon">
@@ -109,7 +109,7 @@
                         <span class="kt-widget__title">@if (isset($data_alat->tgl_kalibrasi))
                                     {!!'<a href="' . Storage::url('public/dokumen/') . $data_alat->dokumen . '" target="_blank">Lihat Dokumen</a>'!!}
                                     @else
-                                        Belum Dikalibrasi
+                                        Tidak Dikalibrasi
                                     @endif</span>
                         {{-- <span class="kt-widget__value">{!!$file!!}</span> --}}
                     </div>
@@ -125,7 +125,7 @@
                     </div>
                 </div> --}}
 
-                
+
             </div>
                 </div>
         <!--end:: Portlet-->
@@ -229,9 +229,9 @@
                                             </div>
                                             <div class="kt-widget2__info">
                                                 <span class="kt-widget2__title" style="font-size: 12px;">
-                                                    
+
                                                 </span>
-            
+
                                                 <span class="kt-widget2__username">
                                                     {{ $data->keterangan }}
                                                 </span>

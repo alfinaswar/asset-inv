@@ -192,9 +192,9 @@ License: You must have a valid license purchased only from themeforest(the above
                         <ul class="kt-menu__nav ">
                              @can('inventaris')
                             <li class="kt-menu__item @if (request()->is('inventaris'))
-                                {{ 'kt-menu__item--active' }} 
+                                {{ 'kt-menu__item--active' }}
                             @elseif (request()->is('inventaris/*'))
-                            {{ 'kt-menu__item--active' }} 
+                            {{ 'kt-menu__item--active' }}
                             @endif" aria-haspopup="true"><a href="{{ route('inventaris.index') }}"
                                     class="kt-menu__link "><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -205,9 +205,9 @@ License: You must have a valid license purchased only from themeforest(the above
                                         @endcan
                             @can('masalah')
                             <li class="kt-menu__item @if (request()->is('masalah'))
-                                {{ 'kt-menu__item--active' }} 
+                                {{ 'kt-menu__item--active' }}
                             @elseif (request()->is('masalah/*'))
-                            {{ 'kt-menu__item--active' }} 
+                            {{ 'kt-menu__item--active' }}
                             @endif" aria-haspopup="true"><a href="{{ route('masalah.index') }}"
                                     class="kt-menu__link "><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -216,13 +216,13 @@ License: You must have a valid license purchased only from themeforest(the above
     </g>
 </svg></span><span class="kt-menu__link-text">Masalah</span></a></li>
                                         @endcan
-                           
+
                                         @can('maintenance')
-                                        
+
                                                         <li class="kt-menu__item @if (request()->is('maintanance'))
-                                {{ 'kt-menu__item--active' }} 
+                                {{ 'kt-menu__item--active' }}
                             @elseif (request()->is('maintanance/*'))
-                            {{ 'kt-menu__item--active' }} 
+                            {{ 'kt-menu__item--active' }}
                             @endif" aria-haspopup="true"><a href="{{ route('maintanance.index') }}"
                                     class="kt-menu__link "><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -231,10 +231,10 @@ License: You must have a valid license purchased only from themeforest(the above
     </g>
 </svg></span><span class="kt-menu__link-text">Maintanance</span></a></li>
                                         @endcan
-                                       
+
 @can('laporan')
                    <li class="kt-menu__item  kt-menu__item--submenu @if (request()->segment(1)=='laporan')
-                                            {{ 'kt-menu__item--open kt-menu__item--here' }} 
+                                            {{ 'kt-menu__item--open kt-menu__item--here' }}
                                         @endif  " aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a
                                     href="javascript:;" class="kt-menu__link kt-menu__toggle"><span
                                         class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
@@ -247,31 +247,38 @@ License: You must have a valid license purchased only from themeforest(the above
                                         class="kt-menu__ver-arrow la la-angle-right"></i></a>
                                 <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                                     <ul class="kt-menu__subnav">
-                                      
+
                                         <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span
                                                 class="kt-menu__link"><span class="kt-menu__link-text">Data
                                                     Master</span></span></li>
                                         <li class="kt-menu__item  @if (request()->segment(2)=='pembelian')
-                                                                    {{ 'kt-menu__item--active' }} 
+                                                                    {{ 'kt-menu__item--active' }}
                                                                 @endif" aria-haspopup="true"><a
                                                 href="{{ route('pembelian.index') }}" class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                                     class="kt-menu__link-text">Laporan Pembelian</span></a></li>
-                                       
+
                                          <li class="kt-menu__item  @if (request()->segment(2)=='mutasi')
-                                                        {{ 'kt-menu__item--active' }} 
+                                                        {{ 'kt-menu__item--active' }}
                                                     @endif" aria-haspopup="true"><a
                                                 href="{{ route('mutasi.index') }}"
                                                 class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                                     class="kt-menu__link-text">Laporan Mutasi</span></a></li>
                                                     <li class="kt-menu__item  @if (request()->segment(2)=='pemakaian')
-                                                        {{ 'kt-menu__item--active' }} 
+                                                        {{ 'kt-menu__item--active' }}
                                                     @endif" aria-haspopup="true"><a
                                                 href="{{ route('pemakaian.index') }}"
                                                 class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                                     class="kt-menu__link-text">Laporan Pemakaian</span></a></li>
+                                                                       <li class="kt-menu__item  @if (request()->segment(2)=='maintenance')
+                                                        {{ 'kt-menu__item--active' }}
+                                                    @endif" aria-haspopup="true"><a
+                                                href="{{ route('laporan.maintenance.index') }}"
+                                                class="kt-menu__link "><i
+                                                    class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
+                                                    class="kt-menu__link-text">Laporan Maintenance</span></a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -279,7 +286,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
 @can('data-master')
                             <li class="kt-menu__item  kt-menu__item--submenu @if (request()->segment(1)=='master')
-                                            {{ 'kt-menu__item--open kt-menu__item--here' }} 
+                                            {{ 'kt-menu__item--open kt-menu__item--here' }}
                                         @endif  " aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a
                                     href="javascript:;" class="kt-menu__link kt-menu__toggle"><span
                                         class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
@@ -292,19 +299,19 @@ License: You must have a valid license purchased only from themeforest(the above
                                         class="kt-menu__ver-arrow la la-angle-right"></i></a>
                                 <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                                     <ul class="kt-menu__subnav">
-                                      
+
                                         <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span
                                                 class="kt-menu__link"><span class="kt-menu__link-text">Data
                                                     Master</span></span></li>
                                         <li class="kt-menu__item  @if (request()->segment(2)=='master-departemen')
-                                                                    {{ 'kt-menu__item--active' }} 
+                                                                    {{ 'kt-menu__item--active' }}
                                                                 @endif" aria-haspopup="true"><a
                                                 href="{{ route('master-departemen.index') }}" class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                                     class="kt-menu__link-text">Master Unit</span></a></li>
-                                       
+
                                          <li class="kt-menu__item  @if (request()->segment(2)=='master-rs')
-                                                        {{ 'kt-menu__item--active' }} 
+                                                        {{ 'kt-menu__item--active' }}
                                                     @endif" aria-haspopup="true"><a
                                                 href="{{ route('master.master-rs.index') }}"
                                                 class="kt-menu__link "><i
@@ -314,11 +321,11 @@ License: You must have a valid license purchased only from themeforest(the above
                                 </div>
                             </li>
                           @endcan
-                         
-                                
+
+
                           @can('manajemen-user')
                             <li class="kt-menu__item  kt-menu__item--submenu @if (request()->segment(1)=='managemenUser')
-                                {{ 'kt-menu__item--open kt-menu__item--here' }} 
+                                {{ 'kt-menu__item--open kt-menu__item--here' }}
                             @endif  " aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
                                     class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -341,19 +348,19 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 class="kt-menu__link"><span class="kt-menu__link-text">Managemen
                                                     User</span></span></li>
                                         <li class="kt-menu__item  @if (request()->segment(2)=='User')
-                                            {{ 'kt-menu__item--active' }} 
+                                            {{ 'kt-menu__item--active' }}
                                         @endif" aria-haspopup="true"><a href="{{ route('User.index') }}"
                                                 class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                                     class="kt-menu__link-text">User Account</span></a></li>
                                         <li class="kt-menu__item  @if (request()->segment(2)=='Role')
-                                                        {{ 'kt-menu__item--active' }} 
+                                                        {{ 'kt-menu__item--active' }}
                                                     @endif" aria-haspopup="true"><a href="{{ route('Role.index') }}"
                                                 class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                                     class="kt-menu__link-text">Role</span></a></li>
                                         <li class="kt-menu__item  @if (request()->segment(2)=='Permission')
-                                                        {{ 'kt-menu__item--active' }} 
+                                                        {{ 'kt-menu__item--active' }}
                                                     @endif" aria-haspopup="true"><a
                                                 href="{{ route('Permission.index') }}" class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span

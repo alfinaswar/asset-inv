@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Exports\MutasiExport;
+use app\Exports\MutasiExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 

@@ -12,7 +12,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use DB;
 
-class PemakaianExport implements FromView, WithEvents, WithStyles
+class MaintenanceExport implements FromView, WithEvents, WithStyles
 {
     use Exportable;
     public function __construct(string $tgl_mulai, string $tgl_akhir)
@@ -23,12 +23,11 @@ class PemakaianExport implements FromView, WithEvents, WithStyles
     }
     public function view(): View
     {
-        return view('excel.excel_pemakaian', [
-            'pemakaian' => DB::connection("mysql2")
-                ->table('mutasiitem')
-                ->where('DepartemenID', 'INV-MEDIS')
-                ->where('DisetujuiTanggal', '>=', $this->tgl_mulai)
-                ->where('DisetujuiTanggal', '<=', $this->tgl_akhir)
+        return view('excel.excel_maintenance', [
+            'maintenance' => DB::connection("mysql")
+                ->table('masalah')
+                ->where('created_at', '>=', $this->tgl_mulai)
+                ->where('created_at', '<=', $this->tgl_akhir)
                 ->get()
         ]);
     }
@@ -39,8 +38,9 @@ class PemakaianExport implements FromView, WithEvents, WithStyles
 
             AfterSheet::class => function (AfterSheet $event) {
                 $lastRow = $event->sheet->getDelegate()->getHighestRow();
-                $cellRange = 'A4:F' . $lastRow;
-                $event->sheet->getDelegate()->getStyle('A4:F4')->getFont()->setName('Times New Roman')->setBold(true)->setSize(12);
+
+                $cellRange = 'A4:E' . $lastRow;
+                $event->sheet->getDelegate()->getStyle('A4:E4')->getFont()->setName('Times New Roman')->setBold(true)->setSize(12);
                 $event->sheet->getDelegate()->getStyle($cellRange)->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
             },
         ];

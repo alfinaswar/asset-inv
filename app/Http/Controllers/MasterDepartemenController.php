@@ -16,7 +16,7 @@ class MasterDepartemenController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = MasterDepartemenModel::orderBy('id', 'desc')->get();
+            $data = MasterDepartemenModel::where('kodeRS', auth()->user()->kodeRS)->orderBy('id', 'desc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -54,6 +54,7 @@ class MasterDepartemenController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $data['kodeRS'] = auth()->user()->kodeRS;
 
         $query = MasterDepartemenModel::create($data);
         return redirect()->route('master-departemen.index')->with('success', 'Data berhasil ditambahkan');
@@ -116,7 +117,7 @@ class MasterDepartemenController extends Controller
         $dataDepartemen = MasterDepartemenModel::select('id', 'nama');
         if ($request->has('q')) {
             $search = $request->q;
-            $departemen = $dataDepartemen->where('nama', 'LIKE', "%$search%")
+            $departemen = $dataDepartemen->where('nama', 'LIKE', "%$search%")->where('kodeRS', auth()->user()->kodeRS)
                 ->get();
         } else {
             $departemen = $dataDepartemen->limit(5)->get();

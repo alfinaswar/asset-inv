@@ -35,7 +35,7 @@ class DataInventarisController extends Controller
                 ->addColumn('action', function ($row) {
                     $print = '<a href="' . route('inventaris.label', $row->id) . '" target="_blank"><button type="button" data-skin="brand" data-toggle="kt-tooltip" data-placement="top" title="Brand skin" class="btn btn-outline-primary btn-icon" ><i class="fa fa-print"></i></button></a>';
                     $edit = '<a href="' . route('inventaris.edit', $row->id) . '"><button type="button" class="btn btn-outline-success btn-icon" ><i class="fa fa-user-cog"></i></button></a>';
-                    $btn = $print .' '. $edit; 
+                    $btn = $print .' '. $edit;
                     return $btn;
                 })
                 ->addColumn('nama_rs', function ($row) {
@@ -96,7 +96,7 @@ class DataInventarisController extends Controller
                 ->make(true);
         }
         $rs = MasterRs::all();
-        $dept = MasterDepartemenModel::all();
+        $dept = MasterDepartemenModel::where('KodeRS',auth()->user()->kodeRS);
         return view('data-inventaris.index', compact('rs','dept'));
     }
 
@@ -157,7 +157,7 @@ class DataInventarisController extends Controller
         $kategori = $request->kategori;
         $dataItem = DB::connection($selectdb)->table('masteritem')->where('KategoriitemID', $kategori);
         if ($request->has('q')) {
-            $search = $request->q;
+            $search =  $request->q;
             $dataItem->where('Nama', 'LIKE', "%$search%")->limit(5)
                 ->get(['ItemID', 'Nama']);
             $item = $dataItem->pluck('Nama', 'ItemID');
@@ -172,56 +172,123 @@ class DataInventarisController extends Controller
         $result = explode(",", $datanama);
         $assetid = $result[0];
         $nama = $result[1];
-        //dd($assetid);
-        //ambil data terakhir
-        $latest = DataInventaris::latest()->first()->id + 1;
-        $kode_item = 'KD' . $latest . '';
-        //dd($kode_item);
-        //validate form
-        $this->validate($request, [
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        $latestId = null;
+        if (DataInventaris::count() > 0) {
+            $latestId = DataInventaris::latest()->first()->id + 1;
+        }
+       $kode_item = 'Item-' . str_pad($latestId, 8, '0', STR_PAD_LEFT);
 
-        $gambar = $request->file('gambar');
-        $gambar->storeAs('public/gambar', $gambar->hashName());
-        $dokumen = $request->file('dokumen');
-        $dokumen->storeAs('public/dokumen', $dokumen->hashName());
-        DataInventaris::create([
-            'nama' => $nama,
-            'real_name' => $request->real_name,
-            'kode_item' => $kode_item,
-            'assetID' => $assetid,
-            'no_inventaris' => $request->no_inventaris,
-            'no_sn' => $request->no_sn,
-            'tanggal_beli' => $request->tanggal_beli,
-            'keterangan' => $request->keterangan,
-            'departemen' => $request->departemen,
-            'pengguna' => $request->userPengguna,
-            'gambar' => $gambar->hashName(),
-            'tgl_kalibrasi' => $request->tgl_kalibrasi,
-            'tgl_expire' => $request->tgl_expire,
-            'dokumen' => $dokumen->hashName(),
-            'nama_rs' => auth()->user()->kodeRS,
-        ]);
+       if ($request->hasFile('dokumen') && $request->hasFile('gambar') ) {
+            $gambar = $request->file('gambar');
+            $gambar->storeAs('public/gambar', $gambar->hashName());
+            $dokumen = $request->file('dokumen');
+            $dokumen->storeAs('public/dokumen', $dokumen->hashName());
+
+            DataInventaris::create([
+                'nama' => $nama,
+                'real_name' => $request->real_name,
+                'kode_item' => $kode_item,
+                'assetID' => $assetid,
+                'no_inventaris' => $request->no_inventaris,
+                'no_sn' => $request->no_sn,
+                'tanggal_beli' => $request->tanggal_beli,
+                'keterangan' => $request->keterangan,
+                'departemen' => $request->departemen,
+                'pengguna' => $request->userPengguna,
+                'gambar' => $gambar->hashName(),
+                'tgl_kalibrasi' => $request->tgl_kalibrasi,
+                'tgl_expire' => $request->tgl_expire,
+                'dokumen' => $dokumen->hashName(),
+                'nama_rs' => auth()->user()->kodeRS,
+            ]);
+        }
+
+       elseif ($request->hasFile('gambar')) {
+
+            $gambar = $request->file('gambar');
+            $gambar->storeAs('public/gambar', $gambar->hashName());
+            // $dokumen = $request->file('dokumen');
+            // $dokumen->storeAs('public/dokumen', $dokumen->hashName());
+
+            DataInventaris::create([
+                'nama' => $nama,
+                'real_name' => $request->real_name,
+                'kode_item' => $kode_item,
+                'assetID' => $assetid,
+                'no_inventaris' => $request->no_inventaris,
+                'no_sn' => $request->no_sn,
+                'tanggal_beli' => $request->tanggal_beli,
+                'keterangan' => $request->keterangan,
+                'departemen' => $request->departemen,
+                'pengguna' => $request->userPengguna,
+                'gambar' => $gambar->hashName(),
+                'tgl_kalibrasi' => $request->tgl_kalibrasi,
+                'tgl_expire' => $request->tgl_expire,
+                // 'dokumen' => $dokumen->hashName(),
+                'nama_rs' => auth()->user()->kodeRS,
+            ]);
+        }elseif ($request->hasFile('dokumen')) {
+            // $gambar = $request->file('gambar');
+            // $gambar->storeAs('public/gambar', $gambar->hashName());
+            $dokumen = $request->file('dokumen');
+            $dokumen->storeAs('public/dokumen', $dokumen->hashName());
+
+            DataInventaris::create([
+                'nama' => $nama,
+                'real_name' => $request->real_name,
+                'kode_item' => $kode_item,
+                'assetID' => $assetid,
+                'no_inventaris' => $request->no_inventaris,
+                'no_sn' => $request->no_sn,
+                'tanggal_beli' => $request->tanggal_beli,
+                'keterangan' => $request->keterangan,
+                'departemen' => $request->departemen,
+                'pengguna' => $request->userPengguna,
+                // 'gambar' => $gambar->hashName(),
+                'tgl_kalibrasi' => $request->tgl_kalibrasi,
+                'tgl_expire' => $request->tgl_expire,
+                'dokumen' => $dokumen->hashName(),
+                'nama_rs' => auth()->user()->kodeRS,
+            ]);
+        }
 
         return redirect()->route('inventaris.index')->with('success', 'Data berhasil ditambahkan');
     }
     public function edit($id)
     {
         $datainv = DataInventaris::find($id);
-        $dept = MasterDepartemenModel::all();
+        $dept = MasterDepartemenModel::where('kodeRS',auth()->user()->kodeRS)->get();
         return view('data-inventaris.edit', compact('datainv','dept'));
     }
     public function update(Request $request, $id)
     {
+    if ($request->hasFile('gambar')) {
+
+        $gambar = $request->file('gambar');
+        $gambar->storeAs('public/gambar', $gambar->hashName());
+
         $data['nama'] = $request->nama;
+        $data['real_name'] = $request->real_name;
         $data['no_inventaris'] = $request->no_inventaris;
         $data['no_sn'] = $request->no_sn;
         $data['tanggal_beli'] = $request->tanggal_beli;
         $data['departemen'] = $request->departemen;
         $data['pengguna'] = $request->userPengguna;
+        $data['gambar'] = $gambar->hashName();
         $query = DataInventaris::find($id);
         $query->update($data);
+    }
+    else{
+            $data['nama'] = $request->nama;
+            $data['real_name'] = $request->real_name;
+            $data['no_inventaris'] = $request->no_inventaris;
+            $data['no_sn'] = $request->no_sn;
+            $data['tanggal_beli'] = $request->tanggal_beli;
+            $data['departemen'] = $request->departemen;
+            $data['pengguna'] = $request->userPengguna;
+            $query = DataInventaris::find($id);
+            $query->update($data);
+    }
         return redirect()->route('inventaris.index')->with('success', 'Data berhasil di ubah');
     }
 }

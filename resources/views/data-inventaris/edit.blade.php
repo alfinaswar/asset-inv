@@ -16,7 +16,7 @@ Update User
     </div>
     <!--begin::Form-->
     <form class="kt-form kt-form--label-right" action="{{ route('inventaris.update',$datainv->id) }}" method="POST"
-        accept-charset="utf-8">
+        accept-charset="utf-8" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="kt-portlet__body">
@@ -47,6 +47,13 @@ Update User
                                 placeholder="Nama" type="text" id="nama" readonly>
                         </div>
                     </div>
+                     <div class="form-group row">
+                        <label for="nama" class="col-3 col-form-label">* Nama Barcode</label>
+                       <div class="col-9">
+                            <input class="form-control" name="real_name" value="{{ $datainv->real_name }}"
+                                placeholder="Nama" type="text" id="real_name">
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <label for="no_inventaris" class="col-3 col-form-label">* Nomor Inventaris</label>
                         <div class="col-9">
@@ -68,13 +75,13 @@ Update User
                                 type="date" id="tanggal_beli">
                         </div>
                     </div>
-                   
+
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
                         <label for="departemen" class="col-3 col-form-label">Departemen</label>
                         <div class="col-9">
-                            
+
                             <select name="departemen" class="custom-select form-control" id="departemen">
                                  <option selected value="">--Pilih Departemen--</option>
                                 @foreach ($dept as$item )
@@ -82,7 +89,7 @@ Update User
                                     {{ $item->nama }}</option>
                                 @endforeach
                             </select>
-                        
+
                         </div>
                     </div>
                     <div class="form-group row">
@@ -91,11 +98,17 @@ Update User
                             <select class="form-control kt-select2" id="userPengguna" name="userPengguna">
                                 <option value=" " selected>--Select Jenis--</option>
                                 <option value="Medis" <?php echo $datainv->pengguna == 'Medis' ? 'selected' : ''; ?>>Medis</option>
-                                <option value="umum" <?php echo $datainv->pengguna == 'umum' ? 'selected' : ''; ?>>umum</option>
+                                <option value="Non Medis" <?php echo $datainv->pengguna == 'Non Medis' ? 'selected' : ''; ?>>Non Medis</option>
                             </select>
                         </div>
                     </div>
-                    
+                     <div class="form-group row">
+                        <label class="col-form-label col-lg-3 col-sm-12">* Gambar</label>
+                        <div class="col-lg-9 col-md-9 col-sm-12">
+                            <input type="file" name="gambar" class="form-control">
+                        </div>
+                    </div>
+
         </div>
         <div class="kt-portlet__foot">
             <div class="kt-form__actions">
@@ -110,12 +123,12 @@ Update User
 @endsection
 @push('js')
 <script>
-    
+
 
 
         jQuery(document).ready(function() {
-            
-           
+
+
             // select_item();
             $('.progress').hide()
         });
