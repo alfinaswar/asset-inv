@@ -154,11 +154,11 @@ class KalibrasiController extends Controller
     public function destroy($id)
     {
         DB::table('kalibrasi')->where('id', $id)->delete();
-        return redirect('kalibrasi.index')->with('status', 'Data Siswa Berhasil DiHapus');
+        return redirect('kalibrasi.index')->with('status', 'Data Berhasil DiHapus');
     }
     public function getItem(Request $request)
     {
-        $dataItem = DB::connection('mysql')->table('data_inventaris');
+        $dataItem = DB::connection('mysql')->table('data_inventaris')->where('nama_rs', auth()->user()->kodeRS);
         //dd($dataItem);
         if ($request->has('q')) {
             $search = $request->q;

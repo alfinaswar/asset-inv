@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @push('title')
-    Maintanance
+    Preventif Maintenance
 @endpush
 @section('content')
     <div class="kt-portlet kt-portlet--mobile">
@@ -10,7 +10,7 @@
                     <i class="kt-font-brand flaticon2-line-chart"></i>
                 </span>
                 <h3 class="kt-portlet__head-title">
-                   Data Maintanance Alat
+                   Preventif Maintenance Alat
                 </h3>
             </div>
             <div class="kt-portlet__head-toolbar">

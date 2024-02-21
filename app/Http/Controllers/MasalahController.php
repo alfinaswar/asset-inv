@@ -141,8 +141,25 @@ class MasalahController extends Controller
     }
     public function getAsset(Request $request)
     {
-
-        $query = DB::connection("mysql2")
+        if (auth()->check()) {
+            $kodeRS = auth()->user()->kodeRS;
+            if ($kodeRS === 'K') {       //ayani
+                $selectdb = 'mysql2';
+            } elseif ($kodeRS === 'I') { //panam
+                $selectdb = 'mysql3';
+            } elseif ($kodeRS === 'B') { //batan
+                $selectdb = 'mysql4';
+            } elseif ($kodeRS === 'A') { //sudirman
+                $selectdb = 'mysql5';
+            } elseif ($kodeRS === 'G') { //ujung batu
+                $selectdb = 'mysql6';
+            } elseif ($kodeRS === 'S') { //bagan batu
+                $selectdb = 'mysql7';
+            } elseif ($kodeRS === 'B') { //botania
+                $selectdb = 'mysql8';
+            }
+        }
+        $query = DB::connection($selectdb)
             ->table('kasus')
             ->where(function ($row) use ($request) {
                 if ($request->cariGroup) {
@@ -155,8 +172,25 @@ class MasalahController extends Controller
     }
     public function getAlat(Request $request)
     {
-
-        $query = DB::connection("mysql2")
+        if (auth()->check()) {
+            $kodeRS = auth()->user()->kodeRS;
+            if ($kodeRS === 'K') {       //ayani
+                $selectdb = 'mysql2';
+            } elseif ($kodeRS === 'I') { //panam
+                $selectdb = 'mysql3';
+            } elseif ($kodeRS === 'B') { //batan
+                $selectdb = 'mysql4';
+            } elseif ($kodeRS === 'A') { //sudirman
+                $selectdb = 'mysql5';
+            } elseif ($kodeRS === 'G') { //ujung batu
+                $selectdb = 'mysql6';
+            } elseif ($kodeRS === 'S') { //bagan batu
+                $selectdb = 'mysql7';
+            } elseif ($kodeRS === 'B') { //botania
+                $selectdb = 'mysql8';
+            }
+        }
+        $query = DB::connection($selectdb)
             ->table('masteritem')
             ->where(function ($row) use ($request) {
                 if ($request->cariGroupItem) {

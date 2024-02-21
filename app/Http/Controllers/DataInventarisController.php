@@ -172,6 +172,7 @@ class DataInventarisController extends Controller
         $result = explode(",", $datanama);
         $assetid = $result[0];
         $nama = $result[1];
+        //dd($assetid);
         //ambil data terakhir
         $latest = DataInventaris::latest()->first()->id + 1;
         $kode_item = 'KD' . $latest . '';
@@ -199,7 +200,7 @@ class DataInventarisController extends Controller
             'gambar' => $gambar->hashName(),
             'tgl_kalibrasi' => $request->tgl_kalibrasi,
             'tgl_expire' => $request->tgl_expire,
-            'dokumen' => $dokumen,
+            'dokumen' => $dokumen->hashName(),
             'nama_rs' => auth()->user()->kodeRS,
         ]);
 

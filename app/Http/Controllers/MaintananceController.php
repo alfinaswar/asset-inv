@@ -58,23 +58,6 @@ class MaintananceController extends Controller
 }      
               return $status;
                 })
-                // ->filter(function ($instance) use ($request) {
-                //     if ($request->get('filter_rs') && $request->get('filter_rs') !== '') {
-                //         $instance->where('nama_rs', $request->get('filter_rs'));
-                //     }
-                //     if ($request->get('filter_status') && $request->get('filter_status') !== '') {
-                //         $instance->where('maintanance.status', $request->get('filter_status'));
-                //     }
-                //     if ($request->get('filter_tanggal') && $request->get('filter_tanggal') !== '') {
-                //         $instance->where('maintanance.bulan', $request->get('filter_tanggal'));
-                //     }
-                //     if (!empty($request->get('search'))) {
-                //         $instance->where(function ($w) use ($request) {
-                //             $search = $request->get('search');
-                //             $w->orWhere('nama', 'LIKE', "%$search%");
-                //         });
-                //     }
-                // })
                 ->rawColumns(['action', 'bulan','status'])
                 ->make(true);
         }

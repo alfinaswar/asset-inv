@@ -18,7 +18,7 @@
                     <div class="kt-portlet__head-actions">
 
                     </div>
-                </div>
+                </div> 
             </div>
         </div>
 
