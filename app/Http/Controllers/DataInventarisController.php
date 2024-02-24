@@ -96,7 +96,7 @@ class DataInventarisController extends Controller
                 ->make(true);
         }
         $rs = MasterRs::all();
-        $dept = MasterDepartemenModel::where('KodeRS',auth()->user()->kodeRS);
+        $dept = MasterDepartemenModel::where('KodeRS',auth()->user()->kodeRS)->get();
         return view('data-inventaris.index', compact('rs','dept'));
     }
 
@@ -262,11 +262,12 @@ class DataInventarisController extends Controller
     }
     public function update(Request $request, $id)
     {
-    if ($request->hasFile('gambar')) {
+    if ($request->hasFile('gambar') && $request->hasFile('dokumen')) {
 
         $gambar = $request->file('gambar');
         $gambar->storeAs('public/gambar', $gambar->hashName());
-
+            $dokumen = $request->file('dokumen');
+            $dokumen->storeAs('public/dokumen', $dokumen->hashName());
         $data['nama'] = $request->nama;
         $data['real_name'] = $request->real_name;
         $data['no_inventaris'] = $request->no_inventaris;
@@ -275,6 +276,7 @@ class DataInventarisController extends Controller
         $data['departemen'] = $request->departemen;
         $data['pengguna'] = $request->userPengguna;
         $data['gambar'] = $gambar->hashName();
+        $data['dokumen'] = $dokumen->hashName();
         $query = DataInventaris::find($id);
         $query->update($data);
     }

@@ -55,9 +55,8 @@ Tambah Asset Inventaris
                         <div class=" col-lg-9 col-md-4 col-sm-12">
                             <select class="form-control " id="kategori" name="kategori">
                                 <option value="">--Select Kategori--</option>
-                                 <option value="8">Fix Asset</option>
-                                 <option value="5">Logistik Umum</option>
-                                 <option value="8">Inventaris Umum</option>
+                                <option value="8">Inventaris Medis</option>
+                                 <option value="5">Inventaris Umum</option>
                             </select>
 
                         </div>

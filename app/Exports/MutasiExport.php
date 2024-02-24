@@ -34,9 +34,7 @@ class MutasiExport implements FromView, WithEvents, WithStyles
     }
     public function registerEvents(): array
     {
-
         return [
-
             AfterSheet::class => function (AfterSheet $event) {
                 $lastRow = $event->sheet->getDelegate()->getHighestRow();
                 $cellRange = 'A4:F' . $lastRow;
