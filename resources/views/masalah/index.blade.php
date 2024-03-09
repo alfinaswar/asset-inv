@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @push('title')
-Masalah
+Riwayat Perbaikan
 @endpush
 @section('content')
 <div class="kt-portlet kt-portlet--mobile">
@@ -10,7 +10,7 @@ Masalah
                 <i class="kt-font-brand flaticon2-line-chart"></i>
             </span>
             <h3 class="kt-portlet__head-title">
-                Pelaporan Kasus
+                Catatan Perbaikan
             </h3>
         </div>
         <div class="kt-portlet__head-toolbar">
@@ -87,12 +87,12 @@ Masalah
                             </select>
                         </div>
                     </div>
-                   
-                    
+
+
                 </div>
                 <div class="col-md-6">
-                    
-                    
+
+
                     <div class="form-group row">
                         <label class="col-form-label col-lg-3 col-sm-12">Jumlah Kerusakan</label>
                         <div class="col-lg-9 col-md-9 col-sm-12">
@@ -116,7 +116,7 @@ Masalah
                             <textarea class="form-control" id="keterangan" name="keterangan" rows="3"></textarea>
                         </div>
                     </div>
-                   
+
 
 
                     <div class="kt-align-right">
@@ -149,7 +149,7 @@ Masalah
                                         </select>
                                 </div>
                             </div>
-                          
+
                         </div>
 
                         <div class="kt-section kt-mt-10">
@@ -175,7 +175,7 @@ Masalah
                 </div>
             </div>
         </div>
-      
+
     <!-- modal laporan -->
             <div class="modal fade " id="cetak-laporan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -187,7 +187,7 @@ Masalah
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         </button>
                     </div>
-                   
+
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-4">
@@ -208,14 +208,14 @@ Masalah
                                     <input type="submit" name="cetak" id="cetak" class="btn btn-info btn-md" value="Cetak">
                                 </div>
                             </div>
-                            
+
                         </div>
 
- 
+
                     </div>
                     </form>
                     <div class="modal-footer">
-                        
+
                     </div>
                 </div>
             </div>
@@ -282,7 +282,7 @@ Masalah
                         data: 'kasus',
                         name: 'kasus'
                     },
-                    
+
                     {
                         data: 'action',
                         name: 'action',
@@ -292,7 +292,7 @@ Masalah
                 ]
             })
         };
-        
+
         var time= function(){
             $('#kt_timepicker_2').timepicker({
             minuteStep: 1,
@@ -310,7 +310,7 @@ Masalah
                 url: "{{ route('get-asset') }}",
                 data: {
                     cariGroup:cariGroup
- 
+
                 },
                 dataType: "json",
                 beforeSend: function() {
@@ -341,7 +341,7 @@ Masalah
                 data: {
                     cariGroupItem:cariGroupItem,
                     cariAlat:cariAlat
- 
+
                 },
                 dataType: "json",
                 beforeSend: function() {
@@ -371,13 +371,13 @@ Masalah
             var judul=$(attr).find('#dataJudul').text();
             var Kasus=$(attr).find('#dataKasus').text();
             var Tanggal=$(attr).find('#dataTanggal').text();
-           
+
 
             var UserGroupID=$(attr).find('#dataUserGroupID').text();
             $('#judul').val(judul);
             $('#Kasus').val(Kasus);
             $('#Tanggal').val(Tanggal);
-           
+
             $('#UserGroupID').val(UserGroupID);
             $('#cari-perangkat').modal('toggle');
         }
@@ -388,7 +388,7 @@ Masalah
             var id=$(attr).find('#dataId').text();
             var nama=$(attr).find('#dataNama').text();
             var group=$(attr).find('#dataGroupItem').text();
-            
+
             $('#id').val(id);
             $('#namaalat').val(nama);
             $('#jenis').val(group);

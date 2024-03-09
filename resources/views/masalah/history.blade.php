@@ -1,4 +1,6 @@
 @extends('layouts.header')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 <body
     class="kt-app__aside--left kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
@@ -9,12 +11,12 @@
             <div class="kt-widget__top">
                <div class="kt-widget__media kt-hidden-">
                             <?php if ($data_alat->gambar == null) {
-                                $gambar = 'image_not_found.png';
+                                $gambar = 'imagenotfound.png';
                             } else {
                                 $gambar = $data_alat->gambar;
                             }
                             ?>
-                            <img src="{{ asset('public/storage/gambar/'.$gambar) }}" />
+                            <img src="{{ Storage::url('public/gambar/'.$gambar) }}" />
                         </div>
                 <div class="kt-widget__pic kt-widget__pic--danger kt-font-danger kt-font-boldest kt-font-light kt-hidden">
                     JM
@@ -26,7 +28,7 @@
                             <i class="flaticon2-correct"></i>
                         </a>
 
-                        <a href="#" class="kt-widget__title">{{$data_alat->nama}}</a>
+                        <span href="" class="kt-widget__title">{{$data_alat->nama}}</span>
                     </div>
                     <div class="kt-widget__info">
                         <div class="kt-widget__desc">
@@ -132,7 +134,15 @@
             </div>
         </div>
         <div class="row">
-
+@if (session()->has('success'))
+    <script>
+        swal.fire({
+            title: "{{ __('Success!') }}",
+            text: "{!! \Session::get('success') !!}",
+            type: "success"
+        });
+    </script>
+@endif
             <div class="col-xl-6">
                 <!--begin:: Widgets/Tasks -->
                 <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
@@ -206,7 +216,17 @@
                                 Preventif Maintenance
                             </h3>
                         </div>
+
                         <div class="kt-portlet__head-toolbar">
+                           <div class="kt-portlet__head-label">
+                              @if (Auth::check())
+                            <button type="button" class="btn btn-bold btn-label-brand btn-sm" data-toggle="modal" data-target="#kt_modal_4">Tambah</button>
+
+                            @else
+
+                            @endif
+
+                        </div>
                         </div>
                     </div>
                     <div class="kt-portlet__body">
@@ -269,6 +289,30 @@
     </div>
     <!-- end:: Content --> </div>
 
+<!-- Button trigger modal-->
+
+
+<!-- Modal-->
+<div class="modal fade" id="exampleModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary font-weight-bold">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
     <!-- begin:: Footer -->
     <div class="kt-footer  kt-grid__item kt-grid kt-grid--desktop kt-grid--ver-desktop" id="kt_footer">
         <div class="kt-container  kt-container--fluid ">
@@ -285,10 +329,133 @@
     <!-- end:: Page -->
 
 
+<div class="modal fade" id="kt_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+<form id="myform" action="{{route('maintanance.AddPm')}}" method="POST" accept-charset="utf-8"
+                enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <div class="col-md-6">
 
+                               <input type="hidden" class="form-control" name="nama" placeholder="Nama" value="{{ request()->segment(2) }}">
+                        <div class="form-group row">
+                            <label class="col-3 col-form-label">* Bulan</label>
+                            <div class=" col-lg-9 col-md-9 col-sm-12">
+                                <select class="form-control kt-select2" id="bulan" name="bulan">
+                                    <option value=" " selected>--Select Bulan--</option>
+                                    <option value="1">Januari</option>
+                                    <option value="2">Februari</option>
+                                    <option value="3">Maret</option>
+                                    <option value="4">April</option>
+                                    <option value="5">Mei</option>
+                                    <option value="6">Juni</option>
+                                    <option value="7">Juli</option>
+                                    <option value="8">Agustus</option>
+                                    <option value="9">September</option>
+                                    <option value="10">Oktober</option>
+                                    <option value="11">November</option>
+                                    <option value="12">Desember</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">Status</label>
+                           <div class=" col-lg-9 col-md-9 col-sm-12">
+                                <select class="form-control kt-select2" id="status" name="status">
+                                    <option value=" " selected>--Select Status--</option>
+                                    <option value="1">Sudah Maintanance</option>
+                                    <option value="2">Belum Maintanance</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">Keterangan</label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+                                <textarea name="keterangan" id="keterangan" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="modal-footer">
+                <button type="submit" class="btn btn-block btn-info" name="btn-save" id="btn-save">Simpan</button>
+            </div>
+            </form>
+            </div>
 
+        </div>
+    </div>
+</div>
 
+{{-- <script>
+    $('#myform').submit(function(e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    $.ajax({
+        url: $(this).attr('action'),
+        type: $(this).attr('method'),
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            $('#myform')[0].reset();
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Data Berhasil Disimpan',
+            });
+            dataTable();
+        },
+        error: function(xhr, status, error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error!',
+            });
+            console.error(xhr.responseText);
+        }
+    });
+});
+</script> --}}
+<script>
+    $(document).ready(function() {
+        $('#myform').submit(function(e) {
+            e.preventDefault(); // Prevent the form from submitting normally
 
+            // Perform an AJAX request to submit the form data
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Show a success message using SweetAlert
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Data saved successfully!',
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Show an error message using SweetAlert
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to save data. Please try again.',
+                    });
+                }
+            });
+        });
+    });
+
+</script>
 
 
 
@@ -454,3 +621,4 @@
 <!-- end::Body -->
 
 </html>
+

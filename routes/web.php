@@ -105,7 +105,9 @@ Route::prefix('inventaris')->group(function () {
 });
 Route::prefix('maintanance')->group(function () {
     Route::get('/', [MaintananceController::class, 'index'])->name('maintanance.index');
+    Route::get('/pm', [MaintananceController::class, 'pm'])->name('maintanance.pm');
     Route::post('/store', [MaintananceController::class, 'store'])->name('maintanance.store');
+    Route::post('/AddPm', [MaintananceController::class, 'AddPm'])->name('maintanance.AddPm');
     Route::get('/get-item', [MaintananceController::class, 'getItem'])->name('maintanance.get-item');
     Route::get('/destroy', [MaintananceController::class, 'destroy'])->name('maintanance.destroy');
 });
@@ -160,10 +162,12 @@ Route::group(['prefix' => 'laporan'], function () {
 
     Route::prefix('maintenance')->group(function () {
         Route::get('/', [ReportMaintenanceController::class, 'index'])->name('laporan.maintenance.index');
+        Route::get('/pm', [ReportMaintenanceController::class, 'pm'])->name('laporan.maintenance.pm');
         Route::get('/file-import', [ReportMaintenanceController::class, 'importView'])->name('laporan.maintenance.import-view');
         Route::get('/export', [ReportMaintenanceController::class, 'export'])->name('laporan.maintenance.export');
         // Route::get('student_export',[StudentController::class, 'get_student_data'])->name('student.export');
         Route::get('/excel_maintenance/', [ReportMaintenanceController::class, 'excel_maintenance'])->name('laporan.maintenance.excel_maintenance');
+        Route::get('/excel_pm/', [ReportMaintenanceController::class, 'excel_pm'])->name('laporan.maintenance.excel_pm');
 
     });
 });

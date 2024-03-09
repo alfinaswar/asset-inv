@@ -217,7 +217,7 @@
         }
         //tes tes tes
 
-   
+
         //asdasd
         jQuery(document).ready(function() {
             dataTable()
@@ -229,6 +229,6 @@
             var table = $('#kt_table_1').DataTable();
             table.draw();
         });
-    
+
   </script>
 @endpush

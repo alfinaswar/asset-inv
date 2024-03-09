@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Barryvdh\DomPDF\Facade\Pdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-
+use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\MasalahController;
 
 
 class DataInventarisController extends Controller
@@ -33,9 +34,10 @@ class DataInventarisController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $print = '<a href="' . route('inventaris.label', $row->id) . '" target="_blank"><button type="button" data-skin="brand" data-toggle="kt-tooltip" data-placement="top" title="Brand skin" class="btn btn-outline-primary btn-icon" ><i class="fa fa-print"></i></button></a>';
-                    $edit = '<a href="' . route('inventaris.edit', $row->id) . '"><button type="button" class="btn btn-outline-success btn-icon" ><i class="fa fa-user-cog"></i></button></a>';
-                    $btn = $print .' '. $edit;
+                    $print = '<center><a href="' . route('inventaris.label', $row->id) . '" target="_blank"><button type="button" data-skin="brand" data-toggle="kt-tooltip" data-placement="top" title="Print Barcode" class="btn btn-outline-primary btn-icon btn-md" ><i class="fas fa-qrcode"></i></button></a></center>';
+                    $history = '<center><a href="' . route('masalah.history', $row->kode_item) . '" target="_blank"><button type="button" data-skin="brand" data-toggle="kt-tooltip" data-placement="top" title="Lihat Riwayat" class="btn btn-outline-warning btn-icon btn-md" ><i class="fas fa-bookmark"></i></button></a></center>';
+                    $edit = '<center><a href="' . route('inventaris.edit', $row->id) . '"><button type="button" class="btn btn-outline-success btn-icon" ><i class="fa fa-user-cog"></i></button></a></center>';
+                    $btn = $print .' '. $edit .''. $history;
                     return $btn;
                 })
                 ->addColumn('nama_rs', function ($row) {
@@ -110,8 +112,8 @@ class DataInventarisController extends Controller
 
         $query = DataInventaris::find($id);
         // $routes = route('masalah.history', $query->kode_item);
-        $routes = '192.168.1.239/asset-inventaris/history/' . $query->kode_item;
-        $qrcode = base64_encode(QrCode::format('svg')->size(40)->errorCorrection('H')->generate($routes));
+        $routes = 'http://inventarisreg.awalbros-hospital.com/asset-inventaris/asset-inventaris/history/' . $query->kode_item;
+        $qrcode = base64_encode(QrCode::format('svg')->size(40)->style('dot')->errorCorrection('H')->generate($routes));
         // dd($qrcode);
         $pdf = Pdf::loadView('data-inventaris.label', compact('qrcode', 'query'))->setPaper([0, 0, 161.57, 80.37], 'portrait');
         $pdfmya = $pdf->stream('Label.pdf');
@@ -262,12 +264,11 @@ class DataInventarisController extends Controller
     }
     public function update(Request $request, $id)
     {
-    if ($request->hasFile('gambar') && $request->hasFile('dokumen')) {
+    if ($request->hasFile('gambar')) {
 
         $gambar = $request->file('gambar');
         $gambar->storeAs('public/gambar', $gambar->hashName());
-            $dokumen = $request->file('dokumen');
-            $dokumen->storeAs('public/dokumen', $dokumen->hashName());
+        Storage::delete('public/gambar/' . $request->gambar);
         $data['nama'] = $request->nama;
         $data['real_name'] = $request->real_name;
         $data['no_inventaris'] = $request->no_inventaris;
@@ -276,6 +277,19 @@ class DataInventarisController extends Controller
         $data['departemen'] = $request->departemen;
         $data['pengguna'] = $request->userPengguna;
         $data['gambar'] = $gambar->hashName();
+        $query = DataInventaris::find($id);
+        $query->update($data);
+    }else if ($request->hasFile('dokumen')) {
+        $dokumen = $request->file('dokumen');
+        $dokumen->storeAs('public/dokumen', $dokumen->hashName());
+        Storage::delete('public/dokumen/' . $request->dokumen);
+        $data['nama'] = $request->nama;
+        $data['real_name'] = $request->real_name;
+        $data['no_inventaris'] = $request->no_inventaris;
+        $data['no_sn'] = $request->no_sn;
+        $data['tanggal_beli'] = $request->tanggal_beli;
+        $data['departemen'] = $request->departemen;
+        $data['pengguna'] = $request->userPengguna;
         $data['dokumen'] = $dokumen->hashName();
         $query = DataInventaris::find($id);
         $query->update($data);

@@ -109,9 +109,9 @@ Update User
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-form-label col-lg-3 col-sm-12">* Gambar</label>
-                        <div class="col-lg-9 col-md-9 col-sm-12">
-                          <div class="col-lg-9 col-md-9 col-sm-12">
+                        <label class="col-form-label col-lg-3 col-sm-12">* Dokumen</label>
+                        <div class="col-lg- col-md-9 col-sm-12">
+                          <div class="col-lg-12 col-md-12 col-sm-12">
                             <input type="file" name="dokumen" value="{{ $datainv->dokumen }}" class="form-control">
                         </div>
                         </div>

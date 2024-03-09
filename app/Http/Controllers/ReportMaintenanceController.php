@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\MaintenanceExport;
+use App\Exports\PmExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
@@ -32,5 +33,17 @@ class ReportMaintenanceController extends Controller
         $tgl_akhir = $request->input('tgl_akhir') . ' 23:59:59';
         $nama_file = 'laporan Mutasi Item Ke ruangan ' . $request->input('tgl_mulai') . ' - Hingga - ' . $request->input('tgl_akhir') . '.xlsx';
         return Excel::download(new MaintenanceExport($tgl_mulai, $tgl_akhir), $nama_file);
+    }
+    public function pm(Request $request)
+    {
+        return view('laporan.maintenance.laporanpm');
+    }
+    public function excel_pm(Request $request)
+    {
+        $tgl_mulai = $request->input('tgl_mulai') . ' 00:00:00';
+        $tgl_akhir = $request->input('tgl_akhir') . ' 23:59:59';
+
+        $nama_file = 'laporan Preventif Maintenance ' . $request->input('tgl_mulai') . ' - Hingga - ' . $request->input('tgl_akhir') . '.xlsx';
+        return Excel::download(new PmExport($tgl_mulai, $tgl_akhir), $nama_file);
     }
 }

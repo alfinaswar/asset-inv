@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use App\Models\DataInventaris;
+use App\Models\MasalahModel;
+use App\Models\KalibrasiModel;
 
 class MaintananceController extends Controller
 {
@@ -104,7 +107,26 @@ class MaintananceController extends Controller
         ]);
         return redirect()->route('maintanance.index')->with('success', 'Data berhasil ditambahkan');
     }
+    public function AddPm(Request $request)
+    {
+        //pisahkan koma
+        $latest = Maintanance::latest()->first()->id ?? 0 + 1;
+        $kd_mtnc = 'MTNC' . $latest . '';
+        $datanama = $request->nama;
+        $kodeRS = auth()->user()->kodeRS;
 
+        Maintanance::create([
+            'kode_maintanance' => $kd_mtnc,
+            'kode_item' => $datanama,
+            'assetID' => $datanama,
+            'bulan' => $request->bulan,
+            'status' => $request->status,
+            'keterangan' => $request->keterangan,
+            'id_user' => auth()->user()->id,
+            'nama_rs' => auth()->user()->kodeRS,
+        ]);
+return redirect()->back()->with('success', 'Data berhasil ditambahkan');
+    }
 
     /**
      * Display the specified resource.
