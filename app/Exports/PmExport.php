@@ -2,6 +2,8 @@
 
 namespace App\Exports;
 
+use Auth;
+use App\Models\DataInventaris;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
@@ -23,21 +25,15 @@ class PmExport implements FromView, WithEvents, WithStyles
     }
     public function view(): View
     {
-        // $test = DB::connection("mysql")
-        //         ->table('data_inventaris')
-        //         ->join('maintanance', 'maintanance.kode_item', '=', 'data_inventaris.kode_item')
-        //         ->where('maintanance.created_at', '>=', $this->tgl_mulai)
-        //         ->where('maintanance.created_at', '<=', $this->tgl_akhir)
-        //         ->get();
-        //         dd($test);
-        return view('excel.excel_pm', [
-            'pm' => DB::connection("mysql")
-                ->table('data_inventaris')
-                ->join('maintanance', 'maintanance.kode_item', '=', 'data_inventaris.kode_item')
-                ->where('maintanance.created_at', '>=', $this->tgl_mulai)
-                ->where('maintanance.created_at', '<=', $this->tgl_akhir)
-                ->get()
-        ]);
+        $data = DataInventaris::with([
+            'DataMaintenance' => function ($query) {
+                $query->select('kode_item', 'bulan','status');
+            }
+        ])
+            ->select('kode_item', 'nama', 'no_inventaris')
+            ->where('nama_rs', Auth::user()->kodeRS)
+            ->get();
+        return view('excel.excel_pm',compact('data'));
     }
     public function registerEvents(): array
     {

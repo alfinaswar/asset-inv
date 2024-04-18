@@ -34,5 +34,4 @@ class Maintanance extends Model
         'nama_rs'
     ];
 
-    
 }

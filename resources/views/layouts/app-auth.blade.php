@@ -182,7 +182,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <div class="kt-login__body">
                                 <div class="kt-login__logo">
                                     <a href="{{ route('login') }}">
-                                        <img width="30%" src="{{asset('')}}assets/media/logo/icon.png">
+                                        <img width="30%" src="{{asset('')}}assets/media/logo/Aawalbros.jpg">
                                     </a>
                                 </div>
                                 @yield('content')
@@ -198,7 +198,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 </div>
 
                 <div class="kt-grid__item kt-grid__item--fluid kt-grid__item--center kt-grid kt-grid--ver kt-login__content"
-                    style="background-image: url({{asset('')}}assets/media/logo/bg-home.png);">
+                    style="background-image: url({{asset('')}}assets/media/logo/bg-login3.png);">
                     <div class="kt-login__section">
                         <div class="kt-login__block">
                             {{-- <h3 class="kt-section__title">Selamat Datang</h3> --}}

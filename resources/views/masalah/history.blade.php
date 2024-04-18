@@ -428,15 +428,15 @@
 <script>
     $(document).ready(function() {
         $('#myform').submit(function(e) {
-            e.preventDefault(); // Prevent the form from submitting normally
+            e.preventDefault();
 
-            // Perform an AJAX request to submit the form data
+
             $.ajax({
                 type: 'POST',
                 url: $(this).attr('action'),
                 data: $(this).serialize(),
                 success: function(response) {
-                    // Show a success message using SweetAlert
+
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
@@ -444,7 +444,7 @@
                     });
                 },
                 error: function(xhr, status, error) {
-                    // Show an error message using SweetAlert
+
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',

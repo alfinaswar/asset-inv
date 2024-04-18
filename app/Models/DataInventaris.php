@@ -16,4 +16,8 @@ class DataInventaris extends Model
      */
     protected $fillable = ['nama', 'real_name','kode_item','assetID', 'no_inventaris', 'no_sn','tanggal_beli', 'nama_rs', 'departemen', 'pengguna','gambar','tgl_kalibrasi','tgl_expire','dokumen'];
 
+    public function DataMaintenance()
+    {
+        return $this->hasMany(Maintanance::class, 'kode_item', 'kode_item');
+    }
 }

@@ -36,15 +36,12 @@
   </tr>
 </thead>
 <tbody>
-    @foreach ($pm as $key => $item )
+    @foreach ($data as $key => $item )
     <tr>
       <td>{{$key + 1}}</td>
 <td>{{$item->kode_item}}</td>
 <td>{{$item->nama}}</td>
-@foreach ($item->bulan as $bln)
-<td>{{ date("F", mktime(0, 0, 0, $bln->bulan, 10)) }}</td>
-@endforeach
-
+<td>{{$item->DataMaintenance[$key+0]->bulan}}
     </tr>
     @endforeach
 
