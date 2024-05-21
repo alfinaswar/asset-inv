@@ -21,8 +21,6 @@
                         <a href="{{ route('inventaris.create') }}" class="btn btn-brand btn-elevate btn-icon-sm">
                             <i class="la la-plus"></i>
                             Tambah</a>
-
-
                     </div>
                 </div>
             </div>
@@ -101,6 +99,7 @@
         </div>
     </div>
     </div>
+
 @endsection
 @push('css')
     <link href="{{ asset('') }}assets/vendors/custom/datatables/datatables.bundle.css" rel="stylesheet"

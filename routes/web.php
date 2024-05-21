@@ -101,7 +101,7 @@ Route::prefix('inventaris')->group(function () {
     Route::get('/masteritem', [DataInventarisController::class, 'masteritem'])->name('inventaris.masteritem');
     Route::resource('inventaris', DataInventarisController::class);
     Route::get('getkategori', [DataInventarisController::class, 'getkategori'])->name('inventaris.getkategori');
-
+    Route::get('/get-ro-item', [DataInventarisController::class, 'getRoItem'])->name('inventaris.getroitem');
 });
 Route::prefix('maintanance')->group(function () {
     Route::get('/', [MaintananceController::class, 'index'])->name('maintanance.index');

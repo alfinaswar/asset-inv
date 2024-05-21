@@ -30,9 +30,10 @@ class PmExport implements FromView, WithEvents, WithStyles
                 $query->select('kode_item', 'bulan','status');
             }
         ])
-            ->select('kode_item', 'nama', 'no_inventaris')
+            ->select('kode_item', 'nama', 'no_inventaris','assetID')
             ->where('nama_rs', Auth::user()->kodeRS)
             ->get();
+        // dd($data);
         return view('excel.excel_pm',compact('data'));
     }
     public function registerEvents(): array

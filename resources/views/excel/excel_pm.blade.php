@@ -11,12 +11,12 @@
             Rumah Sakit Awal Bros</td>
     </tr>
 </table>
-<table>
+<table width="100%">
 <thead>
-  <tr>
+  <tr class="text-center>">
     <td rowspan="2">No</td>
-    <td rowspan="2">Kode Alat</td>
-    <td>Nama</td>
+    <td rowspan="2" width="20">Serial Number</td>
+    <td width="30">Nama</td>
     <td colspan="12">Bulan</td>
   </tr>
   <tr>
@@ -39,9 +39,12 @@
     @foreach ($data as $key => $item )
     <tr>
       <td>{{$key + 1}}</td>
-<td>{{$item->kode_item}}</td>
+<td>{{$item->assetID}}</td>
 <td>{{$item->nama}}</td>
-<td>{{$item->DataMaintenance[$key+0]->bulan}}
+@foreach ($item->DataMaintenance as $month )
+
+<td>{{DateTime::createFromFormat('!m', $month->bulan)->format('F');}}</td>
+@endforeach
     </tr>
     @endforeach
 

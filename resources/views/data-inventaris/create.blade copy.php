@@ -19,15 +19,6 @@ Tambah Asset Inventaris
                             <a class="nav-link active" data-toggle="tab" href="#" role="tab">
                                 <i class="flaticon2-heart-rate-monitor" aria-hidden="true"></i>Data Alat
                             </a>
-
-                        </li>
-                         <li class="nav-item">
-                             <button data-toggle="modal" data-target="#cari-nama"
-                        class="btn btn-info btn-elevate btn-icon-sm">
-                        <i class="la la-search"></i>
-                        Cari Data
-                    </button>
-
                         </li>
                     </ul>
                 </div>
@@ -213,87 +204,10 @@ Tambah Asset Inventaris
             </div>
         </div>
 
-{{-- Modal Cari Asset --}}
-    <div class="modal fade " id="cari-nama" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document" >
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Data Asset</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="UserGroupID" class="col-form-label">Nomor RO2ID</label>
-                                    <select name="UserGroupID" value="{{ old('UserGroupID') }}"
-                                        placeholder="Nama Group" onchange="cariData(event,this)" id="cariGroup" class="form-control">
-                                        <option name="">--Select Group--</option>
-                                        <option name="elektromedis">ElektroMedis</option>
-                                        <option name="MTNC">MTNC</option>
-                                        </select>
-                                </div>
-                            </div>
 
-                        </div>
-
-                        <div class="kt-section kt-mt-10">
-                            <div class="kt-section__content">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Nomor RO2ID</th>
-                                            <th>Nama Item</th>
-                                            <th>Departemen</th>
-                                            <th>Tanggal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="dataInventaris">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 @endsection
 @push('js')
 <script>
-    var cariData=function(e,attr){
-            e.preventDefault();
-            var cariGroup= $('#cariGroup').val();
-            $.ajax({
-                type: "GET",
-                url: "{{ route('inventaris.getroitem') }}",
-                data: {
-                    cariGroup:cariGroup
-
-                },
-                dataType: "json",
-                beforeSend: function() {
-                            KTApp.block('.modal-body', {
-                                overlayColor: '#000000',
-                                type: 'v2',
-                                state: 'success',
-                                message: 'Please wait...'
-                            });
-                            $('.progress').show()
-                            $('#dataAsset').empty();
-                        },
-                success: function (res) {
-                    $('#dataAsset').append(res.view);
-                },complete: function() {
-                            KTApp.unblock('.modal-body');
-                            $('.progress').hide()
-                        }
-            });
-        }
     $('#kategori').on('change',function(){
                  let kategori = $('#kategori').val();
                  $('#nama').select2({
@@ -374,7 +288,7 @@ Tambah Asset Inventaris
             });
         }
         jQuery(document).ready(function() {
-        cariData()
+
             select_departemen();
 
             $('.progress').hide()

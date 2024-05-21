@@ -166,6 +166,38 @@ class DataInventarisController extends Controller
         }
         return response()->json($item);
     }
+    public function getRoItem(Request $request)
+    {
+        if (auth()->check()) {
+            $kodeRS = auth()->user()->kodeRS;
+            if ($kodeRS === 'K') {       //ayani
+                $selectdb = 'mysql2';
+            } elseif ($kodeRS === 'I') { //panam
+                $selectdb = 'mysql3';
+            } elseif ($kodeRS === 'B') { //batan
+                $selectdb = 'mysql4';
+            } elseif ($kodeRS === 'A') { //sudirman
+                $selectdb = 'mysql5';
+            } elseif ($kodeRS === 'G') { //ujung batu
+                $selectdb = 'mysql6';
+            } elseif ($kodeRS === 'S') { //bagan batu
+                $selectdb = 'mysql7';
+            } elseif ($kodeRS === 'B') { //botania
+                $selectdb = 'mysql8';
+            }
+        }
+        $query = DB::connection($selectdb)
+            ->table('ro2')
+            ->where(function ($row) use ($request) {
+                if ($request->cariGroup) {
+                    $row->where('UserGroupID', 'LIKE', "%$request->cariGroup%");
+                }
+            })->orderBy('TanggalBuat', 'desc')
+            ->take(15)->get();
+        $view = view('masalah.data-asset', compact('query'))->render();
+        return response()->json(['data' => $query, 'view' => $view], 200);
+    }
+
     public function store(request $request)
     {
         $datanama = $request->nama;

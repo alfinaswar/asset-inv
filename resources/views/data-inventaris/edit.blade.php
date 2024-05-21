@@ -1,16 +1,16 @@
 @extends('layouts.app')
 @push('title')
-User
+Inventaris
 @endpush
 @push('sub-title')
-Update User
+Update Data Inventaris
 @endpush
 @section('content')
 <div class="kt-portlet">
     <div class="kt-portlet__head">
         <div class="kt-portlet__head-label">
             <h3 class="kt-portlet__head-title">
-                Upadate Data User
+                Update Data Inventaris
             </h3>
         </div>
     </div>

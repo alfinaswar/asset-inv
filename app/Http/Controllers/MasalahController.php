@@ -22,7 +22,7 @@ class MasalahController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {   
+    {
         if ($request->ajax()) {
             $data = MasalahModel::orderBy('id', 'desc')->where('nama_rs',auth()->user()->kodeRS)->get();
             return DataTables::of($data)
@@ -235,6 +235,8 @@ class MasalahController extends Controller
         }
         return response()->json($item);
     }
+
+
     public function excel_masalah(Request $request)
     {
         $tgl_mulai = $request->input('tgl_mulai') . ' 00:00:00';
@@ -253,7 +255,7 @@ class MasalahController extends Controller
         $data_mtnc = Maintanance::where('assetID', $kode_item)->orderby('created_at', 'desc')->get();
         $bulanakhir = Maintanance::where('assetID', $kode_item)->orderby('created_at', 'desc')->latest();
         return view('masalah.history', compact('data_alat','detail_masalah','data_kalibrasi','data_mtnc','bulanakhir'));
-  
+
     }
 
 }
