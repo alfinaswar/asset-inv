@@ -7,7 +7,9 @@ use App\Http\Controllers\MaintananceController;
 use App\Http\Controllers\MasalahController;
 use App\Http\Controllers\MasterDepartemenController;
 use App\Http\Controllers\MasterIPController;
+use App\Http\Controllers\MasterMerkController;
 use App\Http\Controllers\MasterPenggunaController;
+use App\Http\Controllers\MasterUnitController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\PemakaianController;
 use App\Http\Controllers\PerbaikanController;
@@ -76,6 +78,8 @@ Route::group(['prefix' => 'master'], function () {
     Route::resource('master-ip', MasterIPController::class);
     Route::get('master-departemen/get-departemen', [AssetManagemenController::class, 'getDepartemen'])->name('master.get-departemen');
     Route::resource('master-departemen', MasterDepartemenController::class);
+    Route::resource('master-unit', MasterUnitController::class);
+    Route::resource('master-merk', MasterMerkController::class);
 
 
     Route::prefix('master-pengguna')->group(function () {
@@ -96,6 +100,7 @@ Route::prefix('inventaris')->group(function () {
     Route::get('/create', [DataInventarisController::class, 'create'])->name('inventaris.create');
     Route::post('/store', [DataInventarisController::class, 'store'])->name('inventaris.store');
     Route::get('/get-item', [DataInventarisController::class, 'getItem'])->name('inventaris.get-item');
+    Route::get('/get-unit', [DataInventarisController::class, 'getUnit'])->name('inventaris.get-unit');
     Route::get('/label/{id}', [DataInventarisController::class, 'label'])->name('inventaris.label');
     Route::get('/tesprint', [DataInventarisController::class, 'tesprint'])->name('inventaris.tesprint');
     Route::get('/masteritem', [DataInventarisController::class, 'masteritem'])->name('inventaris.masteritem');

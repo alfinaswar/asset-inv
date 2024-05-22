@@ -16,6 +16,7 @@ class CreateMasterDepartemenTable extends Migration
         Schema::create('master_departemen', function (Blueprint $table) {
             $table->id();
             $table->string('nama', 100);
+            $table->string('kodeRS', 3);
             $table->softDeletes();
             $table->timestamps();
         });

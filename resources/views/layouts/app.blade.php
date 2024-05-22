@@ -315,8 +315,20 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                 @endif" aria-haspopup="true"><a
                                                 href="{{ route('master-departemen.index') }}" class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
+                                                    class="kt-menu__link-text">Master Departemen</span></a></li>
+                                                    <li class="kt-menu__item  @if (request()->segment(2)=='master-unit')
+                                                                    {{ 'kt-menu__item--active' }}
+                                                                @endif" aria-haspopup="true"><a
+                                                href="{{ route('master-unit.index') }}" class="kt-menu__link "><i
+                                                    class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                                     class="kt-menu__link-text">Master Unit</span></a></li>
-
+<li class="kt-menu__item  @if (request()->segment(2)=='master-merk')
+                                                        {{ 'kt-menu__item--active' }}
+                                                    @endif" aria-haspopup="true"><a
+                                                href="{{ route('master-merk.index') }}"
+                                                class="kt-menu__link "><i
+                                                    class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
+                                                    class="kt-menu__link-text">Master Merk</span></a></li>
                                          <li class="kt-menu__item  @if (request()->segment(2)=='master-rs')
                                                         {{ 'kt-menu__item--active' }}
                                                     @endif" aria-haspopup="true"><a

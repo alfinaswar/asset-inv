@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUjiLajuBuangTmaTable extends Migration
+class CreateMasterMerksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class CreateUjiLajuBuangTmaTable extends Migration
      */
     public function up()
     {
-        Schema::create('_uji__laju__buang__tma', function (Blueprint $table) {
+        Schema::create('master_merks', function (Blueprint $table) {
             $table->id();
+            $table->string('nama');
+            $table->string('nama_rs',15)->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ class CreateUjiLajuBuangTmaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('_uji__laju__buang__tma');
+        Schema::dropIfExists('master_merks');
     }
 }

@@ -3,7 +3,7 @@
 Master Unit
 @endpush
 @push('sub-title')
-Tambah Departemen
+Update Unit
 @endpush
 @section('content')
 <div class="kt-portlet">
@@ -15,9 +15,11 @@ Tambah Departemen
         </div>
     </div>
     <!--begin::Form-->
-    <form class="kt-form kt-form--label-right" id="simpanFrom" action="{{ route('master-departemen.store') }}"
-        method="POST" accept-charset="utf-8" enctype="multipart/form-data">
+    <form class="kt-form kt-form--label-right" id="simpanFrom"
+        action="{{ route('master-unit.update',$data->id) }}" method="POST" accept-charset="utf-8"
+        enctype="multipart/form-data">
         @csrf
+        @method('PUT')
         <div class="kt-portlet__body">
             @if ($errors->any())
             <div class="alert alert-warning fade show" role="alert">
@@ -36,26 +38,24 @@ Tambah Departemen
                 </div>
             </div>
             @endif
-            <div class="row">
 
+            <div class="row">
                 <div class="col-md-12">
                     <div class="form-group row">
-                        <label for="nama" class="col-3 col-form-label">* Nama Departemen</label>
-                        <div class="col-9">
-                            <input class="form-control" name="nama" value="{{ old('nama') }}"
-                                placeholder="Nama Departemen" type="text" value="" id="nama">
+                        <label for="namaUnit" class="col-2 col-form-label">Nama Unit</label>
+                        <div class="col-10">
+                            <input class="form-control" name="namaUnit" value="{{ $data->namaUnit }}"
+                                placeholder="Nama Unit" type="text" value="" id="namaUnit">
                         </div>
                     </div>
 
                 </div>
-
-
             </div>
         </div>
         <div class="kt-portlet__foot">
             <div class="kt-form__actions">
                 <button type="button" onclick="simpan(event,this)" class="btn btn-info">Submit</button>
-                <a href="{{ route('master-departemen.index') }}">
+                <a href="{{ route('master-unit.index') }}">
                     <button type="button" class="btn btn-secondary">Cancel</button>
                 </a>
             </div>
@@ -78,7 +78,8 @@ Tambah Departemen
             $("#simpanFrom").submit();
         }
         jQuery(document).ready(function() {
-            $('.progress').hide()
+
+            $('.progress').hide();
         });
 </script>
 @endpush

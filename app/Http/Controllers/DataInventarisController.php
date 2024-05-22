@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Models\DataInventaris;
 use App\Models\MasterRs;
 use App\Models\MasterDepartemenModel;
+use App\Models\MasterUnit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
@@ -166,8 +167,58 @@ class DataInventarisController extends Controller
         }
         return response()->json($item);
     }
+    public function getUnit(Request $request)
+    {
+
+        if (auth()->check()) {
+            $kodeRS = auth()->user()->kodeRS;
+            switch ($kodeRS) {
+                case 'K':
+                    $selectdb = 'mysql2';
+                    break;
+                case 'I':
+                    $selectdb = 'mysql3';
+                    break;
+                case 'B':
+                    $selectdb = 'mysql4';
+                    break;
+                case 'A':
+                    $selectdb = 'mysql5';
+                    break;
+                case 'G':
+                    $selectdb = 'mysql6';
+                    break;
+                case 'S':
+                    $selectdb = 'mysql7';
+                    break;
+                case 'R':
+                    $selectdb = 'mysql8';
+                    break;
+                case 'D':
+                    $selectdb = 'mysql9';
+                    break;
+                default:
+                    $selectdb = 'Unknown';
+                    break;
+            }
+        }
+        $item = [];
+        $departemen = $request->departemen;
+        // dd($departemen);
+        $dataItem = MasterUnit::where('idDepartemen', $departemen);
+        if ($request->has('q')) {
+            $search = $request->q;
+            $dataItem->where('namaUnit', 'LIKE', "%$search%")->limit(5)
+                ->get(['id', 'namaUnit']);
+            $item = $dataItem->pluck('namaUnit', 'id');
+        } else {
+            $item = $dataItem->limit(5)->get(['id', 'namaUnit'])->pluck('namaUnit', 'id');
+        }
+        return response()->json($item);
+    }
     public function getRoItem(Request $request)
     {
+        // dd($request->cariNomorRo);
         if (auth()->check()) {
             $kodeRS = auth()->user()->kodeRS;
             if ($kodeRS === 'K') {       //ayani
@@ -189,27 +240,26 @@ class DataInventarisController extends Controller
         $query = DB::connection($selectdb)
             ->table('ro2')
             ->where(function ($row) use ($request) {
-                if ($request->cariGroup) {
-                    $row->where('UserGroupID', 'LIKE', "%$request->cariGroup%");
+                if ($request->cariNomorRo) {
+                    $row->where('ROID', 'LIKE', "$request->cariNomorRo");
                 }
-            })->orderBy('TanggalBuat', 'desc')
+            })
+            ->join('masteritem','ro2.ItemID','=','masteritem.ItemID')
+            ->select('ro2.*','masteritem.Nama as NamaItem', 'masteritem.GroupItemID', 'masteritem.ItemID')
+            ->orderBy('TanggalBuat', 'desc')
             ->take(15)->get();
-        $view = view('masalah.data-asset', compact('query'))->render();
+        $view = view('data-inventaris.data-item', compact('query'))->render();
         return response()->json(['data' => $query, 'view' => $view], 200);
     }
 
     public function store(request $request)
     {
-        $datanama = $request->nama;
-        $result = explode(",", $datanama);
-        $assetid = $result[0];
-        $nama = $result[1];
         $latestId = null;
         if (DataInventaris::count() > 0) {
             $latestId = DataInventaris::latest()->first()->id + 1;
         }
        $kode_item = 'Item-' . str_pad($latestId, 8, '0', STR_PAD_LEFT);
-
+       $kategori = $request->asd;
        if ($request->hasFile('dokumen') && $request->hasFile('gambar') ) {
             $gambar = $request->file('gambar');
             $gambar->storeAs('public/gambar', $gambar->hashName());
@@ -217,10 +267,11 @@ class DataInventarisController extends Controller
             $dokumen->storeAs('public/dokumen', $dokumen->hashName());
 
             DataInventaris::create([
-                'nama' => $nama,
+                'ROID' => $request->ROID,
+                'nama' => $request->nama,
                 'real_name' => $request->real_name,
                 'kode_item' => $kode_item,
-                'assetID' => $assetid,
+                'assetID' => $request->ItemID,
                 'no_inventaris' => $request->no_inventaris,
                 'no_sn' => $request->no_sn,
                 'tanggal_beli' => $request->tanggal_beli,
@@ -243,10 +294,11 @@ class DataInventarisController extends Controller
             // $dokumen->storeAs('public/dokumen', $dokumen->hashName());
 
             DataInventaris::create([
-                'nama' => $nama,
+                'ROID' => $request->ROID,
+                'nama' => $request->nama,
                 'real_name' => $request->real_name,
                 'kode_item' => $kode_item,
-                'assetID' => $assetid,
+                'assetID' => $request->ItemID,
                 'no_inventaris' => $request->no_inventaris,
                 'no_sn' => $request->no_sn,
                 'tanggal_beli' => $request->tanggal_beli,
@@ -266,10 +318,11 @@ class DataInventarisController extends Controller
             $dokumen->storeAs('public/dokumen', $dokumen->hashName());
 
             DataInventaris::create([
-                'nama' => $nama,
+                'ROID' => $request->ROID,
+                'nama' => $request->nama,
                 'real_name' => $request->real_name,
                 'kode_item' => $kode_item,
-                'assetID' => $assetid,
+                'assetID' => $request->ItemID,
                 'no_inventaris' => $request->no_inventaris,
                 'no_sn' => $request->no_sn,
                 'tanggal_beli' => $request->tanggal_beli,

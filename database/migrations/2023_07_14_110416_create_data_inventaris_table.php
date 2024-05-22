@@ -15,13 +15,22 @@ class CreateDataInventarisTable extends Migration
     {
         Schema::create('data_inventaris', function (Blueprint $table) {
             $table->id();
-            $table->string('nama', 100)->default('text');
-            $table->string('kode_item', 100)->default('text');
-            $table->string('no_inventaris', 100)->nullable()->default('text');
-            $table->string('no_sn', 100)->nullable()->default('text');
-            $table->string('nama_rs', 100)->nullable()->default('text');
-            $table->string('departemen', 100)->nullable()->default('text');
-            $table->string('pengguna', 100)->nullable()->default('text');
+            $table->string('kode_item', 100)->nullable();
+            $table->string('RO2ID', 120)->nullable();
+            $table->string('ROID', 120)->nullable();
+            $table->string('assetID', 100)->nullable();
+            $table->string('nama', 100)->nullable();
+            $table->string('real_name', 100)->nullable();
+            $table->string('no_inventaris', 100)->nullable();
+            $table->string('no_sn', 100)->nullable();
+            $table->dateTime('tanggal_beli')->nullable();
+            $table->string('nama_rs', 100)->nullable();
+            $table->string('departemen', 100)->nullable();
+            $table->string('pengguna', 100)->nullable();
+            $table->string('gambar', 100)->nullable();
+            $table->date('tgl_kalibrasi')->nullable();
+            $table->date('tgl_expire')->nullable();
+            $table->string('dokumen', 100)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

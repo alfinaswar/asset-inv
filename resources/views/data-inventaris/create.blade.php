@@ -59,7 +59,7 @@ Tambah Asset Inventaris
 
             <div class="row">
                 <div class="col-md-6">
-                      <div class="form-group row">
+                      {{-- <div class="form-group row">
                         <label for="kategori" class="col-3 col-form-label">* Kategori</label>
                         <div class=" col-lg-9 col-md-4 col-sm-12">
                             <select class="form-control " id="kategori" name="kategori">
@@ -69,13 +69,33 @@ Tambah Asset Inventaris
                             </select>
 
                         </div>
-                    </div>
-                    <div class="form-group row">
+                    </div> --}}
+
+                    {{-- <div class="form-group row">
                         <label for="nama" class="col-3 col-form-label">* Nama Alat</label>
                         <div class=" col-lg-9 col-md-4 col-sm-12">
                             <select class="form-control kt-select2" id="nama" name="nama">
                             </select>
 
+                        </div>
+                    </div> --}}
+                     <div class="form-group row">
+                        <label for="nama" class="col-3 col-form-label">* Nama Alat</label>
+                        <div class=" col-lg-9 col-md-4 col-sm-12">
+                        <input type="text" name="nama" class="form-control" id="NamaAlat" placeholder="Nama Alat">
+                        <input type="hidden" name="ItemID" class="form-control" id="ItemID" placeholder="">
+                        </div>
+                    </div>
+                     <div class="form-group row">
+                        <label for="nama" class="col-3 col-form-label">* Nomor RO</label>
+                        <div class=" col-lg-9 col-md-4 col-sm-12">
+                        <input type="text" name="ROID" class="form-control" id="ROID" placeholder="Nomor RO">
+                        </div>
+                    </div>
+                     <div class="form-group row">
+                        <label for="nama" class="col-3 col-form-label">* Nomor RO2ID</label>
+                        <div class=" col-lg-9 col-md-4 col-sm-12">
+                        <input type="text" name="RO2ID" class="form-control" id="RO2ID" placeholder="Nomor RO">
                         </div>
                     </div>
                      <div class="form-group row">
@@ -109,10 +129,17 @@ Tambah Asset Inventaris
 
                 </div>
                 <div class="col-md-6">
+                <div class="form-group row">
+                        <label class="col-form-label col-lg-3 col-sm-12">* Departemen</label>
+                        <div class=" col-lg-9 col-md-9 col-sm-12">
+<select class="form-control kt-select2" id="departemen" name="departemen">
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <label class="col-form-label col-lg-3 col-sm-12">* Unit</label>
                         <div class=" col-lg-9 col-md-9 col-sm-12">
-<select class="form-control kt-select2" id="departemen" name="departemen">
+<select class="form-control kt-select2" id="unit" name="unit">
                             </select>
                         </div>
                     </div>
@@ -192,6 +219,12 @@ Tambah Asset Inventaris
                                 <input type="file" name="dokumen" id="upload-btn" class="form-control-file">
                             </div>
                         </div>
+                         <div class="form-group row">
+                            <label for="nama_perangkat" class="col-form-label col-lg-3 col-sm-12">* Uplpad Manual Book</label>
+                            <div class=" col-lg-9 col-md-9 col-sm-12">
+                                <input type="file" name="manualbook" id="upload-btn" class="form-control-file">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -219,22 +252,21 @@ Tambah Asset Inventaris
             <div class="modal-dialog modal-lg" role="document" >
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Data Asset</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Data Inventaris</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="row col-12">
+
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="UserGroupID" class="col-form-label">Nomor RO2ID</label>
-                                    <select name="UserGroupID" value="{{ old('UserGroupID') }}"
-                                        placeholder="Nama Group" onchange="cariData(event,this)" id="cariGroup" class="form-control">
-                                        <option name="">--Select Group--</option>
-                                        <option name="elektromedis">ElektroMedis</option>
-                                        <option name="MTNC">MTNC</option>
-                                        </select>
-                                </div>
+                                    <label for="NomorRo" class="col-form-label">Nomor ROID</label>
+                                   <input type="text" class="form-control" id="NomorRo" name="NomorRo" placeholder="Nomor ROID">
+                                   </div>
+                                   <button type="button" class="btn btn-md btn-primary" onclick="cariData(event,this)">Cari</button>
+
+
                             </div>
 
                         </div>
@@ -244,7 +276,8 @@ Tambah Asset Inventaris
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Nomor RO2ID</th>
+                                            <th>Nomor ROID</th>
+                                             <th>Item ID</th>
                                             <th>Nama Item</th>
                                             <th>Departemen</th>
                                             <th>Tanggal</th>
@@ -267,13 +300,12 @@ Tambah Asset Inventaris
 <script>
     var cariData=function(e,attr){
             e.preventDefault();
-            var cariGroup= $('#cariGroup').val();
+            var cariNomorRo= $('#NomorRo').val();
             $.ajax({
                 type: "GET",
                 url: "{{ route('inventaris.getroitem') }}",
                 data: {
-                    cariGroup:cariGroup
-
+                    cariNomorRo:cariNomorRo
                 },
                 dataType: "json",
                 beforeSend: function() {
@@ -284,15 +316,29 @@ Tambah Asset Inventaris
                                 message: 'Please wait...'
                             });
                             $('.progress').show()
-                            $('#dataAsset').empty();
+                            $('#dataInventaris').empty();
                         },
                 success: function (res) {
-                    $('#dataAsset').append(res.view);
+                    $('#dataInventaris').append(res.view);
                 },complete: function() {
                             KTApp.unblock('.modal-body');
                             $('.progress').hide()
                         }
             });
+        }
+        var data=function(attr){
+            var ItemID=$(attr).find('#dataItemID').text();
+            var NomorRo=$(attr).find('#dataNomorRo').text();
+            var NomorRo2=$(attr).find('#dataNomorRo2').text();
+            var Nama=$(attr).find('#dataNama').text();
+            var GroupItemID=$(attr).find('#dataGroupItemID').text();
+            var TanggalBuat=$(attr).find('#dataTanggal').text();
+
+            $('#ItemID').val(ItemID);
+            $('#RO2ID').val(NomorRo2);
+            $('#ROID').val(NomorRo);
+            $('#NamaAlat').val(Nama);
+            $('#cari-nama').modal('toggle');
         }
     $('#kategori').on('change',function(){
                  let kategori = $('#kategori').val();
@@ -307,8 +353,31 @@ Tambah Asset Inventaris
                             return {
                                 results: $.map(data, function(item,key) {
                                     return {
-                                        text:item,
+                                    text:item,
                                     id:key + ',' + item
+                                    }
+                                })
+                            };
+                        }
+                    }
+                });
+
+            })
+     $('#departemen').on('change',function(){
+                 let departemen = $('#departemen').val();
+                 $('#unit').select2({
+                    placeholder: 'Select Unit',
+                    allowClear: true,
+                    ajax: {
+                        url: "{{ route('inventaris.get-unit') }}?departemen=" + departemen,
+                        dataType: 'json',
+                        delay: 250,
+                        processResults: function(data) {
+                            return {
+                                results: $.map(data, function(item,key) {
+                                    return {
+                                        text:item,
+                                    id:item
                                     }
                                 })
                             };
@@ -347,13 +416,35 @@ Tambah Asset Inventaris
                 state: 'success',
                 message: 'Please wait...'
             });
-            $('.progress').show()
+            // $('.progress').show()
             $(id).addClass('kt-spinner kt-spinner--md kt-spinner--danger disabled');
             $("#simpanForm").submit();
         }
         var select_departemen = function() {
             $('#departemen').select2({
                 placeholder: "Select departemen",
+                minimumInputLength: 1,
+                ajax: {
+                    url: '{{ route("master.get-departemen") }}',
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(item) {
+                                return {
+                                    text: item.nama,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+        }
+        var select_unit = function() {
+            $('#unit').select2({
+                placeholder: "Select Unit",
                 minimumInputLength: 1,
                 ajax: {
                     url: '{{ route("master.get-departemen") }}',
@@ -373,11 +464,11 @@ Tambah Asset Inventaris
                 }
             });
         }
-        jQuery(document).ready(function() {
-        cariData()
-            select_departemen();
 
-            $('.progress').hide()
+        jQuery(document).ready(function() {
+        select_departemen()
+        cariData();
+        data();
         });
 </script>
 @endpush

@@ -1,21 +1,21 @@
 @extends('layouts.app')
 @push('title')
-Master Unit
+Master Merk
 @endpush
 @push('sub-title')
-Tambah Departemen
+Tambah Merk
 @endpush
 @section('content')
 <div class="kt-portlet">
     <div class="kt-portlet__head">
         <div class="kt-portlet__head-label">
             <h3 class="kt-portlet__head-title">
-                Master Unit
+                Master Merk
             </h3>
         </div>
     </div>
     <!--begin::Form-->
-    <form class="kt-form kt-form--label-right" id="simpanFrom" action="{{ route('master-departemen.store') }}"
+    <form class="kt-form kt-form--label-right" id="simpanFrom" action="{{ route('master-merk.store') }}"
         method="POST" accept-charset="utf-8" enctype="multipart/form-data">
         @csrf
         <div class="kt-portlet__body">
@@ -37,25 +37,23 @@ Tambah Departemen
             </div>
             @endif
             <div class="row">
-
                 <div class="col-md-12">
                     <div class="form-group row">
-                        <label for="nama" class="col-3 col-form-label">* Nama Departemen</label>
+                        <label for="nama" class="col-3 col-form-label">* Nama Merk</label>
                         <div class="col-9">
                             <input class="form-control" name="nama" value="{{ old('nama') }}"
-                                placeholder="Nama Departemen" type="text" value="" id="nama">
+                                placeholder="Nama Merk" type="text" value="" id="nama">
                         </div>
                     </div>
 
                 </div>
-
 
             </div>
         </div>
         <div class="kt-portlet__foot">
             <div class="kt-form__actions">
                 <button type="button" onclick="simpan(event,this)" class="btn btn-info">Submit</button>
-                <a href="{{ route('master-departemen.index') }}">
+                <a href="{{ route('master-merk.index') }}">
                     <button type="button" class="btn btn-secondary">Cancel</button>
                 </a>
             </div>

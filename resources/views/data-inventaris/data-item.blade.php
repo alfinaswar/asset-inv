@@ -1,11 +1,11 @@
 
 @foreach ( $query as $key=> $val )
-
 <tr onclick="data(this)">
-    <td id="dataRo2id">{{ $val->Ro2ID }}</td>
-    <td id="dataNama">{{ $val->Nama }}</td>
-    <td id="dataDepartemen">{{ $val->Departemen }}</td>
-    <td id="dataTanggal">{{ $val->Tanggal }}</td>
+    <td id="dataNomorRo2">{{ $val->RO2ID }}</td>
+    <td id="dataNomorRo">{{ $val->ROID }}</td>
+    <td id="dataItemID">{{ $val->ItemID }}</td>
+    <td id="dataNama">{{ $val->NamaItem }}</td>
+    <td id="dataGroupItemID">{{ $val->GroupItemID }}</td>
+    <td id="dataTanggal">{{ $val->TanggalBuat }}</td>
 </tr>
-
 @endforeach

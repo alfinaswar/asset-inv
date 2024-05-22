@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMasterPenggunasTable extends Migration
+class CreateMasterUnitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateMasterPenggunasTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_penggunas', function (Blueprint $table) {
+        Schema::create('master_units', function (Blueprint $table) {
             $table->id();
-            $table->string('nama', 100);
-            $table->softDeletes();
+            $table->integer('idDepartemen');
+            $table->string('namaUnit', 110)->nullable();
+            $table->string('nama_rs', 10)->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateMasterPenggunasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_penggunas');
+        Schema::dropIfExists('master_units');
     }
 }
