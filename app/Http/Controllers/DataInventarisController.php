@@ -11,7 +11,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\MasalahController;
-
+use Illuminate\Contracts\Support\ValidatedData;
 
 class DataInventarisController extends Controller
 {
@@ -254,20 +254,29 @@ class DataInventarisController extends Controller
 
     public function store(request $request)
     {
+        $this->validate($request, [
+            'dokumen' => 'required|file|mimes:pdf|max:4096',
+            'gambar' => 'required|file|mimes:jpeg,jpg,png|max:4096',
+            'manualbook' => 'required|file|mimes:pdf|max:4096',
+        ]);
+
         $latestId = null;
         if (DataInventaris::count() > 0) {
             $latestId = DataInventaris::latest()->first()->id + 1;
         }
        $kode_item = 'Item-' . str_pad($latestId, 8, '0', STR_PAD_LEFT);
        $kategori = $request->asd;
-       if ($request->hasFile('dokumen') && $request->hasFile('gambar') ) {
+       if ($request->hasFile('dokumen') && $request->hasFile('gambar') && $request->hasFile('manualbook') ) {
             $gambar = $request->file('gambar');
             $gambar->storeAs('public/gambar', $gambar->hashName());
             $dokumen = $request->file('dokumen');
             $dokumen->storeAs('public/dokumen', $dokumen->hashName());
+            $manualbook = $request->file('manualbook');
+            $manualbook->storeAs('public/manualbook', $dokumen->hashName());
 
             DataInventaris::create([
                 'ROID' => $request->ROID,
+                'RO2ID' => $request->RO2ID,
                 'nama' => $request->nama,
                 'real_name' => $request->real_name,
                 'kode_item' => $kode_item,
@@ -282,6 +291,7 @@ class DataInventarisController extends Controller
                 'tgl_kalibrasi' => $request->tgl_kalibrasi,
                 'tgl_expire' => $request->tgl_expire,
                 'dokumen' => $dokumen->hashName(),
+                'manualbook' => $manualbook->hashName(),
                 'nama_rs' => auth()->user()->kodeRS,
             ]);
         }
@@ -295,6 +305,7 @@ class DataInventarisController extends Controller
 
             DataInventaris::create([
                 'ROID' => $request->ROID,
+                'RO2ID' => $request->RO2ID,
                 'nama' => $request->nama,
                 'real_name' => $request->real_name,
                 'kode_item' => $kode_item,
@@ -319,6 +330,7 @@ class DataInventarisController extends Controller
 
             DataInventaris::create([
                 'ROID' => $request->ROID,
+                'RO2ID' => $request->RO2ID,
                 'nama' => $request->nama,
                 'real_name' => $request->real_name,
                 'kode_item' => $kode_item,
@@ -333,6 +345,31 @@ class DataInventarisController extends Controller
                 'tgl_kalibrasi' => $request->tgl_kalibrasi,
                 'tgl_expire' => $request->tgl_expire,
                 'dokumen' => $dokumen->hashName(),
+                'nama_rs' => auth()->user()->kodeRS,
+            ]);
+        } elseif ($request->hasFile('manualboook')) {
+            // $gambar = $request->file('gambar');
+            // $gambar->storeAs('public/gambar', $gambar->hashName());
+            $manualbook = $request->file('manualbook');
+            $manualbook->storeAs('public/manualbook', $manualbook->hashName());
+
+            DataInventaris::create([
+                'ROID' => $request->ROID,
+                'RO2ID' => $request->RO2ID,
+                'nama' => $request->nama,
+                'real_name' => $request->real_name,
+                'kode_item' => $kode_item,
+                'assetID' => $request->ItemID,
+                'no_inventaris' => $request->no_inventaris,
+                'no_sn' => $request->no_sn,
+                'tanggal_beli' => $request->tanggal_beli,
+                'keterangan' => $request->keterangan,
+                'departemen' => $request->departemen,
+                'pengguna' => $request->userPengguna,
+                // 'gambar' => $gambar->hashName(),
+                'tgl_kalibrasi' => $request->tgl_kalibrasi,
+                'tgl_expire' => $request->tgl_expire,
+                'manualbook' => $manualbook->hashName(),
                 'nama_rs' => auth()->user()->kodeRS,
             ]);
         }

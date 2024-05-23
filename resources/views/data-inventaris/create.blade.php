@@ -95,7 +95,7 @@ Tambah Asset Inventaris
                      <div class="form-group row">
                         <label for="nama" class="col-3 col-form-label">* Nomor RO2ID</label>
                         <div class=" col-lg-9 col-md-4 col-sm-12">
-                        <input type="text" name="RO2ID" class="form-control" id="RO2ID" placeholder="Nomor RO">
+                        <input type="text" name="RO2ID" class="form-control" id="RO2ID" placeholder="Nomor RO2ID">
                         </div>
                     </div>
                      <div class="form-group row">
@@ -198,7 +198,6 @@ Tambah Asset Inventaris
                     <div class="tab-pane active" id="kt_portlet_base_demo_3_3_tab_content" role="tabpanel">
                 <div class="row">
                     <div class="col-md-6">
-
                         <div class="form-group row">
                             <label class="col-form-label col-lg-3 col-sm-12">Tanggal Kalibrasi</label>
                             <div class="col-lg-9 col-md-9 col-sm-12">

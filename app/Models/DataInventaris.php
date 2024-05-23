@@ -11,10 +11,11 @@ class DataInventaris extends Model
 
     /**
      * The attributes that are mass assignable.
+     * prote
      *
      * @var array
      */
-    protected $fillable = ['ROID','nama','real_name','kode_item','assetID', 'no_inventaris', 'no_sn','tanggal_beli', 'nama_rs', 'departemen', 'pengguna','gambar','tgl_kalibrasi','tgl_expire','dokumen'];
+    protected $fillable = ['RO2ID','ROID','nama','real_name','kode_item','assetID', 'no_inventaris', 'no_sn','tanggal_beli', 'nama_rs', 'departemen', 'pengguna','gambar','tgl_kalibrasi','tgl_expire','dokumen','manualbook'];
 
     public function DataMaintenance()
     {
