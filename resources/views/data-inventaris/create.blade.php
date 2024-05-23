@@ -56,7 +56,11 @@ Tambah Asset Inventaris
                 </div>
             </div>
             @endif
-
+@if(session('warning'))
+    <div class="alert alert-warning">
+        {{ session('warning') }}
+    </div>
+@endif
             <div class="row">
                 <div class="col-md-6">
                       {{-- <div class="form-group row">
@@ -294,6 +298,7 @@ Tambah Asset Inventaris
                 </div>
             </div>
         </div>
+
 @endsection
 @push('js')
 <script>

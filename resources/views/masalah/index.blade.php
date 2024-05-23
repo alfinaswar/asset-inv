@@ -157,10 +157,10 @@ Riwayat Perbaikan
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Group</th>
+                                            <th>Judul</th>
                                             <th>Kasus</th>
                                             <th>Tanggal</th>
-                                            <th>Ditugaskan Ke</th>
+                                            <th>Keterangan</th>
                                         </tr>
                                     </thead>
                                     <tbody id="dataAsset">
@@ -371,13 +371,14 @@ Riwayat Perbaikan
             var judul=$(attr).find('#dataJudul').text();
             var Kasus=$(attr).find('#dataKasus').text();
             var Tanggal=$(attr).find('#dataTanggal').text();
+            var keterangan=$(attr).find('#dataKeterangan').text();
 
 
             var UserGroupID=$(attr).find('#dataUserGroupID').text();
             $('#judul').val(judul);
             $('#Kasus').val(Kasus);
             $('#Tanggal').val(Tanggal);
-
+$('#keterangan').val(keterangan);
             $('#UserGroupID').val(UserGroupID);
             $('#cari-perangkat').modal('toggle');
         }

@@ -11,6 +11,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\MasalahController;
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\ValidatedData;
 
 class DataInventarisController extends Controller
@@ -254,11 +255,27 @@ class DataInventarisController extends Controller
 
     public function store(request $request)
     {
-        $this->validate($request, [
-            'dokumen' => 'required|file|mimes:pdf|max:4096',
-            'gambar' => 'required|file|mimes:jpeg,jpg,png|max:4096',
-            'manualbook' => 'required|file|mimes:pdf|max:4096',
-        ]);
+// dd($request->ItemID);
+        $CekItem = DataInventaris::where('ROID', $request->ROID)
+            ->where('assetID', $request->ItemID)
+            ->first();
+
+        if ($CekItem) {
+            return redirect()->back()->with('warning', 'Inventaris dengan ROID dan Kode Item tersebut sudah ada.');
+        }
+
+        if($request->userPengguna == "Medis"){
+            $JenisItem = "MED";
+        }else{
+            $JenisItem = "UMUM";
+        }
+        $TahunBeli = Carbon::parse($request->tanggal_beli)->year;
+        $Departemen = $request->departemen;
+        $unit = MasterUnit::where('id',$request->unit)->pluck('nama');
+        $autonumber = DataInventaris::latest()->first()->id + 1;
+        $NoInv = $JenisItem."/".$TahunBeli."/".$Departemen."/".$unit."/".$autonumber;
+
+
 
         $latestId = null;
         if (DataInventaris::count() > 0) {
@@ -267,6 +284,11 @@ class DataInventarisController extends Controller
        $kode_item = 'Item-' . str_pad($latestId, 8, '0', STR_PAD_LEFT);
        $kategori = $request->asd;
        if ($request->hasFile('dokumen') && $request->hasFile('gambar') && $request->hasFile('manualbook') ) {
+            $this->validate($request, [
+                'dokumen' => 'required|file|mimes:pdf|max:4096',
+                'gambar' => 'required|file|mimes:jpeg,jpg,png|max:4096',
+                'manualbook' => 'required|file|mimes:pdf|max:4096',
+            ]);
             $gambar = $request->file('gambar');
             $gambar->storeAs('public/gambar', $gambar->hashName());
             $dokumen = $request->file('dokumen');
@@ -281,11 +303,12 @@ class DataInventarisController extends Controller
                 'real_name' => $request->real_name,
                 'kode_item' => $kode_item,
                 'assetID' => $request->ItemID,
-                'no_inventaris' => $request->no_inventaris,
+                'no_inventaris' => $NoInv,
                 'no_sn' => $request->no_sn,
                 'tanggal_beli' => $request->tanggal_beli,
                 'keterangan' => $request->keterangan,
                 'departemen' => $request->departemen,
+                'unit' => $request->unit,
                 'pengguna' => $request->userPengguna,
                 'gambar' => $gambar->hashName(),
                 'tgl_kalibrasi' => $request->tgl_kalibrasi,
@@ -297,7 +320,9 @@ class DataInventarisController extends Controller
         }
 
        elseif ($request->hasFile('gambar')) {
-
+            $this->validate($request, [
+                'gambar' => 'required|file|mimes:jpeg,jpg,png|max:4096',
+            ]);
             $gambar = $request->file('gambar');
             $gambar->storeAs('public/gambar', $gambar->hashName());
             // $dokumen = $request->file('dokumen');
@@ -310,11 +335,12 @@ class DataInventarisController extends Controller
                 'real_name' => $request->real_name,
                 'kode_item' => $kode_item,
                 'assetID' => $request->ItemID,
-                'no_inventaris' => $request->no_inventaris,
+                'no_inventaris' => $NoInv,
                 'no_sn' => $request->no_sn,
                 'tanggal_beli' => $request->tanggal_beli,
                 'keterangan' => $request->keterangan,
                 'departemen' => $request->departemen,
+                'unit' => $request->unit,
                 'pengguna' => $request->userPengguna,
                 'gambar' => $gambar->hashName(),
                 'tgl_kalibrasi' => $request->tgl_kalibrasi,
@@ -323,8 +349,9 @@ class DataInventarisController extends Controller
                 'nama_rs' => auth()->user()->kodeRS,
             ]);
         }elseif ($request->hasFile('dokumen')) {
-            // $gambar = $request->file('gambar');
-            // $gambar->storeAs('public/gambar', $gambar->hashName());
+            $this->validate($request, [
+                'dokumen' => 'required|file|mimes:pdf|max:4096',
+            ]);
             $dokumen = $request->file('dokumen');
             $dokumen->storeAs('public/dokumen', $dokumen->hashName());
 
@@ -335,11 +362,12 @@ class DataInventarisController extends Controller
                 'real_name' => $request->real_name,
                 'kode_item' => $kode_item,
                 'assetID' => $request->ItemID,
-                'no_inventaris' => $request->no_inventaris,
+                'no_inventaris' => $NoInv,
                 'no_sn' => $request->no_sn,
                 'tanggal_beli' => $request->tanggal_beli,
                 'keterangan' => $request->keterangan,
                 'departemen' => $request->departemen,
+                'unit' => $request->unit,
                 'pengguna' => $request->userPengguna,
                 // 'gambar' => $gambar->hashName(),
                 'tgl_kalibrasi' => $request->tgl_kalibrasi,
@@ -348,8 +376,9 @@ class DataInventarisController extends Controller
                 'nama_rs' => auth()->user()->kodeRS,
             ]);
         } elseif ($request->hasFile('manualboook')) {
-            // $gambar = $request->file('gambar');
-            // $gambar->storeAs('public/gambar', $gambar->hashName());
+            $this->validate($request, [
+                'manualbook' => 'required|file|mimes:pdf|max:4096',
+            ]);
             $manualbook = $request->file('manualbook');
             $manualbook->storeAs('public/manualbook', $manualbook->hashName());
 
@@ -360,11 +389,12 @@ class DataInventarisController extends Controller
                 'real_name' => $request->real_name,
                 'kode_item' => $kode_item,
                 'assetID' => $request->ItemID,
-                'no_inventaris' => $request->no_inventaris,
+                'no_inventaris' => $NoInv,
                 'no_sn' => $request->no_sn,
                 'tanggal_beli' => $request->tanggal_beli,
                 'keterangan' => $request->keterangan,
                 'departemen' => $request->departemen,
+                'unit' => $request->unit,
                 'pengguna' => $request->userPengguna,
                 // 'gambar' => $gambar->hashName(),
                 'tgl_kalibrasi' => $request->tgl_kalibrasi,

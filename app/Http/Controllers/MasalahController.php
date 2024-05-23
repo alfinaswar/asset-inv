@@ -165,8 +165,10 @@ class MasalahController extends Controller
                 if ($request->cariGroup) {
                     $row->where('UserGroupID', 'LIKE', "%$request->cariGroup%");
                 }
-            })->orderBy('TanggalBuat','desc')
-            ->take(8)->get();
+            })
+            ->where('statusID',2)
+            ->orderBy('TanggalBuat','desc')
+            ->take(10)->get();
         $view = view('masalah.data-asset', compact('query'))->render();
         return response()->json(['data' => $query, 'view' => $view], 200);
     }
@@ -227,11 +229,11 @@ class MasalahController extends Controller
         $dataItem = DB::connection('mysql')->table('data_inventaris');
         if ($request->has('q')) {
             $search = $request->q;
-            $dataItem->where('nama', 'LIKE', "%$search%")->limit(5)
+            $dataItem->where('nama', 'LIKE', "%$search%")->orderBy('id','DESC')->limit(5)
                 ->get(['kode_item', 'nama']);
             $item = $dataItem->pluck('nama', 'kode_item');
         } else {
-            $item = $dataItem->limit(5)->get(['kode_item', 'nama'])->pluck('nama', 'kode_item');
+            $item = $dataItem->limit(5)->orderBy('id', 'DESC')->get(['kode_item', 'nama'])->pluck('nama', 'kode_item');
         }
         return response()->json($item);
     }

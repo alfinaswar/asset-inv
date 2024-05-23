@@ -34,8 +34,9 @@
                         <div class="kt-widget__desc">
 
                                     {{ $data_alat->no_inventaris }}
-                                    <br>{{ $data_alat->no_sn }}
-                                    <br> {{ $data_alat->pengguna }}
+                                    <br>Serial Number <b>{{ $data_alat->no_sn }}</b>
+                                     <br>ROID / RO2ID  <b>{{ $data_alat->ROID }} / {{ $data_alat->RO2ID }}</b>
+                                    <br>Jenis <b>{{ $data_alat->pengguna }}</b>
 
                         </div>
 
