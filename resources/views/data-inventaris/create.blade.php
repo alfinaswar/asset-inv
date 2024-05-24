@@ -86,20 +86,20 @@ Tambah Asset Inventaris
                      <div class="form-group row">
                         <label for="nama" class="col-3 col-form-label">* Nama Alat</label>
                         <div class=" col-lg-9 col-md-4 col-sm-12">
-                        <input type="text" name="nama" class="form-control" id="NamaAlat" placeholder="Nama Alat">
+                        <input type="text" name="nama" class="form-control" id="NamaAlat" placeholder="Nama Alat" readonly>
                         <input type="hidden" name="ItemID" class="form-control" id="ItemID" placeholder="">
                         </div>
                     </div>
                      <div class="form-group row">
                         <label for="nama" class="col-3 col-form-label">* Nomor RO</label>
                         <div class=" col-lg-9 col-md-4 col-sm-12">
-                        <input type="text" name="ROID" class="form-control" id="ROID" placeholder="Nomor RO">
+                        <input type="text" name="ROID" class="form-control" id="ROID" placeholder="Nomor RO" readonly>
                         </div>
                     </div>
                      <div class="form-group row">
                         <label for="nama" class="col-3 col-form-label">* Nomor RO2ID</label>
                         <div class=" col-lg-9 col-md-4 col-sm-12">
-                        <input type="text" name="RO2ID" class="form-control" id="RO2ID" placeholder="Nomor RO2ID">
+                        <input type="text" name="RO2ID" class="form-control" id="RO2ID" placeholder="Nomor RO2ID" readonly>
                         </div>
                     </div>
                      <div class="form-group row">
@@ -280,9 +280,10 @@ Tambah Asset Inventaris
                                     <thead>
                                         <tr>
                                             <th>Nomor ROID</th>
+                                            <th>Nomor RO2ID</th>
                                              <th>Item ID</th>
-                                            <th>Nama Item</th>
-                                            <th>Departemen</th>
+                                            <th>Item</th>
+                                            <th>Jenis</th>
                                             <th>Tanggal</th>
                                         </tr>
                                     </thead>

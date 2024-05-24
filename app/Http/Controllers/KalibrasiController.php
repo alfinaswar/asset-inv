@@ -86,10 +86,10 @@ class KalibrasiController extends Controller
      */
     public function store(Request $request)
     {
-        //pisahkan koma
         $datanama = $request->nama;
         $kodeRS = auth()->user()->kodeRS;
         $result = explode(",", $datanama);
+        // dd($re);
         $assetid = $result[0];
         $nama = $result[1];
         $this->validate($request, [
