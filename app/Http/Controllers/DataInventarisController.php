@@ -270,8 +270,8 @@ class DataInventarisController extends Controller
             $JenisItem = "UMUM";
         }
         $TahunBeli = Carbon::parse($request->tanggal_beli)->year;
-        $Departemen = $request->departemen;
-        $unit = MasterUnit::where('id',$request->unit)->pluck('nama');
+        $Departemen = MasterDepartemenModel::where('id', $request->departemen)->pluck('nama')->first();
+        $unit = $request->unit;
         $autonumber = DataInventaris::latest()->first()->id + 1;
         $NoInv = $JenisItem."/".$TahunBeli."/".$Departemen."/".$unit."/".$autonumber;
 
@@ -294,7 +294,7 @@ class DataInventarisController extends Controller
             $dokumen = $request->file('dokumen');
             $dokumen->storeAs('public/dokumen', $dokumen->hashName());
             $manualbook = $request->file('manualbook');
-            $manualbook->storeAs('public/manualbook', $dokumen->hashName());
+            $manualbook->storeAs('public/manualbook', $manualbook->hashName());
 
             DataInventaris::create([
                 'ROID' => $request->ROID,

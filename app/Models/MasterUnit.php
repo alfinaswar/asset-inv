@@ -17,6 +17,10 @@ class MasterUnit extends Model
     protected $fillable = [
         'idDepartemen',
         'namaUnit',
-         'nama_rs',
+        'nama_rs',
     ];
+    public function DataMaintenance()
+    {
+        return $this->hasMany(Maintanance::class, 'kode_item', 'kode_item');
+    }
 }

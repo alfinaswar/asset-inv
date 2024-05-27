@@ -14,10 +14,23 @@
                 </h3>
             </div>
             <div class="kt-portlet__head-toolbar">
-                <div class="kt-portlet__head-wrapper">
+                    <ul class="nav nav-tabs nav-tabs-line nav-tabs-line-brand nav-tabs-line-2x nav-tabs-line-right nav-tabs-bold" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#" role="tab">
+                                <i class="flaticon2-heart-rate-monitor" aria-hidden="true"></i>Data Alat
+                            </a>
 
+                        </li>
+                         <li class="nav-item">
+                             <button data-toggle="modal" data-target="#cari-nama"
+                        class="btn btn-info btn-elevate btn-icon-sm">
+                        <i class="la la-search"></i>
+                        Cari Data
+                    </button>
+
+                        </li>
+                    </ul>
                 </div>
-            </div>
         </div>
 
         <div class="kt-portlet__body">
@@ -29,8 +42,10 @@
                         <div class="form-group row">
                             <label for="nama" class="col-3 col-form-label">* Nama Alat</label>
                             <div class=" col-lg-9 col-md-9 col-sm-12">
-                                <select class="form-control kt-select2" id="nama" name="nama">
-                                </select>
+                                <input type="text" readonly name="nama" id="nama" class="form-control" placeholder="Nama Alat" placeholder="">
+                                 <input type="hidden" name="idalat" id="idalat" class="form-control" placeholder="Nama Alat">
+                                {{-- <select class="form-control kt-select2" id="nama" name="nama">
+                                </select> --}}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -125,7 +140,7 @@
                 </div>
                 <div class="col-md-3">
                      <small>&nbsp;</small>
-                    
+
                 </div>
             </div>
             <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
@@ -147,6 +162,54 @@
             <!--end: Datatable -->
         </div>
     </div>
+        <div class="modal fade " id="cari-nama" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Data Inventaris</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row col-12">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="cariNama" class="col-form-label">Cari Nama</label>
+                                   <input type="text" class="form-control" id="cariNama" onkeyup="cariData(event,this)" name="cariNama" placeholder="Cari Nama Alat">
+                                   </div>
+                                   <button type="button" class="btn btn-md btn-primary" >Cari</button>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="kt-section kt-mt-10">
+                            <div class="kt-section__content">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama</th>
+                                            <th>Departemen</th>
+                                             <th>Unit</th>
+                                            <th>No Inventaris</th>
+                                            <th>Jenis</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dataInventaris">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 @endsection
 @push('css')
     <link href="{{ asset('') }}assets/vendors/custom/datatables/datatables.bundle.css" rel="stylesheet"
@@ -234,28 +297,28 @@
             });
         }
 
-        var select_item = function() {
-            $('#nama').select2({
-                placeholder: "--Select Alat--",
-                minimumInputLength: 1,
-                ajax: {
-                    url: '{{ route('kalibrasi.get-item') }}',
-                    dataType: 'json',
-                    delay: 250,
-                    processResults: function(data) {
-                        return {
-                            results: $.map(data, function(item, key) {
-                                return {
-                                    text: item,
-                                    id: key
-                                }
-                            })
-                        };
-                    },
-                    cache: true
-                }
-            });
-        }
+        // var select_item = function() {
+        //     $('#nama').select2({
+        //         placeholder: "--Select Alat--",
+        //         minimumInputLength: 1,
+        //         ajax: {
+        //             url: '{{ route('kalibrasi.get-item') }}',
+        //             dataType: 'json',
+        //             delay: 250,
+        //             processResults: function(data) {
+        //                 return {
+        //                     results: $.map(data, function(item, key) {
+        //                         return {
+        //                             text: item,
+        //                             id: key
+        //                         }
+        //                     })
+        //                 };
+        //             },
+        //             cache: true
+        //         }
+        //     });
+        // }
         var simpan = function(e, id) {
             e.preventDefault();
             KTApp.block('.kt-portlet', {
@@ -269,19 +332,56 @@
             $("#form-kalibrasi").submit();
         }
         //tes tes tes
+    var cariData=function(e,attr){
+            e.preventDefault();
+            var cariNama= $('#cariNama').val();
+            $.ajax({
+                type: "GET",
+                url: "{{ route('kalibrasi.getInv') }}",
+                data: {
+                    cariNama:cariNama
+                },
+                dataType: "json",
+                beforeSend: function() {
+                            KTApp.block('.modal-body', {
+                                overlayColor: '#000000',
+                                type: 'v2',
+                                state: 'success',
+                                message: 'Please wait...'
+                            });
+                            $('.progress').show()
+                            $('#dataInventaris').empty();
+                        },
+                success: function (res) {
+                    $('#dataInventaris').append(res.view);
+                },complete: function() {
+                            KTApp.unblock('.modal-body');
+                            $('.progress').hide()
+                        }
+            });
+        }
 
-   
+        var data=function(attr){
+            var nama=$(attr).find('#datanama').text();
+            var id=$(attr).find('#dataid').text();
+            $('#nama').val(nama);
+            $('#idalat').val(id);
+            $('#cari-nama').modal('toggle');
+        }
+
         //asdasd
         jQuery(document).ready(function() {
             dataTable()
             time()
             select_item()
+            cariData();
+        data();
             $('.progress').hide()
         });
         $('#filter_tanggal,#filter_rs,#filter_pemilik').change(function() {
             var table = $('#kt_table_1').DataTable();
             table.draw();
         });
-    
+
   </script>
 @endpush

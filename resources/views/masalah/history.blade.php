@@ -110,12 +110,27 @@
                     </div>
                     <div class="kt-widget__details">
                         <span class="kt-widget__title">@if (isset($data_alat->tgl_kalibrasi))
-                                    {!!'<a href="' . Storage::url('public/dokumen/') . $data_alat->dokumen . '" target="_blank">Lihat Dokumen</a>'!!}
+                                    {!!'<a href="' . Storage::url('public/dokumen/') . $data_alat->dokumen . '" target="_blank">Dokumen Kalibrasi</a>'!!}
                                     @else
                                         Tidak Dikalibrasi
                                     @endif</span>
                         {{-- <span class="kt-widget__value">{!!$file!!}</span> --}}
                     </div>
+
+                </div>
+                <div class="kt-widget__item">
+                    <div class="kt-widget__icon">
+                        <i class="flaticon-file-2"></i>
+                    </div>
+                     <div class="kt-widget__details">
+                        <span class="kt-widget__title">@if (isset($data_alat->manualbook))
+                                    {!!'<a href="' . Storage::url('public/manualbook/') . $data_alat->manualbook . '" target="_blank">Dokumen Manual Book</a>'!!}
+                                    @else
+                                        Manual Book Belum Tersedia
+                                    @endif</span>
+                        {{-- <span class="kt-widget__value">{!!$file!!}</span> --}}
+                    </div>
+
                 </div>
 
                 {{-- <div class="kt-widget__item">

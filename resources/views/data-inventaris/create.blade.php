@@ -109,13 +109,13 @@ Tambah Asset Inventaris
                                 placeholder="Nama di barcode" type="text" id="real_name">
                         </div>
                     </div>
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <label for="no_inventaris" class="col-3 col-form-label">* Nomor Inventaris</label>
                         <div class="col-9">
                             <input class="form-control" name="no_inventaris" value="{{ old('no_inventaris') }}"
                                 placeholder="Nomor Inventaris Medis" type="text" id="no_inventaris" required>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group row">
                         <label for="departemen" class="col-3 col-form-label">* Nomor SN</label>
                         <div class=" col-lg-9">

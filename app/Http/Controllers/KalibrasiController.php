@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use App\Models\DataInventaris;
 use App\Models\KalibrasiModel;
 use App\Models\MasterRs;
 use Illuminate\Http\Request;
@@ -88,18 +89,14 @@ class KalibrasiController extends Controller
     {
         $datanama = $request->nama;
         $kodeRS = auth()->user()->kodeRS;
-        $result = explode(",", $datanama);
-        // dd($re);
-        $assetid = $result[0];
-        $nama = $result[1];
+        $assetid = $request->idalat;
         $this->validate($request, [
             'dokumen' => 'required|mimes:jpeg,bmp,png,gif,svg,pdf,doc|max:2048',
         ]);
-
         $dokumen = $request->file('dokumen');
         $dokumen->storeAs('public/dokumen', $dokumen->hashName());
         KalibrasiModel::create([
-            'nama' => $nama,
+            'nama' => $request->nama,
             'assetID' => $assetid,
             'kodeRS' => auth()->user()->kodeRS,
             'kepemilikan' => $request->kepemilikan,
@@ -109,6 +106,33 @@ class KalibrasiController extends Controller
             'dokumen' => $dokumen->hashName(),
         ]);
         return redirect()->route('kalibrasi.index')->with('success', 'Data berhasil ditambahkan');
+    }
+
+    public function getInv(Request $request)
+    {
+        if (auth()->check()) {
+            $kodeRS = auth()->user()->kodeRS;
+            if ($kodeRS === 'K') {       //ayani
+                $selectdb = 'mysql2';
+            } elseif ($kodeRS === 'I') { //panam
+                $selectdb = 'mysql3';
+            } elseif ($kodeRS === 'B') { //batan
+                $selectdb = 'mysql4';
+            } elseif ($kodeRS === 'A') { //sudirman
+                $selectdb = 'mysql5';
+            } elseif ($kodeRS === 'G') { //ujung batu
+                $selectdb = 'mysql6';
+            } elseif ($kodeRS === 'S') { //bagan batu
+                $selectdb = 'mysql7';
+            } elseif ($kodeRS === 'B') { //botania
+                $selectdb = 'mysql8';
+            }
+        }
+        $query = DataInventaris::where('nama','LIKE','%'.$request->cariNama.'%')
+            ->orderBy('nama', 'asc')
+            ->take(15)->get();
+        $view = view('kalibrasi.data-item', compact('query'))->render();
+        return response()->json(['data' => $query, 'view' => $view], 200);
     }
 
     /**
@@ -159,7 +183,6 @@ class KalibrasiController extends Controller
     public function getItem(Request $request)
     {
         $dataItem = DB::connection('mysql')->table('data_inventaris')->where('nama_rs', auth()->user()->kodeRS);
-        //dd($dataItem);
         if ($request->has('q')) {
             $search = $request->q;
             $dataItem->where('nama', 'LIKE', "%$search%")->limit(5)
