@@ -16,7 +16,7 @@
                                 $gambar = $data_alat->gambar;
                             }
                             ?>
-                            <img src="{{ url("public/imageslogo-1.png") }}" />
+                            <img src="{{ url('storage/gambar/'.$gambar) }}" />
                         </div>
                 <div class="kt-widget__pic kt-widget__pic--danger kt-font-danger kt-font-boldest kt-font-light kt-hidden">
                     JM
@@ -111,7 +111,7 @@
                     </div>
                     <div class="kt-widget__details">
                         <span class="kt-widget__title">@if (isset($data_alat->tgl_kalibrasi))
-                                    {!!'<a href="' . Storage::url('public/dokumen/') . $data_alat->dokumen . '" target="_blank">Dokumen Kalibrasi</a>'!!}
+                                    {!!'<a href="' . url('storage/dokumen/') . $data_alat->dokumen . '" target="_blank">Dokumen Kalibrasi</a>'!!}
                                     @else
                                         Tidak Dikalibrasi
                                     @endif</span>
@@ -125,7 +125,7 @@
                     </div>
                      <div class="kt-widget__details">
                         <span class="kt-widget__title">@if (isset($data_alat->manualbook))
-                                    {!!'<a href="' . Storage::url('public/manualbook/') . $data_alat->manualbook . '" target="_blank">Dokumen SPO Alat</a>'!!}
+                                    {!!'<a href="' . url('storage/manualbook/') . $data_alat->manualbook . '" target="_blank">Dokumen SPO Alat</a>'!!}
                                     @else
                                         Manual Book Belum Tersedia
                                     @endif</span>
