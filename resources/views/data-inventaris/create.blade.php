@@ -121,6 +121,7 @@ Tambah Asset Inventaris
                         <div class=" col-lg-9">
                             <input class="form-control" name="no_sn" value="{{ old('no_sn') }}" placeholder="Nomor SN"
                                 type="text" id="no_sn" required>
+                            {{-- <input type="checkbox" class="form-control" va> --}}
                         </div>
                     </div>
                       <div class="form-group row">

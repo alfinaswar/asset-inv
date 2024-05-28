@@ -16,7 +16,7 @@
                                 $gambar = $data_alat->gambar;
                             }
                             ?>
-                            <img src="{{ Storage::url('public/gambar/'.$gambar) }}" />
+                            <img src="{{ url("public/imageslogo-1.png") }}" />
                         </div>
                 <div class="kt-widget__pic kt-widget__pic--danger kt-font-danger kt-font-boldest kt-font-light kt-hidden">
                     JM
@@ -37,6 +37,7 @@
                                     <br>Serial Number <b>{{ $data_alat->no_sn }}</b>
                                      <br>ROID / RO2ID  <b>{{ $data_alat->ROID }} / {{ $data_alat->RO2ID }}</b>
                                     <br>Jenis <b>{{ $data_alat->pengguna }}</b>
+                                    <br>Keterangan <b>{{$data_alat->keterangan}}</b>
 
                         </div>
 
@@ -124,7 +125,7 @@
                     </div>
                      <div class="kt-widget__details">
                         <span class="kt-widget__title">@if (isset($data_alat->manualbook))
-                                    {!!'<a href="' . Storage::url('public/manualbook/') . $data_alat->manualbook . '" target="_blank">Dokumen Manual Book</a>'!!}
+                                    {!!'<a href="' . Storage::url('public/manualbook/') . $data_alat->manualbook . '" target="_blank">Dokumen SPO Alat</a>'!!}
                                     @else
                                         Manual Book Belum Tersedia
                                     @endif</span>

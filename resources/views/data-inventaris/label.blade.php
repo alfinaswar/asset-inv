@@ -45,10 +45,10 @@
                     <td colspan="2" style="font-size: 13px;" height="15px" width="10px"></td>&nbsp;&nbsp;&nbsp;</td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="font-size: 9px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$query->real_name}}</td>
+                    <td colspan="2" style="font-size: 9px;">&nbsp;&nbsp;&nbsp;&nbsp;{{$query->real_name}}</td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="font-size: 9px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $query->no_sn }}</td>
+                    <td colspan="2" style="font-size: 9px">SN {{ $query->no_sn }}</td>
                 </tr>
 
             </tbody>
