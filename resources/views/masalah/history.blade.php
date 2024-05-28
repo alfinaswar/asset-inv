@@ -49,8 +49,8 @@
                                 </span>
                                 <div class="kt-widget__label">
 
-                                    <span class="btn btn-label-brand btn-sm btn-bold btn-upper"><?php if (isset($data_alat->tgl_kalibrasi)) {
-    echo date('d/m/Y', strtotime($data_alat->tgl_kalibrasi));
+                                    <span class="btn btn-label-brand btn-sm btn-bold btn-upper"><?php if (isset($data_kalibrasi->tgl_kalibrasi)) {
+    echo date('d/m/Y', strtotime($data_kalibrasi->tgl_kalibrasi));
 } else {
     echo 'Tidak Dikalibrasi';
 } ?></span>
@@ -62,8 +62,8 @@
                                     Expire
                                 </span>
                                 <div class="kt-widget__label">
-                                    <span class="btn btn-label-danger btn-sm btn-bold btn-upper">@if (isset($data_alat->tgl_expire))
-                                    {{date('d/m/Y', strtotime($data_alat->tgl_expire))}}
+                                    <span class="btn btn-label-danger btn-sm btn-bold btn-upper">@if (isset($data_kalibrasi->exp_date))
+                                    {{date('d/m/Y', strtotime($data_kalibrasi->exp_date))}}
                                     @else
                                         Tidak Dikalibrasi
                                     @endif</span>
@@ -110,8 +110,8 @@
                         <i class="flaticon-file-2"></i>
                     </div>
                     <div class="kt-widget__details">
-                        <span class="kt-widget__title">@if (isset($data_alat->tgl_kalibrasi))
-                                    {!!'<a href="' . url('storage/dokumen/') . $data_alat->dokumen . '" target="_blank">Dokumen Kalibrasi</a>'!!}
+                        <span class="kt-widget__title">@if (isset($data_kalibrasi->tgl_kalibrasi))
+                                    {!!'<a href="' . url('storage/dokumen/') .'/'. $data_kalibrasi->dokumen . '" target="_blank">Dokumen Kalibrasi</a>'!!}
                                     @else
                                         Tidak Dikalibrasi
                                     @endif</span>
@@ -166,7 +166,7 @@
                     <div class="kt-portlet__head">
                         <div class="kt-portlet__head-label">
                             <h3 class="kt-portlet__head-title">
-                                Riwayat Masalah
+                                Riwayat Perbaikan
                             </h3>
                         </div>
                         <div class="kt-portlet__head-toolbar">
@@ -278,6 +278,64 @@
                                                     data-toggle="dropdown">
                                                     <i class="flaticon-more-1"></i>
                                                 </span>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                @endforeach
+                               @else
+    <div class="alert alert-warning" role="alert">
+                            <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                            <div class="alert-text"><strong>Whoops!, Tidak ada data yang ditemukan</strong></div>
+                        </div>
+@endif
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+                        <div class="col-xl-12">
+                <!--begin:: Widgets/Tasks -->
+                <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Riwayat Kalibrasi
+                            </h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="kt_widget2_tab1_content">
+                                @if (count($kalibrasi) > 0)
+    @foreach ($kalibrasi as $item)
+                                    <div class="kt-widget2">
+
+                                        <div class="kt-widget__label">
+                                            <span class="btn btn-label-brand btn-sm btn-bold btn-upper"
+                                                style="font-size: 12px;">{{ $item->created_at }}</span>
+                                        </div>
+                                        <div class="kt-widget2__item kt-widget2__item--primary">
+                                            <div class="kt-widget2__checkbox">
+
+                                            </div>
+                                            <div class="kt-widget2__info">
+                                                <span class="kt-widget2__title" style="font-size: 12px;">
+                                                    Tangal Kalibrasi <b>{{ $item->tgl_kalibrasi }}</b>
+<br>
+                                                     Tangal Akhir Kalibrasi <b>{{ $item->exp_date }}</b>
+                                                </span>
+
+                                            </div>
+                                            <div class="kt-widget2__actions">
+                                                            <a href="{{Storage::url('public/dokumen/') . $item->dokumen}}" target="_blank"><button type="button" data-skin="brand" data-toggle="kt-tooltip" data-placement="top" title="Brand skin" class="btn btn-outline-primary" >Lihat Dokumen</button></a>
 
                                             </div>
                                         </div>

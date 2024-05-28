@@ -253,10 +253,11 @@ class MasalahController extends Controller
         ->where('kode_item',$kode_item)
         ->select('data_inventaris.*', 'master_rs.nama as rumahsakit')->first();
         $detail_masalah = MasalahModel::where('kode_item', $kode_item)->orderby('created_at', 'desc')->get();
+        $kalibrasi = KalibrasiModel::where('assetID', $kode_item)->orderby('created_at', 'desc')->get();
         $data_kalibrasi = KalibrasiModel::where('assetID', $kode_item)->orderby('created_at', 'desc')->first();
         $data_mtnc = Maintanance::where('assetID', $kode_item)->orderby('created_at', 'desc')->get();
         $bulanakhir = Maintanance::where('assetID', $kode_item)->orderby('created_at', 'desc')->latest();
-        return view('masalah.history', compact('data_alat','detail_masalah','data_kalibrasi','data_mtnc','bulanakhir'));
+        return view('masalah.history', compact('data_alat','detail_masalah','data_kalibrasi','data_mtnc','bulanakhir', 'kalibrasi'));
 
     }
 

@@ -205,7 +205,7 @@ Tambah Asset Inventaris
                     <div class="tab-pane active" id="kt_portlet_base_demo_3_3_tab_content" role="tabpanel">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <label class="col-form-label col-lg-3 col-sm-12">Tanggal Kalibrasi</label>
                             <div class="col-lg-9 col-md-9 col-sm-12">
                                 <input type="date" class="form-control" name="tgl_kalibrasi" id="tgl_kalibrasi"
@@ -224,7 +224,7 @@ Tambah Asset Inventaris
                             <div class=" col-lg-9 col-md-9 col-sm-12">
                                 <input type="file" name="dokumen" id="upload-btn" class="form-control-file">
                             </div>
-                        </div>
+                        </div> --}}
                          <div class="form-group row">
                             <label for="nama_perangkat" class="col-form-label col-lg-3 col-sm-12">* Upload SPO Alat</label>
                             <div class=" col-lg-9 col-md-9 col-sm-12">
