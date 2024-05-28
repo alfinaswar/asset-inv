@@ -278,21 +278,21 @@ License: You must have a valid license purchased only from themeforest(the above
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                                     class="kt-menu__link-text">Laporan Pembelian</span></a></li>
 
-                                         <li class="kt-menu__item  @if (request()->segment(2) == 'mutasi')
+                                         {{-- <li class="kt-menu__item  @if (request()->segment(2) == 'mutasi')
                                                         {{ 'kt-menu__item--active' }}
                                                     @endif" aria-haspopup="true"><a
                                                 href="{{ route('mutasi.index') }}"
                                                 class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
-                                                    class="kt-menu__link-text">Laporan Mutasi</span></a></li>
-                                                    <li class="kt-menu__item  @if (request()->segment(2) == 'pemakaian')
+                                                    class="kt-menu__link-text">Laporan Mutasi</span></a></li> --}}
+                                                    {{-- <li class="kt-menu__item  @if (request()->segment(2) == 'pemakaian')
                                                         {{ 'kt-menu__item--active' }}
                                                     @endif" aria-haspopup="true"><a
                                                 href="{{ route('pemakaian.index') }}"
                                                 class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
-                                                    class="kt-menu__link-text">Laporan Pemakaian</span></a></li>
-                                                                       <li class="kt-menu__item  @if (request()->segment(2) == 'maintenance')
+                                                    class="kt-menu__link-text">Laporan Pemakaian</span></a></li> --}}
+                                                    <li class="kt-menu__item  @if (request()->segment(2) == 'maintenance')
                                                         {{ 'kt-menu__item--active' }}
                                                     @endif" aria-haspopup="true"><a
                                                 href="{{ route('laporan.maintenance.index') }}"

@@ -88,20 +88,22 @@ Tambah Asset Inventaris
                         <div class=" col-lg-9 col-md-4 col-sm-12">
                         <input type="text" name="nama" class="form-control" id="NamaAlat" placeholder="Nama Alat" readonly>
                         <input type="hidden" name="ItemID" class="form-control" id="ItemID" placeholder="">
-                        </div>
+                    <input type="hidden" name="ROID" class="form-control" id="ROID" placeholder="Nomor RO" readonly>
+                     <input type="hidden" name="RO2ID" class="form-control" id="RO2ID" placeholder="Nomor RO2ID" readonly>
                     </div>
-                     <div class="form-group row">
+                    </div>
+                     {{-- <div class="form-group row">
                         <label for="nama" class="col-3 col-form-label">* Nomor RO</label>
                         <div class=" col-lg-9 col-md-4 col-sm-12">
-                        <input type="text" name="ROID" class="form-control" id="ROID" placeholder="Nomor RO" readonly>
+                        <input type="hidden" name="ROID" class="form-control" id="ROID" placeholder="Nomor RO" readonly>
                         </div>
                     </div>
                      <div class="form-group row">
                         <label for="nama" class="col-3 col-form-label">* Nomor RO2ID</label>
                         <div class=" col-lg-9 col-md-4 col-sm-12">
-                        <input type="text" name="RO2ID" class="form-control" id="RO2ID" placeholder="Nomor RO2ID" readonly>
+                        <input type="hidden" name="RO2ID" class="form-control" id="RO2ID" placeholder="Nomor RO2ID" readonly>
                         </div>
-                    </div>
+                    </div> --}}
                      <div class="form-group row">
                         <label for="real_name" class="col-3 col-form-label">* Nama Barcode</label>
                         <div class="col-9">
@@ -185,14 +187,14 @@ Tambah Asset Inventaris
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
             <h3 class="kt-portlet__head-title">
-                Tambah Data Kalibrasi
+                Informasi Tambahan
             </h3>
         </div>
                 <div class="kt-portlet__head-toolbar">
                     <ul class="nav nav-tabs nav-tabs-line nav-tabs-line-brand nav-tabs-line-2x nav-tabs-line-right nav-tabs-bold" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#" role="tab">
-                                <i class="flaticon2-pie-chart-2" aria-hidden="true"></i>Kalibrasi
+                                <i class="flaticon2-pie-chart-2" aria-hidden="true"></i>Informasi Tambahan
                             </a>
                         </li>
                     </ul>
@@ -224,7 +226,7 @@ Tambah Asset Inventaris
                             </div>
                         </div>
                          <div class="form-group row">
-                            <label for="nama_perangkat" class="col-form-label col-lg-3 col-sm-12">* Uplpad Manual Book</label>
+                            <label for="nama_perangkat" class="col-form-label col-lg-3 col-sm-12">* Upload SPO Alat</label>
                             <div class=" col-lg-9 col-md-9 col-sm-12">
                                 <input type="file" name="manualbook" id="upload-btn" class="form-control-file">
                             </div>

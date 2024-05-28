@@ -93,6 +93,20 @@ Update Data Inventaris
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label for="departemen" class="col-3 col-form-label">Unit</label>
+                        <div class="col-9">
+
+                            <select name="unit" class="custom-select form-control" id="unit">
+                                 <option selected value="">--Pilih Unit--</option>
+                                @foreach ($unit as $item )
+                                <option value="{{ $item->nama }}" {{ $datainv->unit == $item->namaUnit ? "selected" :""}}>
+                                    {{ $item->namaUnit }}</option>
+                                @endforeach
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-form-label col-lg-3 col-sm-12">* Jenis / Pengguna</label>
                         <div class="col-lg-9 col-md-9 col-sm-12">
                             <select class="form-control kt-select2" id="userPengguna" name="userPengguna">
@@ -114,6 +128,12 @@ Update Data Inventaris
                           <div class="col-lg-12 col-md-12 col-sm-12">
                             <input type="file" name="dokumen" value="{{ $datainv->dokumen }}" class="form-control">
                         </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-3 col-sm-12">* SPO Alat</label>
+                        <div class="col-lg-9 col-md-9 col-sm-12">
+                            <input type="file" name="manualbook" value="{{ $datainv->manualbook }}" class="form-control">
                         </div>
                     </div>
 

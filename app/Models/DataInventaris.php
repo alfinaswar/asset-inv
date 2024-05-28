@@ -23,4 +23,8 @@ class DataInventaris extends Model
     {
         return $this->hasMany(Maintanance::class, 'kode_item', 'kode_item');
     }
+    public function Departemen()
+    {
+        return $this->hasOne(MasterDepartemenModel::class, 'departemen', 'id');
+    }
 }

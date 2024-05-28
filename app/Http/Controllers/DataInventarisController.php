@@ -30,7 +30,7 @@ class DataInventarisController extends Controller
             if (auth()->user()->role == "admin") {
                 $data = DataInventaris::latest();
             } else {
-                $data = DataInventaris::where('nama_rs', auth()->user()->kodeRS)->latest();
+                $data = DataInventaris::with('Departemen')->where('nama_rs', auth()->user()->kodeRS)->latest();
 
             }
             return DataTables::of($data)
@@ -410,7 +410,8 @@ class DataInventarisController extends Controller
     {
         $datainv = DataInventaris::find($id);
         $dept = MasterDepartemenModel::where('kodeRS',auth()->user()->kodeRS)->get();
-        return view('data-inventaris.edit', compact('datainv','dept'));
+        $unit = MasterUnit::where('nama_rs', auth()->user()->kodeRS)->get();
+        return view('data-inventaris.edit', compact('datainv','dept','unit'));
     }
     public function update(Request $request, $id)
     {
@@ -425,6 +426,7 @@ class DataInventarisController extends Controller
         $data['no_sn'] = $request->no_sn;
         $data['tanggal_beli'] = $request->tanggal_beli;
         $data['departemen'] = $request->departemen;
+            $data['unit'] = $request->unit;
         $data['pengguna'] = $request->userPengguna;
         $data['gambar'] = $gambar->hashName();
         $query = DataInventaris::find($id);
@@ -439,18 +441,34 @@ class DataInventarisController extends Controller
         $data['no_sn'] = $request->no_sn;
         $data['tanggal_beli'] = $request->tanggal_beli;
         $data['departemen'] = $request->departemen;
+            $data['unit'] = $request->unit;
         $data['pengguna'] = $request->userPengguna;
         $data['dokumen'] = $dokumen->hashName();
         $query = DataInventaris::find($id);
         $query->update($data);
-    }
-    else{
+    } else if ($request->hasFile('manualbook')) {
+            $manualbook = $request->file('manualbook');
+            $manualbook->storeAs('public/manualbook', $manualbook->hashName());
+            Storage::delete('public/manualbook/' . $request->manualbook);
             $data['nama'] = $request->nama;
             $data['real_name'] = $request->real_name;
             $data['no_inventaris'] = $request->no_inventaris;
             $data['no_sn'] = $request->no_sn;
             $data['tanggal_beli'] = $request->tanggal_beli;
             $data['departemen'] = $request->departemen;
+            $data['unit'] = $request->unit;
+            $data['pengguna'] = $request->userPengguna;
+            $data['manualbook'] = $manualbook->hashName();
+            $query = DataInventaris::find($id);
+            $query->update($data);
+        }else{
+            $data['nama'] = $request->nama;
+            $data['real_name'] = $request->real_name;
+            $data['no_inventaris'] = $request->no_inventaris;
+            $data['no_sn'] = $request->no_sn;
+            $data['tanggal_beli'] = $request->tanggal_beli;
+            $data['departemen'] = $request->departemen;
+            $data['unit'] = $request->unit;
             $data['pengguna'] = $request->userPengguna;
             $query = DataInventaris::find($id);
             $query->update($data);
