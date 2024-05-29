@@ -118,14 +118,17 @@ Tambah Asset Inventaris
                                 placeholder="Nomor Inventaris Medis" type="text" id="no_inventaris" required>
                         </div>
                     </div> --}}
-                    <div class="form-group row">
-                        <label for="departemen" class="col-3 col-form-label">* Nomor SN</label>
-                        <div class=" col-lg-9">
-                            <input class="form-control" name="no_sn" value="{{ old('no_sn') }}" placeholder="Nomor SN"
-                                type="text" id="no_sn" required>
-                            {{-- <input type="checkbox" class="form-control" va> --}}
-                        </div>
-                    </div>
+<div class="form-group row">
+    <label for="departemen" class="col-3 col-form-label">* Nomor SN</label>
+    <div class="col-lg-6">
+        <input class="form-control" name="no_sn" value="{{ old('no_sn') }}" placeholder="Nomor SN" type="text" id="no_sn" required>
+    </div>
+    <div class="col-lg-3">
+        <input type="checkbox" class="form-check-input" id="checkbox">
+        <label class="form-check-label" for="checkbox">Tidak Ada</label>
+    </div>
+</div>
+
                       <div class="form-group row">
                         <label for="tanggal_beli" class="col-3 col-form-label">* Tanggal Beli</label>
                         <div class=" col-lg-9">
@@ -371,29 +374,29 @@ Tambah Asset Inventaris
                 });
 
             })
-     $('#departemen').on('change',function(){
-                 let departemen = $('#departemen').val();
-                 $('#unit').select2({
-                    placeholder: 'Select Unit',
-                    allowClear: true,
-                    ajax: {
-                        url: "{{ route('inventaris.get-unit') }}?departemen=" + departemen,
-                        dataType: 'json',
-                        delay: 250,
-                        processResults: function(data) {
-                            return {
-                                results: $.map(data, function(item,key) {
-                                    return {
-                                        text:item,
-                                    id:item
-                                    }
-                                })
-                            };
-                        }
-                    }
-                });
+    //  $('#departemen').on('change',function(){
+    //              let departemen = $('#departemen').val();
+    //              $('#unit').select2({
+    //                 placeholder: 'Select Unit',
+    //                 allowClear: true,
+    //                 ajax: {
+    //                     url: "{{ route('inventaris.get-unit') }}?departemen=" + departemen,
+    //                     dataType: 'json',
+    //                     delay: 250,
+    //                     processResults: function(data) {
+    //                         return {
+    //                             results: $.map(data, function(item,key) {
+    //                                 return {
+    //                                     text:item,
+    //                                 id:item
+    //                                 }
+    //                             })
+    //                         };
+    //                     }
+    //                 }
+    //             });
 
-            })
+    //         })
  function nama(){
     $(selector).val();
             $('#nama').select2({
@@ -441,28 +444,6 @@ Tambah Asset Inventaris
                             results: $.map(data, function(item) {
                                 return {
                                     text: item.nama,
-                                    id: item.id
-                                }
-                            })
-                        };
-                    },
-                    cache: true
-                }
-            });
-        }
-        var select_unit = function() {
-            $('#unit').select2({
-                placeholder: "Select Unit",
-                minimumInputLength: 1,
-                ajax: {
-                    url: '{{ route("master.get-departemen") }}',
-                    dataType: 'json',
-                    delay: 250,
-                    processResults: function(data) {
-                        return {
-                            results: $.map(data, function(item) {
-                                return {
-                                    text: item.nama,
                                     id: item.nama
                                 }
                             })
@@ -472,10 +453,42 @@ Tambah Asset Inventaris
                 }
             });
         }
+        var select_unit = function() {
+             $('#unit').select2({
+                placeholder: "Select Data",
+                minimumInputLength: 1,
+                ajax: {
+                    url: '{{ route("inventaris.get-unit-his") }}',
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(item) {
+                                return {
+                                    text: item,
+                                    id: item
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+        }
 
+       $('#checkbox').on('change',function(){
+        var input = document.getElementById('no_sn');
+        if (this.checked) {
+            input.value = 'None';
+        } else {
+            input.value = '';
+        }
+    });
         jQuery(document).ready(function() {
+        select_unit()
         select_departemen()
         cariData();
+        checkbox();
         data();
         });
 </script>

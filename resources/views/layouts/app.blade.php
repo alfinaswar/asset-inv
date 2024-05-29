@@ -299,13 +299,20 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                                     class="kt-menu__link-text">Laporan Maintenance</span></a></li>
-                                                                                              <li class="kt-menu__item  @if (request()->segment(2) == 'maintenance')
+                                                <li class="kt-menu__item  @if (request()->segment(3) == 'pm')
                                                         {{ 'kt-menu__item--active' }}
                                                     @endif" aria-haspopup="true"><a
                                                 href="{{ route('laporan.maintenance.pm') }}"
                                                 class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                                     class="kt-menu__link-text">Laporan Preventif Maintenance</span></a></li>
+                                                    <li class="kt-menu__item  @if (request()->segment(2) == 'item-ruangan')
+                                                        {{ 'kt-menu__item--active' }}
+                                                    @endif" aria-haspopup="true"><a
+                                                href="{{ route('laporan.item-ruangan.index') }}"
+                                                class="kt-menu__link "><i
+                                                    class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
+                                                    class="kt-menu__link-text">Laporan Item Ruangan</span></a></li>
                                     </ul>
                                 </div>
                             </li>

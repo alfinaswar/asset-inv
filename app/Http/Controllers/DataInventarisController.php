@@ -106,6 +106,8 @@ class DataInventarisController extends Controller
 
     public function create()
     {
+        // $dataItem = DB::connection("mysql2")->table('departemen')->get();
+        // dd($dataItem);
         return view('data-inventaris.create');
     }
 
@@ -168,9 +170,55 @@ class DataInventarisController extends Controller
         }
         return response()->json($item);
     }
-    public function getUnit(Request $request)
+    public function getUnitHis(Request $request)
     {
 
+        if (auth()->check()) {
+            $kodeRS = auth()->user()->kodeRS;
+            switch ($kodeRS) {
+                case 'K':
+                    $selectdb = 'mysql2';
+                    break;
+                case 'I':
+                    $selectdb = 'mysql3';
+                    break;
+                case 'B':
+                    $selectdb = 'mysql4';
+                    break;
+                case 'A':
+                    $selectdb = 'mysql5';
+                    break;
+                case 'G':
+                    $selectdb = 'mysql6';
+                    break;
+                case 'S':
+                    $selectdb = 'mysql7';
+                    break;
+                case 'R':
+                    $selectdb = 'mysql8';
+                    break;
+                case 'D':
+                    $selectdb = 'mysql9';
+                    break;
+                default:
+                    $selectdb = 'Unknown';
+                    break;
+            }
+        }
+        $item = [];
+        $dataItem = DB::connection($selectdb)->table('departemen')->where('NA','N');
+        if ($request->has('q')) {
+            $search = $request->q;
+            $dataItem->where('DepartemenID', 'LIKE', "%$search%")->limit(10)
+                ->get(['Nama']);
+            $item = $dataItem->pluck('Nama');
+        } else {
+            $item = $dataItem->limit(10)->get(['Nama'])->pluck('Nama');
+        }
+        return response()->json($item);
+    }
+    public function getUnit(Request $request)
+    {
         if (auth()->check()) {
             $kodeRS = auth()->user()->kodeRS;
             switch ($kodeRS) {
@@ -283,16 +331,15 @@ class DataInventarisController extends Controller
         }
        $kode_item = 'Item-' . str_pad($latestId, 8, '0', STR_PAD_LEFT);
        $kategori = $request->asd;
-       if ($request->hasFile('dokumen') && $request->hasFile('gambar') && $request->hasFile('manualbook') ) {
+       if ($request->hasFile('gambar') && $request->hasFile('manualbook') ) {
             $this->validate($request, [
-                'dokumen' => 'required|file|mimes:pdf|max:4096',
                 'gambar' => 'required|file|mimes:jpeg,jpg,png|max:4096',
                 'manualbook' => 'required|file|mimes:pdf|max:4096',
             ]);
             $gambar = $request->file('gambar');
             $gambar->storeAs('public/gambar', $gambar->hashName());
-            $dokumen = $request->file('dokumen');
-            $dokumen->storeAs('public/dokumen', $dokumen->hashName());
+            // $dokumen = $request->file('dokumen');
+            // $dokumen->storeAs('public/dokumen', $dokumen->hashName());
             $manualbook = $request->file('manualbook');
             $manualbook->storeAs('public/manualbook', $manualbook->hashName());
 
@@ -313,7 +360,6 @@ class DataInventarisController extends Controller
                 'gambar' => $gambar->hashName(),
                 'tgl_kalibrasi' => $request->tgl_kalibrasi,
                 'tgl_expire' => $request->tgl_expire,
-                'dokumen' => $dokumen->hashName(),
                 'manualbook' => $manualbook->hashName(),
                 'nama_rs' => auth()->user()->kodeRS,
             ]);
@@ -345,37 +391,37 @@ class DataInventarisController extends Controller
                 'gambar' => $gambar->hashName(),
                 'tgl_kalibrasi' => $request->tgl_kalibrasi,
                 'tgl_expire' => $request->tgl_expire,
-                // 'dokumen' => $dokumen->hashName(),
                 'nama_rs' => auth()->user()->kodeRS,
             ]);
-        }elseif ($request->hasFile('dokumen')) {
-            $this->validate($request, [
-                'dokumen' => 'required|file|mimes:pdf|max:4096',
-            ]);
-            $dokumen = $request->file('dokumen');
-            $dokumen->storeAs('public/dokumen', $dokumen->hashName());
+        // }elseif ($request->hasFile('dokumen')) {
+        //     $this->validate($request, [
+        //         'dokumen' => 'required|file|mimes:pdf|max:4096',
+        //     ]);
+        //     $dokumen = $request->file('dokumen');
+        //     $dokumen->storeAs('public/dokumen', $dokumen->hashName());
 
-            DataInventaris::create([
-                'ROID' => $request->ROID,
-                'RO2ID' => $request->RO2ID,
-                'nama' => $request->nama,
-                'real_name' => $request->real_name,
-                'kode_item' => $kode_item,
-                'assetID' => $request->ItemID,
-                'no_inventaris' => $NoInv,
-                'no_sn' => $request->no_sn,
-                'tanggal_beli' => $request->tanggal_beli,
-                'keterangan' => $request->keterangan,
-                'departemen' => $request->departemen,
-                'unit' => $request->unit,
-                'pengguna' => $request->userPengguna,
-                // 'gambar' => $gambar->hashName(),
-                'tgl_kalibrasi' => $request->tgl_kalibrasi,
-                'tgl_expire' => $request->tgl_expire,
-                'dokumen' => $dokumen->hashName(),
-                'nama_rs' => auth()->user()->kodeRS,
-            ]);
-        } elseif ($request->hasFile('manualboook')) {
+        //     DataInventaris::create([
+        //         'ROID' => $request->ROID,
+        //         'RO2ID' => $request->RO2ID,
+        //         'nama' => $request->nama,
+        //         'real_name' => $request->real_name,
+        //         'kode_item' => $kode_item,
+        //         'assetID' => $request->ItemID,
+        //         'no_inventaris' => $NoInv,
+        //         'no_sn' => $request->no_sn,
+        //         'tanggal_beli' => $request->tanggal_beli,
+        //         'keterangan' => $request->keterangan,
+        //         'departemen' => $request->departemen,
+        //         'unit' => $request->unit,
+        //         'pengguna' => $request->userPengguna,
+        //         // 'gambar' => $gambar->hashName(),
+        //         'tgl_kalibrasi' => $request->tgl_kalibrasi,
+        //         'tgl_expire' => $request->tgl_expire,
+        //         'dokumen' => $dokumen->hashName(),
+        //         'nama_rs' => auth()->user()->kodeRS,
+        //     ]);
+        // }
+        }elseif ($request->hasFile('manualboook')) {
             $this->validate($request, [
                 'manualbook' => 'required|file|mimes:pdf|max:4096',
             ]);

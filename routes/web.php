@@ -3,6 +3,7 @@
 use App\Http\Controllers\AssetManagemenController;
 use App\Http\Controllers\DataInventarisController;
 use App\Http\Controllers\FileTemplateController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MaintananceController;
 use App\Http\Controllers\MasalahController;
 use App\Http\Controllers\MasterDepartemenController;
@@ -100,6 +101,7 @@ Route::prefix('inventaris')->group(function () {
     Route::get('/create', [DataInventarisController::class, 'create'])->name('inventaris.create');
     Route::post('/store', [DataInventarisController::class, 'store'])->name('inventaris.store');
     Route::get('/get-item', [DataInventarisController::class, 'getItem'])->name('inventaris.get-item');
+    Route::get('/get-unit-his', [DataInventarisController::class, 'getUnitHis'])->name('inventaris.get-unit-his');
     Route::get('/get-unit', [DataInventarisController::class, 'getUnit'])->name('inventaris.get-unit');
     Route::get('/label/{id}', [DataInventarisController::class, 'label'])->name('inventaris.label');
     Route::get('/tesprint', [DataInventarisController::class, 'tesprint'])->name('inventaris.tesprint');
@@ -174,6 +176,13 @@ Route::group(['prefix' => 'laporan'], function () {
         // Route::get('student_export',[StudentController::class, 'get_student_data'])->name('student.export');
         Route::get('/excel_maintenance/', [ReportMaintenanceController::class, 'excel_maintenance'])->name('laporan.maintenance.excel_maintenance');
         Route::get('/excel_pm/', [ReportMaintenanceController::class, 'excel_pm'])->name('laporan.maintenance.excel_pm');
+
+    });
+    Route::prefix('item-ruangan')->group(function () {
+        Route::get('/', [LaporanController::class, 'index'])->name('laporan.item-ruangan.index');
+        Route::get('/file-import', [LaporanController::class, 'importView'])->name('laporan.item-ruangan.import-view');
+        Route::get('/export', [LaporanController::class, 'export'])->name('laporan.item-ruangan.export');
+        Route::get('/excel_item/', [LaporanController::class, 'excel_item'])->name('laporan.item-ruangan.excel_item');
 
     });
 });

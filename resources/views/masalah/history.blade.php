@@ -32,12 +32,35 @@
                     </div>
                     <div class="kt-widget__info">
                         <div class="kt-widget__desc">
+<table style="font-size: 12px">
+    <tr>
+        <td width="30%">No inventaris</td>
+        <td width="1%">:</td>
+        <td><b>{{ $data_alat->no_inventaris }}</b></td>
+    </tr>
+     <tr>
+        <td>SN</td>
+         <td width="1%">:</td>
+        <td><b>{{ $data_alat->no_sn }}</b></td>
+    </tr>
+    <tr>
+        <td>ROID / RO2ID</td>
+         <td width="1%">:</td>
+        <td><b>{{ $data_alat->ROID }} / {{ $data_alat->RO2ID }}</b></td>
+    </tr>
+     <tr>
+        <td>Jenis</td>
+         <td width="1%">:</td>
+        <td> <b>{{ $data_alat->pengguna }}</b></td>
+    </tr>
+     <tr>
+        <td>Keterangan</td>
+         <td width="1%">:</td>
+        <td> <b>{{ $data_alat->keterangan }}</b></td>
+    </tr>
+</table>
 
-                                    {{ $data_alat->no_inventaris }}
-                                    <br>Serial Number <b>{{ $data_alat->no_sn }}</b>
-                                     <br>ROID / RO2ID  <b>{{ $data_alat->ROID }} / {{ $data_alat->RO2ID }}</b>
-                                    <br>Jenis <b>{{ $data_alat->pengguna }}</b>
-                                    <br>Keterangan <b>{{$data_alat->keterangan}}</b>
+
 
                         </div>
 
@@ -125,7 +148,7 @@
                     </div>
                      <div class="kt-widget__details">
                         <span class="kt-widget__title">@if (isset($data_alat->manualbook))
-                                    {!!'<a href="' . url('storage/manualbook/') . $data_alat->manualbook . '" target="_blank">Dokumen SPO Alat</a>'!!}
+                                    {!!'<a href="' . url('storage/manualbook/') .'/'. $data_alat->manualbook . '" target="_blank">Dokumen SPO Alat</a>'!!}
                                     @else
                                         Manual Book Belum Tersedia
                                     @endif</span>

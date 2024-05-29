@@ -14,9 +14,9 @@ class PembelianController extends Controller
 {
      function __construct()
     {
-    
+
     }
-        
+
 public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -37,7 +37,7 @@ public function index(Request $request)
                 } elseif ($kodeRS === 'B') { //botania
                     $selectdb = 'mysql8';
                 }
-            }    
+            }
             // $data = DB::connection("mysql2")
             //     ->table('po2')
             //     ->whereYear('TanggalBuat', date('Y') - 1) //data setahun terakhir
@@ -53,7 +53,7 @@ public function index(Request $request)
                 ->addColumn('action', function ($row) {
 
                 $print = '<a href="' . route('pembelian.export', $row->PO2ID) . '" target="_blank"><button type="button" data-skin="brand" data-toggle="kt-tooltip" data-placement="top" title="Brand skin" class="btn btn-outline-primary btn-icon" ><i class="fa fa-print"></i></button></a>';
-                
+
                 // $btn = $show . ' ' . $print;
                 return $print;
                 })
@@ -67,13 +67,13 @@ public function index(Request $request)
     {
         return view('data-inventaris.create');
     }
-public function export() 
+public function export()
 {
-   return Excel::download(new PembelianExport, 'Laporan Pembelian.xlsx');
+   return Excel::download(new PembelianExport(), 'Laporan Pembelian.xlsx');
 }
     public function store(request $request)
     {
-        
+
     }
 
     public function getItem(Request $request)
