@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddMerkToDataInventaris extends Migration
+class AddIsKalibrasiToDataInventarisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddMerkToDataInventaris extends Migration
      */
     public function up()
     {
-        Schema::table('data_inventaris', function (Blueprint $table) {
-            $table->string('merk')->nullable()->after('nama');
-        });
+Schema::table('data_inventaris', function (Blueprint $table) {
+    $table->enum('isKalibrasi', ['0', '1'])->nullable()->after('keterangan');
+});
     }
 
     /**

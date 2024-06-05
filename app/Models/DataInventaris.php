@@ -17,7 +17,7 @@ class DataInventaris extends Model
      *
      */
     protected $table = 'data_inventaris';
-     protected $fillable = ['RO2ID','ROID','nama','real_name','kode_item','assetID', 'no_inventaris', 'no_sn','tanggal_beli', 'nama_rs', 'departemen', 'unit', 'pengguna','gambar','tgl_kalibrasi','tgl_expire','dokumen','manualbook'];
+     protected $fillable = ['RO2ID','ROID','nama', 'merk','real_name','kode_item','assetID', 'no_inventaris', 'no_sn','tanggal_beli', 'nama_rs', 'departemen', 'unit', 'pengguna','gambar','tgl_kalibrasi','tgl_expire','dokumen','manualbook','isKalibrasi'];
 
     public function DataMaintenance()
     {

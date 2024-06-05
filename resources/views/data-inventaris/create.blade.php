@@ -92,6 +92,13 @@ Tambah Asset Inventaris
                      <input type="hidden" name="RO2ID" class="form-control" id="RO2ID" placeholder="Nomor RO2ID" readonly>
                     </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-3 col-sm-12">* Merk</label>
+                        <div class=" col-lg-9 col-md-9 col-sm-12">
+<select class="form-control kt-select2" id="merk" name="merk">
+                            </select>
+                        </div>
+                    </div>
                      {{-- <div class="form-group row">
                         <label for="nama" class="col-3 col-form-label">* Nomor RO</label>
                         <div class=" col-lg-9 col-md-4 col-sm-12">
@@ -170,12 +177,23 @@ Tambah Asset Inventaris
                             <input type="text" hidden class="form-control" value="{{ old('nama_rs', auth()->check() ? auth()->user()->kodeRS : '') }}" name="nama_rs" id="nama_rs" type="text" placeholder="" />
                         </div>
                     </div>
+<div class="form-group row">
+    <label for="isKalibrasi" class="col-3 col-form-label">Kalibrasi</label>
+    <div class="col-9">
+        <select class="form-control" id="isKalibrasi" name="isKalibrasi">
+            <option value="1">Ya</option>
+            <option value="0">Tidak</option>
+        </select>
+    </div>
+</div>
+
                      <div class="form-group row">
                         <label for="keterangan" class="col-3 col-form-label">Keterangan</label>
                         <div class="col-9">
                             <textarea class="form-control" id="keterangan" name="keterangan" rows="3" placeholder="Keterangan"></textarea>
                         </div>
                     </div>
+
 
                 </div>
             </div>
@@ -427,7 +445,6 @@ Tambah Asset Inventaris
                 state: 'success',
                 message: 'Please wait...'
             });
-            // $('.progress').show()
             $(id).addClass('kt-spinner kt-spinner--md kt-spinner--danger disabled');
             $("#simpanForm").submit();
         }
@@ -475,7 +492,28 @@ Tambah Asset Inventaris
                 }
             });
         }
-
+        var merk = function() {
+             $('#merk').select2({
+                placeholder: "Select Merk",
+                minimumInputLength: 1,
+                ajax: {
+                    url: '{{ route("inventaris.get-merk") }}',
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(item) {
+                                return {
+                                    text: item.nama,
+                                    id: item.nama,
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+        }
        $('#checkbox').on('change',function(){
         var input = document.getElementById('no_sn');
         if (this.checked) {
@@ -485,7 +523,9 @@ Tambah Asset Inventaris
         }
     });
         jQuery(document).ready(function() {
+             $('.progress').hide()
         select_unit()
+        merk()
         select_departemen()
         cariData();
         checkbox();

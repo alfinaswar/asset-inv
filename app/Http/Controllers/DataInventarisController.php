@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use App\Models\DataInventaris;
+use App\Models\MasterMerk;
 use App\Models\MasterRs;
 use App\Models\MasterDepartemenModel;
 use App\Models\MasterUnit;
@@ -30,8 +31,7 @@ class DataInventarisController extends Controller
             if (auth()->user()->role == "admin") {
                 $data = DataInventaris::latest();
             } else {
-                $data = DataInventaris::with('Departemen')->where('nama_rs', auth()->user()->kodeRS)->latest();
-
+                $data = DataInventaris::where('nama_rs', auth()->user()->kodeRS)->latest();
             }
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -282,7 +282,7 @@ class DataInventarisController extends Controller
                 $selectdb = 'mysql6';
             } elseif ($kodeRS === 'S') { //bagan batu
                 $selectdb = 'mysql7';
-            } elseif ($kodeRS === 'B') { //botania
+            } elseif ($kodeRS === 'R') { //botania
                 $selectdb = 'mysql8';
             }
         }
@@ -290,7 +290,7 @@ class DataInventarisController extends Controller
             ->table('ro2')
             ->where(function ($row) use ($request) {
                 if ($request->cariNomorRo) {
-                    $row->where('ROID', 'LIKE', "$request->cariNomorRo");
+                    $row->where('ROID', 'LIKE', "%$request->cariNomorRo%");
                 }
             })
             ->join('masteritem','ro2.ItemID','=','masteritem.ItemID')
@@ -300,17 +300,29 @@ class DataInventarisController extends Controller
         $view = view('data-inventaris.data-item', compact('query'))->render();
         return response()->json(['data' => $query, 'view' => $view], 200);
     }
-
+    public function getMerk(Request $request)
+    {
+        $merk = [];
+        $dataMerk = MasterMerk::select('nama');
+        if ($request->has('q')) {
+            $search = $request->q;
+            $merk = $dataMerk->where('nama', 'LIKE', "%$search%")->where('nama_rs', auth()->user()->kodeRS)
+                ->get();
+        } else {
+            $merk = $dataMerk->limit(10)->get();
+        }
+        return response()->json($merk);
+    }
     public function store(request $request)
     {
-// dd($request->ItemID);
-        $CekItem = DataInventaris::where('ROID', $request->ROID)
-            ->where('assetID', $request->ItemID)
-            ->first();
+// dd($request->merk);
+        // $CekItem = DataInventaris::where('ROID', $request->ROID)
+        //     ->where('assetID', $request->ItemID)
+        //     ->first();
 
-        if ($CekItem) {
-            return redirect()->back()->with('warning', 'Inventaris dengan ROID dan Kode Item tersebut sudah ada.');
-        }
+        // if ($CekItem) {
+        //     return redirect()->back()->with('warning', 'Inventaris dengan ROID dan Kode Item tersebut sudah ada.');
+        // }
 
         if($request->userPengguna == "Medis"){
             $JenisItem = "MED";
@@ -323,8 +335,6 @@ class DataInventarisController extends Controller
         $autonumber = DataInventaris::latest()->first()->id + 1;
         $NoInv = $JenisItem."/".$TahunBeli."/".$Departemen."/".$unit."/".$autonumber;
 
-
-
         $latestId = null;
         if (DataInventaris::count() > 0) {
             $latestId = DataInventaris::latest()->first()->id + 1;
@@ -333,8 +343,8 @@ class DataInventarisController extends Controller
        $kategori = $request->asd;
        if ($request->hasFile('gambar') && $request->hasFile('manualbook') ) {
             $this->validate($request, [
-                'gambar' => 'required|file|mimes:jpeg,jpg,png|max:4096',
-                'manualbook' => 'required|file|mimes:pdf|max:4096',
+                'gambar' => 'required|file|mimes:jpeg,jpg,png|max:5000',
+                'manualbook' => 'required|file|mimes:pdf|max:5000',
             ]);
             $gambar = $request->file('gambar');
             $gambar->storeAs('public/gambar', $gambar->hashName());
@@ -347,6 +357,7 @@ class DataInventarisController extends Controller
                 'ROID' => $request->ROID,
                 'RO2ID' => $request->RO2ID,
                 'nama' => $request->nama,
+                'merk' => $request->merk,
                 'real_name' => $request->real_name,
                 'kode_item' => $kode_item,
                 'assetID' => $request->ItemID,
@@ -362,12 +373,13 @@ class DataInventarisController extends Controller
                 'tgl_expire' => $request->tgl_expire,
                 'manualbook' => $manualbook->hashName(),
                 'nama_rs' => auth()->user()->kodeRS,
+                'isKalibrasi' => $request->isKalibrasi,
             ]);
         }
 
        elseif ($request->hasFile('gambar')) {
             $this->validate($request, [
-                'gambar' => 'required|file|mimes:jpeg,jpg,png|max:4096',
+                'gambar' => 'required|file|mimes:jpeg,jpg,png|max:5000',
             ]);
             $gambar = $request->file('gambar');
             $gambar->storeAs('public/gambar', $gambar->hashName());
@@ -378,6 +390,7 @@ class DataInventarisController extends Controller
                 'ROID' => $request->ROID,
                 'RO2ID' => $request->RO2ID,
                 'nama' => $request->nama,
+                'merk' => $request->merk,
                 'real_name' => $request->real_name,
                 'kode_item' => $kode_item,
                 'assetID' => $request->ItemID,
@@ -392,6 +405,7 @@ class DataInventarisController extends Controller
                 'tgl_kalibrasi' => $request->tgl_kalibrasi,
                 'tgl_expire' => $request->tgl_expire,
                 'nama_rs' => auth()->user()->kodeRS,
+                'isKalibrasi' => $request->isKalibrasi,
             ]);
         // }elseif ($request->hasFile('dokumen')) {
         //     $this->validate($request, [
@@ -423,7 +437,7 @@ class DataInventarisController extends Controller
         // }
         }elseif ($request->hasFile('manualboook')) {
             $this->validate($request, [
-                'manualbook' => 'required|file|mimes:pdf|max:4096',
+                'manualbook' => 'required|file|mimes:pdf|max:5000',
             ]);
             $manualbook = $request->file('manualbook');
             $manualbook->storeAs('public/manualbook', $manualbook->hashName());
@@ -432,6 +446,7 @@ class DataInventarisController extends Controller
                 'ROID' => $request->ROID,
                 'RO2ID' => $request->RO2ID,
                 'nama' => $request->nama,
+                'merk' => $request->merk,
                 'real_name' => $request->real_name,
                 'kode_item' => $kode_item,
                 'assetID' => $request->ItemID,
@@ -447,6 +462,7 @@ class DataInventarisController extends Controller
                 'tgl_expire' => $request->tgl_expire,
                 'manualbook' => $manualbook->hashName(),
                 'nama_rs' => auth()->user()->kodeRS,
+                'isKalibrasi' => $request->isKalibrasi,
             ]);
         }
 

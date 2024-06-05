@@ -93,17 +93,10 @@ Update Data Inventaris
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="departemen" class="col-3 col-form-label">Unit</label>
-                        <div class="col-9">
-
-                            <select name="unit" class="custom-select form-control" id="unit">
-                                 <option selected value="">--Pilih Unit--</option>
-                                @foreach ($unit as $item )
-                                <option value="{{ $item->nama }}" {{ $datainv->unit == $item->namaUnit ? "selected" :""}}>
-                                    {{ $item->namaUnit }}</option>
-                                @endforeach
+                        <label class="col-form-label col-lg-3 col-sm-12">* Unit</label>
+                        <div class=" col-lg-9 col-md-9 col-sm-12">
+<select class="form-control kt-select2" id="unit" name="unit">
                             </select>
-
                         </div>
                     </div>
                     <div class="form-group row">
@@ -151,13 +144,32 @@ Update Data Inventaris
 @endsection
 @push('js')
 <script>
-
+ var select_unit = function() {
+             $('#unit').select2({
+                placeholder: "Select Data",
+                minimumInputLength: 1,
+                ajax: {
+                    url: '{{ route("inventaris.get-unit-his") }}',
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(item) {
+                                return {
+                                    text: item,
+                                    id: item
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+        }
 
 
         jQuery(document).ready(function() {
-
-
-            // select_item();
+            select_unit();
             $('.progress').hide()
         });
 </script>

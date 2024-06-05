@@ -60,7 +60,7 @@
 
 @endif
                 <div class="col-md-3">
-                    <small>Filter By Unit:</small>
+                    <small>Filter By Departmen:</small>
                     <div class="form-group">
                     <div class="input-group">
                     <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-users"></i></span></div>
